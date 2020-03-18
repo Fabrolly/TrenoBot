@@ -19,7 +19,7 @@ Tutto il backend va organizzato in container per assicurare, come richiesto, por
 Architettura DB pre-esistente ad uso del bot telegram e del backend: https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png
 
 ## Frontend - Sito web visualizzazione statistiche
-Esegue una elaborazione grafica dei dati storici presenti dal backend
+Esegue una elaborazione grafica dei dati storici presenti sul backend 
 
 * **Framework web**: [Bootstrap](https://getbootstrap.com/)
 * **JavaScript charts**: [Chart.js](https://www.chartjs.org/)
