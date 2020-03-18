@@ -26,7 +26,7 @@ Esegue una elaborazione grafica dei dati storici presenti sul backend
 
 
 ## Frontend - TrenoBot, bot Telegram
-Il bot si serve del backend per personalizzare l'esperienza utente e fornire i dati che esso richiede.
+Il bot si interfaccia con l'utente gestendo avvisi real time personalizzati, comunicando con il backend
 
 * **Framework Telegram**: [Telepot](https://telepot.readthedocs.io/en/latest/)
 * **Interfacciamento con Database**: [MySQLdb](https://www.python.it/doc/articoli/mysqldb/mysqldb-3.html)
