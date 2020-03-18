@@ -9,8 +9,8 @@ L'applicazione é formata da un backend eseguito su piattafroma cloud che gestis
 
 
 ## Backend - API trenitalia e DB persistenti
-Il backend é formato da delle API che estrapolano le informazioni relative ai treni dai siti ufficiali di trenitalia.
-Comprende dei database, alcuni ad uso del bot per la gestione utente, altri dedicati alla raccolta dati del sito web delle statistiche e per la gestione della cache.
+Il backend contiene le API che estrapolano le informazioni relative ai treni dai siti ufficiali di trenitalia.
+Comprende inoltre dei database, alcuni ad uso del bot per la gestione utente, altri dedicati alla raccolta dati del sito web delle statistiche e per la gestione della cache.
 Tutto il backend va organizzato in container per assicurare, come richiesto, portabilitá e affidabilitá del servizio.
 
 * **Database**: MariaDb
