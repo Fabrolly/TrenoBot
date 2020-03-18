@@ -27,4 +27,5 @@ Il bot si serve del backend per personalizzare l'esperienza utente e fornire i d
 ## Frontend - Sito web raccolta dati
 Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso conserva in un DB dedicato.
 
-Framework
+
+* Framework web 
