@@ -13,7 +13,7 @@ Tutto il backend va organizzato in container per assicurare, come richiesto, por
 * **Database**: MariaDb
 * **Conteinerizzazione**: Docker
 
-Architettura DB ad uso del Bot telegram giá implementata: https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png
+Architettura DB pre-esistente ad uso del bot telegram e del backend: https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png
 
 ## Frontend - Sito web visualizzazione statistiche
 Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso conserva in un DB dedicato.
@@ -30,7 +30,7 @@ Il bot si serve del backend per personalizzare l'esperienza utente e fornire i d
 * **Interfaccia per accedere a risorse di rete**: [urlib](https://docs.python.org/3/library/urllib.html)
 * **Libreria per gestire file JSON**: [json](https://docs.python.org/3/library/json.html)
 
-Il bot é giá implementato e funzionante (al netto delle nuove storie individuate): https://github.com/Fabrolly/TrenoBot
+Documentazione pre-esistente del bot telegram: https://github.com/Fabrolly/TrenoBot
 
 
 
