@@ -18,8 +18,8 @@ Architettura DB ad uso del Bot telegram giá implementata: https://i.ibb.co/1K2p
 ## Frontend - Sito web visualizzazione statistiche
 Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso conserva in un DB dedicato.
 
-* **Framework web**: Bootstrap
-* **JavaScript charts**: Chart.js
+* **Framework web**: [Bootstrap](https://getbootstrap.com/)
+* **JavaScript charts**: [Chart.js](https://www.chartjs.org/)
 
 
 ## Bot Telegram
