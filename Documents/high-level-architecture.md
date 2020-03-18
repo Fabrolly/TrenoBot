@@ -4,8 +4,8 @@ L'applicazione é formata da un backend eseguito su piattafroma cloud che gestis
 
 
 *  **Piattaforma Cloud**: Google Cloud Engine
-*  
-![hla schema](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/raw/master/Documents/Resources/High%20Level%20Architecture%20Schema.png)
+
+![High Level Architecture schema](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/raw/master/Documents/Resources/High%20Level%20Architecture%20Schema.png)
 
 
 ## Backend - API trenitalia e DB persistenti
@@ -25,7 +25,7 @@ Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso
 * **JavaScript charts**: [Chart.js](https://www.chartjs.org/)
 
 
-## Bot Telegram
+## Trenobot - Bot Telegram
 Il bot si serve del backend per personalizzare l'esperienza utente e fornire i dati che esso richiede.
 
 * **Framework Telegram**: [Telepot](https://telepot.readthedocs.io/en/latest/)
