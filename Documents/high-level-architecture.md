@@ -23,7 +23,7 @@ Il bot si serve del backend per personalizzare l'esperienza utente e fornire i d
 * **Interfacciamento con Database**: [MySQLdb](https://www.python.it/doc/articoli/mysqldb/mysqldb-3.html)
 * **Interfaccia per accedere a risorse di rete**: [urlib](https://docs.python.org/3/library/urllib.html)
 * **Libreria per gestire file JSON**: [json](https://docs.python.org/3/library/json.html)
-* 
+
 Il bot é giá implementato e funzionante (al netto delle nuove storie individuate): https://github.com/Fabrolly/TrenoBot
 
 ## Frontend - Sito web raccolta dati
