@@ -8,7 +8,7 @@ Tutto il backend va organizzato in container per assicurare, come richiesto, por
 Database: MariaDb
 Conteinerizzazione: Docker
 
-![Esistente DB](https://ibb.co/tKJV2y6)
+![Esistente DB](https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png)
 
 ## Frontend - Bot Telegram
 Il bot si serve del backend per personalizzare l'esperienza utente e fornire i dati che esso richiede.
