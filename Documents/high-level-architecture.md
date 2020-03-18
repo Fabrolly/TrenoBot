@@ -15,6 +15,11 @@ Tutto il backend va organizzato in container per assicurare, come richiesto, por
 
 Architettura DB ad uso del Bot telegram giá implementata: https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png
 
+## Frontend - Sito web raccolta dati
+Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso conserva in un DB dedicato.
+
+* **Framework web**: 
+
 
 ## Bot Telegram
 Il bot si serve del backend per personalizzare l'esperienza utente e fornire i dati che esso richiede.
@@ -26,8 +31,5 @@ Il bot si serve del backend per personalizzare l'esperienza utente e fornire i d
 
 Il bot é giá implementato e funzionante (al netto delle nuove storie individuate): https://github.com/Fabrolly/TrenoBot
 
-## Frontend - Sito web raccolta dati
-Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso conserva in un DB dedicato.
 
 
-* Framework web 
