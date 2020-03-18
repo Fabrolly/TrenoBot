@@ -1,6 +1,6 @@
 # High Level Architecture
 
-L'applicazione é formata da un backend eseguito su piattafroma cloud che gestisce la raccolta dati e li fornisce al bot telegram e al sito web tramite database persistenti.
+L'applicazione é formata da un backend eseguito su piattafroma cloud che gestisce la raccolta dati tramite database persistenti e li fornisce al bot telegram e al sito web tramite **API rest HTTP**.
 
 
 *  **Piattaforma Cloud**: Google Cloud Engine
