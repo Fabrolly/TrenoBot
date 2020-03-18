@@ -6,8 +6,8 @@ L'applicazione é formata da un backend eseguito su piattafroma cloud che gestis
 *  **Piattaforma Cloud**: Google Cloud Engine
 
 ## Backend
-Il backend é formato da delle API che estrapolano le informazioni relative ai treni dai siti ufficiali di trenitalia per fornirle al gestore del bot telegram. 
-Comprende dei database, alcuni ad uso del bot per la gestione utente, altri dedicati alla raccolta dati e per la gestione della cache.
+Il backend é formato da delle API che estrapolano le informazioni relative ai treni dai siti ufficiali di trenitalia.
+Comprende dei database, alcuni ad uso del bot per la gestione utente, altri dedicati alla raccolta dati del sito web delle statistiche e per la gestione della cache.
 Tutto il backend va organizzato in container per assicurare, come richiesto, portabilitá e affidabilitá del servizio.
 
 * **Database**: MariaDb
@@ -23,6 +23,8 @@ Il bot si serve del backend per personalizzare l'esperienza utente e fornire i d
 * **Interfacciamento con Database**: [MySQLdb](https://www.python.it/doc/articoli/mysqldb/mysqldb-3.html)
 * **Interfaccia per accedere a risorse di rete**: [urlib](https://docs.python.org/3/library/urllib.html)
 * **Libreria per gestire file JSON**: [json](https://docs.python.org/3/library/json.html)
+* 
+Il bot é giá implementato e funzionante (al netto delle nuove storie individuate): https://github.com/Fabrolly/TrenoBot
 
 ## Frontend - Sito web raccolta dati
 Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso conserva in un DB dedicato.
