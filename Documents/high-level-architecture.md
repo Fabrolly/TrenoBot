@@ -5,11 +5,14 @@ Il backend é formato da delle API che estrapolano le informazioni relative ai t
 Comprende dei database, alcuni ad uso del bot per la gestione utente, altri dedicati alla raccolta dati e per la gestione della cache.
 Tutto il backend va organizzato in container per assicurare, come richiesto, portabilitá e affidabilitá del servizio.
 
-Database: MariaDb
-Conteinerizzazione: Docker
+* **Database**: MariaDb
+* **Conteinerizzazione**: Docker
 
-Architettura DB attualmente implementata
+### Architettura DB ad uso del Bot telegram (giá implementata)
 ![Esistente DB](https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png)
+
+### Architettura DB ad uso del Sito web di raccolta dati 
+
 
 ## Frontend - Bot Telegram
 Il bot si serve del backend per personalizzare l'esperienza utente e fornire i dati che esso richiede.
