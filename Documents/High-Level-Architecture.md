@@ -5,13 +5,13 @@ L'applicazione é formata da un backend eseguito su piattafroma cloud che gestis
 
 *  **Piattaforma Cloud**: Google Cloud Engine
 
-![High Level Architecture schema](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/raw/master/Documents/Resources/High%20Level%20Architecture%20Schema.png)
+![High Level Architecture schema](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/raw/master/Documents/images/High%20Level%20Architecture%20Schema.png)
 
 
 ## Backend - API trenitalia e DB persistenti
-Il backend é formato da delle API che estrapolano le informazioni relative ai treni dai siti ufficiali di trenitalia.
-Comprende dei database, alcuni ad uso del bot per la gestione utente, altri dedicati alla raccolta dati del sito web delle statistiche e per la gestione della cache.
-Tutto il backend va organizzato in container per assicurare, come richiesto, portabilitá e affidabilitá del servizio.
+Il backend contiene le API che estrapolano le informazioni relative ai treni dai siti ufficiali di trenitalia.
+Comprende inoltre dei database: alcuni ad uso del bot per la gestione utente, altri dedicati alla raccolta dati dal sito web delle statistiche e altri ancora per la gestione della cache.
+Tutto il backend va organizzato in container per assicurare, come richiesto, portabilitá e affidabilitá del sistema.
 
 * **Database**: MariaDb
 * **Conteinerizzazione**: Docker
@@ -19,14 +19,14 @@ Tutto il backend va organizzato in container per assicurare, come richiesto, por
 Architettura DB pre-esistente ad uso del bot telegram e del backend: https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png
 
 ## Frontend - Sito web visualizzazione statistiche
-Esegue una elaborazione grafica dei dati storici presenti sul backend 
+Esegue un'elaborazione grafica dei dati storici presenti sul backend.
 
 * **Framework web**: [Bootstrap](https://getbootstrap.com/)
 * **JavaScript charts**: [Chart.js](https://www.chartjs.org/)
 
 
 ## Frontend - TrenoBot, bot Telegram
-Il bot si interfaccia con l'utente gestendo avvisi real time personalizzati, comunicando con il backend
+Il bot si interfaccia con l'utente gestendo avvisi real-time personalizzati e comunica con il backend
 
 * **Framework Telegram**: [Telepot](https://telepot.readthedocs.io/en/latest/)
 * **Interfacciamento con Database**: [MySQLdb](https://www.python.it/doc/articoli/mysqldb/mysqldb-3.html)
