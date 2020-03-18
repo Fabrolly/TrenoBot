@@ -5,7 +5,7 @@ L'applicazione é formata da un backend eseguito su piattafroma cloud che gestis
 
 *  **Piattaforma Cloud**: Google Cloud Engine
 
-## Backend
+## Backend - API trenitalia e DB persistenti
 Il backend é formato da delle API che estrapolano le informazioni relative ai treni dai siti ufficiali di trenitalia.
 Comprende dei database, alcuni ad uso del bot per la gestione utente, altri dedicati alla raccolta dati del sito web delle statistiche e per la gestione della cache.
 Tutto il backend va organizzato in container per assicurare, come richiesto, portabilitá e affidabilitá del servizio.
@@ -15,7 +15,7 @@ Tutto il backend va organizzato in container per assicurare, come richiesto, por
 
 Architettura DB ad uso del Bot telegram giá implementata: https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png
 
-## Frontend - Sito web raccolta dati
+## Frontend - Sito web visualizzazione statistiche
 Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso conserva in un DB dedicato.
 
 * **Framework web**: 
