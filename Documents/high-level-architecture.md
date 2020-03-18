@@ -4,6 +4,9 @@ L'applicazione é formata da un backend eseguito su piattafroma cloud che gestis
 
 
 *  **Piattaforma Cloud**: Google Cloud Engine
+*  
+![hla schema](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/raw/master/Documents/Resources/High%20Level%20Architecture%20Schema.png)
+
 
 ## Backend - API trenitalia e DB persistenti
 Il backend é formato da delle API che estrapolano le informazioni relative ai treni dai siti ufficiali di trenitalia.
