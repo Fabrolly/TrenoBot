@@ -25,7 +25,7 @@ Esegue una elaborazione grafica dei dati raccolti dalle API del backend che esso
 * **JavaScript charts**: [Chart.js](https://www.chartjs.org/)
 
 
-## Frontend - Trenobot, bot Telegram
+## Frontend - TrenoBot, bot Telegram
 Il bot si serve del backend per personalizzare l'esperienza utente e fornire i dati che esso richiede.
 
 * **Framework Telegram**: [Telepot](https://telepot.readthedocs.io/en/latest/)
