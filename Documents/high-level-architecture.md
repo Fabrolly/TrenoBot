@@ -8,6 +8,7 @@ Tutto il backend va organizzato in container per assicurare, come richiesto, por
 Database: MariaDb
 Conteinerizzazione: Docker
 
+Architettura DB attualmente implementata
 ![Esistente DB](https://i.ibb.co/1K2p0jr/Schermata-2020-03-18-alle-11-40-11.png)
 
 ## Frontend - Bot Telegram
