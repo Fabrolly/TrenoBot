@@ -60,7 +60,7 @@ def systemStats():
 
 
     database.close()
-    print msg
+    print(msg)
     return (msg, "")
 
 
@@ -83,7 +83,7 @@ def broadcast(msg):
 
     for row in dbLines:
         bot.sendMessage(row['id'], emojize(msg, use_aliases=True), parse_mode='html', disable_web_page_preview=None, disable_notification=None)
-        print row['id']
+        print(row['id'])
         msgAdmin+="Mandato a %s\n" %(row['id'])
 
     return (msgAdmin, "")

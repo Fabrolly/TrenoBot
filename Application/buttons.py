@@ -58,8 +58,8 @@ def searchResultMenuButtons(chatid, trainNumber, departure_datetime, arrival_dat
     
     keyboard = InlineKeyboardMarkup(inline_keyboard=tast)
 
-    print "\n\n"
-    print keyboard
+    print("\n\n")
+    print(keyboard)
     return keyboard
 
 def trenordAlertButtons():
@@ -85,8 +85,8 @@ def mainMenuButtons():
                         [InlineKeyboardButton(text="Menu' Treni Monitorati", callback_data='Menu gprogrammazione')],
                         [InlineKeyboardButton(text="Menu' Direttrici Monitorate", callback_data='Menu Direttrice')],
                         [InlineKeyboardButton(text="Riepilogo completo dei miei avvisi", callback_data='Rieplilogo')]])
-    print "\n\n"
-    print keyboard
+    print("\n\n")
+    print(keyboard)
     return keyboard
 
 def programMenuButtons():
@@ -94,8 +94,8 @@ def programMenuButtons():
                         [InlineKeyboardButton(text='Aggiungi un treno alla tua Lista', callback_data='Menu Programma')],
                         [InlineKeyboardButton(text="Visualizza la tua lista", callback_data='/lista')],
                         [InlineKeyboardButton(text="Menu' Principale", callback_data='Menu Principale')]])
-    print "\n\n"
-    print keyboard
+    print("\n\n")
+    print(keyboard)
     return keyboard
 
 

@@ -192,7 +192,7 @@ def removeDir(dirNumber, userId):
         cursor.execute("USE TRENOBOT;")
         row=cursor.execute("DELETE FROM user_directress_alert WHERE directress_id=%s AND user_id=%s" %(dirNumber, userId)) #Use REPLACE instead of INSERT for update old records if exists
         database.commit()
-        print row
+        print(row)
     except MySQLdb.Error as e:
         database.rollback()
         error='Got Error {!r}, errno is {}'.format(e, e.args[0])
@@ -214,7 +214,7 @@ def remove(trainNumber, userId):
         cursor.execute("USE TRENOBOT;")
         row=cursor.execute("DELETE FROM user_train WHERE train_number=%s AND user_id=%s" %(trainNumber, userId)) #Use REPLACE instead of INSERT for update old records if exists
         database.commit()
-        print row
+        print(row)
     except MySQLdb.Error as e:
         database.rollback()
         error='Got Error {!r}, errno is {}'.format(e, e.args[0])
@@ -264,7 +264,7 @@ def summary(chatId):
     except MySQLdb.Error as e:
         database.rollback()
         error='Got Error {!r}, errno is {}'.format(e, e.args[0])
-        print error
+        print(error)
         return error
 
     if (row>0):
@@ -284,7 +284,7 @@ def summary(chatId):
     except MySQLdb.Error as e:
         database.rollback()
         error='Got Error {!r}, errno is {}'.format(e, e.args[0])
-        print error
+        print(error)
         return error
 
     response+='\n\n---------------------\n\n'

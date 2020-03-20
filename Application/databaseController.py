@@ -82,7 +82,7 @@ def addOrUpdateTrainDB(number):
 
 #Function for translate timestamp (used in viaggiotreno) in DATETIME format for mariaDB DATETIME filed
 def convert_timestamp(timestamp):
-    print timestamp
+    print(timestamp)
     if(timestamp==None):
         return '-'
     else:

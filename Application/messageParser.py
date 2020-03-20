@@ -88,10 +88,10 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
     
     if ('pk' in msg):
-        print msg
+        print(msg)
         msg=msg[msg.index("pk")+3:]
         msg=msg.split("!")
-        print msg
+        print(msg)
         response=messageResponder.programInfoFromSearch(chatId, *msg)
         return response
 
@@ -209,14 +209,14 @@ def trip_search_parser(command, chatId):
     mese=data[data.index('-')+1:]
     giorno=data[:data.index('-')]
 
-    print"\n\n"
-    print partenza
-    print "\n"
-    print arrivo
-    print "\n"
-    print mese
-    print "\n"
-    print giorno
+    print("\n\n")
+    print(partenza)
+    print("\n")
+    print(arrivo)
+    print("\n")
+    print(mese)
+    print("\n")
+    print(giorno)
  
     trip_search.trip_search (command, arrivo, partenza, mese, giorno, ora, data, now, chatId)
 

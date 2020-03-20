@@ -26,12 +26,12 @@ def addListMenu():
     return(mess, keyboard)
 
 def directressAddMenu():
-    print "arrivo quiiii"
+    print("arrivo quiiii")
     mess=":eyes: <b>Aggiungi una Direttrice Trenord alla tua Lista!</b>\n\n<i>Quando trenord pubblica un tweet o un avviso relativo a delle problematiche su una direttrice verrai immediatamente avvisato!</i>\n\n<b>Ecco le direttrici disponibili:</b>"
     cont=0
     with open('/home/fabrolly/TrenoBot/Application/trenordLinkAlerts.txt') as f:
         content = f.readlines()
-        print "file aperto!"
+        print("file aperto!")
         for lines in content:
             cont=cont+1
             args=lines.split(" ")
@@ -40,7 +40,7 @@ def directressAddMenu():
     mess+="\n\n<b>Scrivi</b> <i>'Direttrice Numero'</i> per aggiungere una direttrice.\n\nEsempio:\n<i>Direttrice 1</i>"
     f.close()
     keyboard=buttons.trenordAlertMenu()
-    print "ritorno funzione!"
+    print("ritorno funzione!")
     return(mess, keyboard)
 
 def programMenu():
