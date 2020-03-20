@@ -11,7 +11,7 @@ cursor = database.cursor()
 # Print all the databases in the system (for debug purpose only, can be removed)
 cursor.execute('show databases;')
 for (databases) in cursor:
-     print databases[0]
+     print(databases[0])
 
 # If the TRENOBOT database doses not exist, create and open it (if already exist a warning will be generated)
 cursor.execute("CREATE DATABASE IF NOT EXISTS TRENOBOT;")

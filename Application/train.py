@@ -36,7 +36,7 @@ class Train:
              alert -> %s
              ultimo aggiornamento db -> %s"'''%(self.id,self.number,self.origin,self.destination,self.departure_datetime,self.arrival_datetime,self.duration,self.delay, self.state,self.last_detection_time,self.last_detection_station,self.alert, self.last_update)
 
-        print str
+        print(str)
 
     def realTimeMsg(self):
         self.display()

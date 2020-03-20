@@ -5,7 +5,7 @@ import datetime as dt
 import telepot
 from emoji import emojize
 import buttons
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import loginInfo
 
 def updateAlertsDatabase():
@@ -21,9 +21,9 @@ def updateAlertsDatabase():
 
 
     for row in dbLines:
-        print "Controllo %s" %row['name']
+        print("Controllo %s" %row['name'])
         now = dt.datetime.now()
-        page = urllib.urlopen(row['trenord_link']).read()
+        page = urllib.request.urlopen(row['trenord_link']).read()
 
         if(now.hour<10):
             hour="0%s" %(now.hour)
@@ -54,12 +54,12 @@ def updateAlertsDatabase():
             lastAlert=None
     
         if lastAlert is not None:
-            print lastAlert
-            print "\n"
+            print(lastAlert)
+            print("\n")
             cursor.execute("UPDATE directress_alerts SET last_alert_text='%s', last_update_datetime='%s' WHERE id='%s'" %(lastAlert, nowDB, row['id'])) #Use REPLACE instead of INSERT for update old records if exists
             database.commit()
         else:
-            print "       Nessun alert su questa direttrice\n"
+            print("       Nessun alert su questa direttrice\n")
 
             
     database.close()
@@ -89,7 +89,7 @@ for row in dbLinesUsers:
 
     if dbLinesDirectress['last_alert_text'] is not None and dbLinesDirectress['last_alert_text'] is not "":
         if row['last_alert_text'] != dbLinesDirectress['last_alert_text']:
-            print dbLinesDirectress['last_alert_text']
+            print(dbLinesDirectress['last_alert_text'])
             mess+=":warning: Direttrice <b>%s</b>\n\n%s"%(dbLinesDirectress['name'], dbLinesDirectress['last_alert_text'])
             sendMessageKeyboard(row['user_id'], mess, buttons.trenordAlertButtons())
             cursor.execute("UPDATE user_directress_alert SET last_alert_text='%s', last_alert_datetime='%s' WHERE user_id='%s' AND directress_id=%s" %(dbLinesDirectress['last_alert_text'], nowDB, row['user_id'], row['directress_id']))

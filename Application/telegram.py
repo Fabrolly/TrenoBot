@@ -13,7 +13,7 @@ def keyboardParser(msg):
 def on_chat_message(msg):
 
     
-    if(isinstance(msg, basestring) and '.chatId' in msg):
+    if(isinstance(msg, str) and '.chatId' in msg):
         message=msg[:msg.index(".")].lower()
         chatId=msg[msg.index(".chatId")+7:]
         isKeyboard=True
@@ -30,7 +30,7 @@ def on_chat_message(msg):
     response, keyboard=messageParser.messageParser(message, chatId, msg, isKeyboard)
    
     if response!=None:
-        if isinstance(response, basestring):
+        if isinstance(response, str):
             if(response is not None):
                 if keyboard is not None:
                     bot.sendMessage(chatId, emojize(response, use_aliases=True), parse_mode='html', disable_web_page_preview=None, disable_notification=None, reply_markup=keyboard)

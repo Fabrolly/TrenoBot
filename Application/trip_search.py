@@ -1,6 +1,6 @@
 import datetime
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import json
 import telepot
 from emoji import emojize
@@ -16,7 +16,7 @@ def trip_search (command, arrivo, partenza, mese, giorno, ora, data, now, chat_i
     urlPartenza=('http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/autocompletaStazione/%s' %partenza)
     urlArrivo=('http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/autocompletaStazione/%s' %arrivo)
 #Interrogo per ottenere il codice della stazione di PARTENZA
-    CodiceStazionePartenza=urllib.urlopen(urlPartenza).read()
+    CodiceStazionePartenza=urllib.request.urlopen(urlPartenza).read()
 
     if CodiceStazionePartenza=='':
         return ("Stazione di <b>PARTENZA</b> non esistente.\n\n<b>CONSIGLI:</b>\n-Prova a scrivere solo le <b>prime parole chiave</b>, non il nome completo!\n\n-Oppure prova a scrivere il <b>nome completo!</b>\nEsempio: Milano Porta Garibaldi", "")
@@ -31,7 +31,7 @@ def trip_search (command, arrivo, partenza, mese, giorno, ora, data, now, chat_i
             CodiceStazionePartenza=CodiceStazionePartenza[1:]
 
 #Interrogo per ottenere il codice della stazione di ARRIVO
-    CodiceStazioneArrivo=urllib.urlopen(urlArrivo).read()
+    CodiceStazioneArrivo=urllib.request.urlopen(urlArrivo).read()
 
     if CodiceStazioneArrivo=='':
         return ("Errore\n\n-Prova a scrivere solo le <b>prime parole chiave</b>, non il nome completo!\nEsempio:\nMilano Porta\n\n-Oppure prova a scrivere il <b>nome completo!</b>\nEsempio: Milano Porta Garibaldi\n\n-Se il nome della stazione comprende piu' parole <b>usa i connettivi 'da' e 'a'</b> come in questo formato:\nDa Milano Centrale a Reggio Calabria\n\n<b>Esempi Corretti:</b>\n<i>Da Roma a Milano\nDa Roma a Milano il 10-8\nDa Roma a Milano alle 20:00\nDa Roma Tiburtina a Milano Lambrate il 10-8 alle 12:30\n</i>", "")
@@ -47,9 +47,9 @@ def trip_search (command, arrivo, partenza, mese, giorno, ora, data, now, chat_i
 #Interrogo con codici delle stazioni di partenza e ritorno e data e ora CODICEPARTENZA/CODICEARRIVO/AAA-MM-GGTHH:MM:SS occhio alla T che separa data e ora
     DataOra='%s-%s-%sT%s:00:00'%(now.year, mese, giorno, ora)
     urlRicerca=('http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/soluzioniViaggioNew/%s/%s/%s' % (CodiceStazionePartenza, CodiceStazioneArrivo, DataOra))
-    print urlRicerca
+    print(urlRicerca)
     #bot.sendMessage(chat_id, 'UrlRicerca: %s' %(urlRicerca))
-    parsed_json = json.loads(urllib.urlopen(urlRicerca).read())
+    parsed_json = json.loads(urllib.request.urlopen(urlRicerca).read())
     try:
         for sol in range (0,2): #ciclo che fa visualizzare le prime 2 opzioni
             risp=""

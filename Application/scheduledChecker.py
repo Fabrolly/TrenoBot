@@ -37,7 +37,7 @@ if now.strftime("%A")=='Sunday':
 
 for row in dbLines:
     if day in row['days']: #IF IS A TRAIN FOR TODAY
-        print 'da fare oggi'
+        print('da fare oggi')
         departure_datetime = row['departure_datetime'].replace(day=now.day, month=now.month, year=now.year) #In DB I use DATETIME format that contain day and mouth but I must check only the time difference from NOW for the next instruction, then i replace it with current date
         start_time_difference=((departure_datetime - now).total_seconds()/60.0) #difference (in minute) by now
 
@@ -53,7 +53,7 @@ for row in dbLines:
                 except MySQLdb.Error as e:
                     database.rollback()
                     error='Got Error {!r}, errno is {}'.format(e, e.args[0])
-                    print error
+                    print(error)
 
 #----- pre-departure message
         if(start_time_difference - 5>=0 and start_time_difference - 5 <= 2): #If the train leaves in 5 minutes, SEND THE DEPARTINGMSG TO USER        
@@ -66,7 +66,7 @@ for row in dbLines:
             try:
                 keyboard=buttons.alertMenuButtons(requestedTrain.number)
                 bot.sendMessage(row['user_id'], emojize('%s' %(msg), use_aliases=True), parse_mode='html', disable_web_page_preview=True, disable_notification=None, reply_markup=keyboard) #invio il messaggio
-            except Exception,e:
+            except Exception as e:
                 #TODO: da gestire se son bloccato, anche il telegram.py devo gestire questa cosa, RICORDARSI
                 #if('blocked' in e):
                 pass
@@ -74,7 +74,7 @@ for row in dbLines:
 #-----  if is running     
         arrival_datetime= row['arrival_datetime'].replace(day=now.day, month=now.month, year=now.year) #In DB I use DATETIME format that contain day and mouth but I must check only the time difference from NOW for the next instruction, then i replace it with current date
         if(departure_datetime<now<arrival_datetime): #IF THE TRAIN IS RUNNING
-            print 'RUNNING'
+            print('RUNNING')
             requestedTrain=databaseController.createTrain(row['train_number']) #create the object Train by the number in DB
 
 #----- if while is running is not regular
@@ -87,7 +87,7 @@ for row in dbLines:
                 except MySQLdb.Error as e:
                     database.rollback()
                     error='Got Error {!r}, errno is {}'.format(e, e.args[0])
-                    print error
+                    print(error)
 
 #----- if the train is halfway for the user trip i update the user
             middle_time_difference=departure_datetime + ((arrival_datetime-departure_datetime)/2) #finding the middle datetime from arrival and departing
@@ -102,16 +102,16 @@ for row in dbLines:
                 try:
                     keyboard=buttons.alertMenuButtons(requestedTrain.number)
                     bot.sendMessage(row['user_id'], emojize('%s' %(msg), use_aliases=True), parse_mode='html', disable_web_page_preview=True, disable_notification=None, reply_markup=keyboard) 
-                except Exception,e:
+                except Exception as e:
                     #TODO: da gestire se son bloccato, anche il telegram.py devo gestire questa cosa, RICORDARSI
                     #if('blocked' in e):
                     pass
-            print start_time_difference #debug stuff to remove
-            print middle_time_difference #Se non e running questa print non e aggiornata
+            print(start_time_difference) #debug stuff to remove
+            print(middle_time_difference) #Se non e running questa print non e aggiornata
             
 
-    print row['train_number']
-    print '\n'
+    print(row['train_number'])
+    print('\n')
 
 
 database.close()
