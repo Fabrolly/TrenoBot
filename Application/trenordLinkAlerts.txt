@@ -1,0 +1,15 @@
+Novara-Milano-Treviglio http://www.trenord.it/IT/servizi/direttrici/D001/novara---milano---treviglio.aspx
+Saronno-Seregno-Milano-Albairate http://www.trenord.it/IT/servizi/direttrici/D038/saronno---seregno---milano---albairate.aspx
+Domodossola-Gallarate-Milano http://www.trenord.it/IT/servizi/direttrici/D002/domodossola---gallarate---milano.aspx
+P.toCeresio-Varese-Gallarate-Milano http://www.trenord.it/IT/servizi/direttrici/D003/porto-ceresio---varese---gallarate---milano.aspx
+Luino-Gallarate-Malpensa http://www.trenord.it/IT/servizi/direttrici/D004/luino---gallarate---malpensa.aspx
+Chiasso-Como-Monza-Milano http://www.trenord.it/IT/servizi/direttrici/D005/chiasso---como---monza---milano.aspx
+Tirano-Sondrio-Lecco-Milano http://www.trenord.it/IT/servizi/direttrici/D006/tirano---sondrio---lecco---milano.aspx
+Lecco-Molteno-Monza-Milano http://www.trenord.it/IT/servizi/direttrici/D007/lecco---molteno---monza---milano.aspx
+Chiavenna-Colico http://www.trenord.it/IT/servizi/direttrici/D008/chiavenna---colico.aspx
+Lecco-Molteno-Como http://www.trenord.it/IT/servizi/direttrici/D009/lecco---molteno---como.aspx
+Lecco-Bergamo-Brescia http://www.trenord.it/IT/servizi/direttrici/D010/lecco---bergamo---brescia.aspx
+Bergamo-Carnate-Milano http://www.trenord.it/IT/servizi/direttrici/D011/bergamo---carnate---milano-.aspx
+Seregno-Carnate http://www.trenord.it/IT/servizi/direttrici/D039/seregno---carnate.aspx
+Bergamo-Treviglio http://www.trenord.it/IT/servizi/direttrici/D040/bergamo---treviglio.aspx
+Bergamo-Pioltello-Milano http://www.trenord.it/IT/servizi/direttrici/D012/bergamo---pioltello---milano.aspx
