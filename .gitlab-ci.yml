@@ -6,3 +6,4 @@ test_format:
     script:
       - pip install -r requirements.txt
       - echo "Testing..."
+      - black --check backend/ frontend/ telegram-bot/
