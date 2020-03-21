@@ -1,0 +1,35 @@
+version: "3"
+services:
+    backend:
+        build: ./backend
+        image: trenobot_backend
+        depends_on:
+            - database
+        restart: unless-stopped
+
+    frontend:
+        build: ./frontend
+        image: trenobot_frontend
+        depends_on:
+            - backend
+        restart: unless-stopped
+
+    telegram-bot:
+        build: ./telegram-bot
+        image: trenobot_telegram-bot
+        environment:
+            - TELEGRAM_API_KEY=set_it_here
+        depends_on:
+            - frontend
+        restart: unless-stopped
+
+    database:
+        image: mariadb:10
+        restart: unless-stopped
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=trenobot
+            - MYSQL_PASSWORD=trenobot
+        volumes:
+            - ./.data/mysql:/var/lib/mysql
+
