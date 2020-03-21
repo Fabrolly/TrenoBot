@@ -34,3 +34,13 @@ Per la gestione della repository viene utilizzato un modello di branching basato
 * Il branch `master` contiene i commit di tutti gli sprint conclusi fino a questo momento
 * I branch `sprintN` contengono i commit dello sprint N-esimo, a fine sprint il branch N-esimo viene mergiato dentro `master`
 * Dal branch dello sprint corrente scaturiscono i `feature-branch` relativi alle storie del progetto che vengono mergiati nel branch dello sprint a fine feature
+
+#### Come comportarsi al momento del merge
+
+* Assicurarsi di essere su una `feature-branch` con `git status`
+* `git checkout sprintN`
+* `git pull origin sprintn`
+* `git merge --no-ff feature-branch`
+  * Risolvere gli eventuali conflitti necessari seguendo le istruzioni in `git status`
+* `git push origin sprintN`
+* E' possibile eliminare la feature branch mergiata con `git branch -d feature-branch` e `git push origin --delete feature-branch`
