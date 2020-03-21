@@ -1,6 +1,13 @@
 {
-    "python.pythonPath": "venv/bin/python",
-    "python.linting.pylintEnabled": true,
+    "python.pythonPath": "./venv/bin/python",
     "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintPath": "./venv/bin/pylint",
+    "python.linting.pylintUseMinimalCheckers": false,
     "python.formatting.provider": "black",
+    "workbench.editor.enablePreview": false,
+    "editor.rulers": [
+        80,
+        120
+    ]
 }
