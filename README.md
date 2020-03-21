@@ -53,10 +53,14 @@ Per la gestione della repository viene utilizzato un modello di branching basato
 
 * Assicurarsi di essere su una `feature-branch` con `git status`
 * Assicurarsi di aver committato tutti i cambimenti necessari
-* Assicurarsi di aver portato a termine la storia
 * `git checkout sprintN`
-* `git pull origin sprintn`
-* `git merge --edit --no-ff feature-branch`
-  * Risolvere gli eventuali conflitti necessari seguendo le istruzioni in `git status`
-  * Segnalare gli issue chiusi aggiungendo al messaggio `CLOSE #NN` dove `NN` e' il numero dell'issue
-* `git push origin sprintN`
+* `git pull origin sprintN` per scaricare tutti i cambiamenti già mergiati nel branch dello sprint
+* `git checkout feature-branch`
+* `git merge sprintN` per unire i cambiamenti già mergiati a quelli che si vuole mergiare ed evitare conflitti in fase di merge
+* Risolvere gli eventuali conflitti
+* `git push origin feature-branch`
+* Una volta portata a termine la storia/quando si vuole creare la merge request (non è necessario farlo all'ultimo momento)
+  * Andare sulla pagina [Issues](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/issues) ed assicurarsi che la propria branch/feature abbia una issue dedicata
+  * Andare sulla pagina delle [Merge Request](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/merge_requests) e creare la merge request
+  * Attendere la code-review e l'approvazione di almeno un collega
+  * Effettuare il merge una volta risolti tutti i problemi segnalati dai colleghi
