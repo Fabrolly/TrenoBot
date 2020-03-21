@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+echo "Running pre-commit script..."
+
+REPO_FOLDER=$(git rev-parse --show-toplevel)
+source $REPO_FOLDER/venv/bin/activate
+
+if ! [ -x "$(command -v black)" ]; then
+    echo 'Error: black is not installed.' >&2
+    echo 'Follow the README' >&2
+    exit 1
+else
+    # run formatter on changed files
+    black $(git diff --cached --name-only --diff-filter=ACM | grep .py)
+fi
+
