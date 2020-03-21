@@ -38,9 +38,11 @@ Per la gestione della repository viene utilizzato un modello di branching basato
 #### Come comportarsi al momento del merge
 
 * Assicurarsi di essere su una `feature-branch` con `git status`
+* Assicurarsi di aver committato tutti i cambimenti necessari
+* Assicurarsi di aver portato a termine la storia
 * `git checkout sprintN`
 * `git pull origin sprintn`
-* `git merge --no-ff feature-branch`
+* `git merge --edit --no-ff feature-branch`
   * Risolvere gli eventuali conflitti necessari seguendo le istruzioni in `git status`
+  * Segnalare gli issue chiusi aggiungendo al messaggio `CLOSE #NN` dove `NN` e' il numero dell'issue
 * `git push origin sprintN`
-* E' possibile eliminare la feature branch mergiata con `git branch -d feature-branch` e `git push origin --delete feature-branch`
