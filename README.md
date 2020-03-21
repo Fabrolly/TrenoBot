@@ -27,6 +27,20 @@ Da eseguire la prima volta:
 
 * Attivare il virtualenv con `source venv/bin/activate`
 
+## Utilizzo di Git
+
+### Messaggi di commit
+
+Leggere [questo](https://chris.beams.io/posts/git-commit/)
+
+> * Separate subject from body with a blank line
+> * Limit the subject line to 50 characters (if possible)
+> * Capitalize the subject line
+> * Do not end the subject line with a period
+> * Use the imperative mood in the subject line (When applied this commit will... "YOUR COMMIT MESSAGE")
+> * Wrap the body at 72 characters (if possible)
+> * Use the body to explain what and why vs. how
+
 ### Modello di branching
 
 Per la gestione della repository viene utilizzato un modello di branching basato su [git flow](https://nvie.com/posts/a-successful-git-branching-model/), con un focus sul feature-branching.
