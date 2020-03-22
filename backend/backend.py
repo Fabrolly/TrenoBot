@@ -14,18 +14,19 @@ def find_train_id(train_number):
         response.encoding = "utf-8"
         response = response.text
     except Exception as e:
-        return 'offline'  # probably the trenitalia API are offline. I must handle this situation
+        return "offline"  # probably the trenitalia API are offline. I must handle this situation
 
     if len(response) != 0 and "<H1>" not in response:
         if (
             "-" in response
         ):  # this thing is necessary because for some reasons there are train with the same number but different station_ID.
+            print (response)
             response = response[(response.index("|") + 1) :]
             response = response[(response.index("-") + 1) : (response.index("\n"))]
             # print(autocomplete)
             return response  # return the ID of the train
         else:
-            return None # Il treno non esiste
+            return None  # Il treno non esiste
 
 
 # return the JSON containing all the real time information of a train, by it's number
@@ -34,9 +35,9 @@ def realTimeInformation(number):
 
     station_id = find_train_id(number)  # I need also the Station_ID for the request
     if station_id is None:
-        return abort(404) #train not found
-    if 'offline' in station_id:
-        return abort(500) #OfflineApiTrenitalia
+        return abort(404)  # train not found
+    if "offline" in station_id:
+        return abort(500)  # OfflineApiTrenitalia
 
     url = f"{station_id}/{number}"  # See api docs: the request urls is composed by TRAIN_ID/TRAIN_NUMBER
 
@@ -47,7 +48,7 @@ def realTimeInformation(number):
         )
         return jsonify(raw_json.json())
     except Exception as e:
-        return abort(500) #trenitalia api offline
+        return abort(500)  # trenitalia api offline
 
 
 if __name__ == "__main__":
