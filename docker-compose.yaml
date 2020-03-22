@@ -1,5 +1,12 @@
 version: "3"
 services:
+    existing_bot:
+        build: ./Application
+        image: trenobot_existing
+        depends_on:
+            - database
+        restart: unless-stopped
+
     backend:
         build: ./backend
         image: trenobot_backend
