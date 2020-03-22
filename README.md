@@ -16,6 +16,9 @@ Estensioni di VSCode richieste per lo sviluppo:
 
 Da eseguire la prima volta:
 
+* Eseguire `git config core.autocrlf true`
+* Posizionarsi sul branch `sprintN` ed effettuare il pull
+* Installare [git-lfs](https://help.github.com/en/github/managing-large-files/installing-git-large-file-storage)
 * Creare un virtual env con: `python3 -m venv venv`
 * Attivare il virtual env: `source venv/bin/activate`
 * Installare i pacchetti necessari al supporto allo sviluppo: `pip install -r requirements.txt`
