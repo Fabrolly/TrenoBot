@@ -1,11 +1,13 @@
 version: "3"
 services:
     existing_bot:
-        build: ./Application
-        image: trenobot_existing
+        build: ./old_bot
+        image: trenobot_old_bot
+        restart: unless-stopped
         depends_on:
             - database
-        restart: unless-stopped
+        environment:
+            - TELEGRAM_API_KEY=set_it_here
 
     backend:
         build: ./backend
@@ -27,7 +29,8 @@ services:
         environment:
             - TELEGRAM_API_KEY=set_it_here
         depends_on:
-            - frontend
+            - backend
+            - database
         restart: unless-stopped
 
     database:
