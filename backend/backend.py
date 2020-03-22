@@ -20,10 +20,9 @@ def find_train_id(train_number):
         if (
             "-" in response
         ):  # this thing is necessary because for some reasons there are train with the same number but different station_ID.
-            print (response)
+            print(response)
             response = response[(response.index("|") + 1) :]
             response = response[(response.index("-") + 1) : (response.index("\n"))]
-            # print(autocomplete)
             return response  # return the ID of the train
         else:
             return None  # Il treno non esiste
