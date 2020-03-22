@@ -12,6 +12,8 @@ services:
     backend:
         build: ./backend
         image: trenobot_backend
+        ports:
+            - 5000:5000
         depends_on:
             - database
         restart: unless-stopped
@@ -19,6 +21,8 @@ services:
     frontend:
         build: ./frontend
         image: trenobot_frontend
+        ports:
+            - 5000:5000
         depends_on:
             - backend
         restart: unless-stopped
