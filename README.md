@@ -2,7 +2,7 @@
 
 A Telegram Bot to monitor italian trains
 
-## Sviluppo
+## Prima dello sviluppo
 
 Per lo sviluppo del progetto è richiesto l'IDE [VSCode](https://code.visualstudio.com/)
 
@@ -30,9 +30,17 @@ Da eseguire la prima volta:
 
 * Attivare il virtualenv con `source venv/bin/activate`
 
-## Utilizzo di Git
+## Sviluppo
 
-### Messaggi di commit
+Per avviare tutta l'infrastruttura necessaria all'esecuzione del progetto e' consigliabile l'utilizzo di Docker e Docker Compose.
+
+Per avviare tutto il progetto in sviluppo e' necessario eseguire `docker-compose -f docker-compose.yaml -f docker-compose.development.yaml up` che avvia i tutti i servizi. L'applicazione del file di deployment aggiunge un mount delle cartelle del codice dentro il docker, in modo da velocizzare lo sviluppo in caso si utilizzino framework che supportino il live-reload del codice.
+
+Per i singoli servizi e' possibile sia eseguire manualmente il servizio o eseguire solo il docker corrispondente con: `docker-compose -f docker-compose.yaml -f docker-compose.development.yaml up NOMESERVIZIO`.
+
+### Utilizzo di Git
+
+#### Messaggi di commit
 
 Leggere [questo](https://chris.beams.io/posts/git-commit/)
 
@@ -44,7 +52,7 @@ Leggere [questo](https://chris.beams.io/posts/git-commit/)
 > * Wrap the body at 72 characters (if possible)
 > * Use the body to explain what and why vs. how
 
-### Modello di branching
+#### Modello di branching
 
 Per la gestione della repository viene utilizzato un modello di branching basato su [git flow](https://nvie.com/posts/a-successful-git-branching-model/), con un focus sul feature-branching.
 
