@@ -12,7 +12,7 @@ def find_station_id(train_number):
             % train_number
         )
     except requests.ConnectionError:
-        raise train_not_found  # probably the trenitalia API are offline. But if they are offline, the response is empity
+        raise TrainNotFoundException  # probably the trenitalia API are offline. But if they are offline, the response is empity
     response.encoding = "utf-8"
     response = response.text
     if len(response) != 0 and "<H1>" not in response and response is not None:
@@ -23,13 +23,12 @@ def find_station_id(train_number):
             response = response[(response.index("-") + 1) : (response.index("\n"))]
             return response  # return the ID of the train
         else:
-            raise train_not_found  # Il treno non esiste
+            raise TrainNotFoundException  # Il treno non esiste
 
 
 # return the JSON containing all the real time information of a train, by it's number
 @app.route("/api/train/<int:number>", methods=["GET"])
 def realTimeInformation(number):
-
     station_id = find_station_id(number)  # I need also the Station_ID for the request
     if station_id is None:
         return abort(404)
@@ -43,10 +42,8 @@ def realTimeInformation(number):
     except:
         return abort(500)  # trenitalia api offline
 
-
-class train_not_found(Exception):
+class TrainNotFoundException(Exception):
     pass
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
