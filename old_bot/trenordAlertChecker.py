@@ -13,7 +13,7 @@ import urllib.request, urllib.parse, urllib.error
 def updateAlertsDatabase():
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
 
@@ -80,7 +80,9 @@ def updateAlertsDatabase():
 
 def sendMessageKeyboard(chatId, msg, keyboard):
     # TOKEN = loginInfo.telegramKey()
-    TOKEN = ""
+    with open('token.txt', 'r') as content_file:
+        TOKEN = content_file.read()
+
     bot = telepot.Bot(TOKEN)
     bot.sendMessage(
         chatId,
@@ -96,7 +98,7 @@ updateAlertsDatabase()
 
 # Connecting to database
 # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-database = MySQLdb.connect("localhost", "root", "password")
+database = MySQLdb.connect("database", "root", "root")
 cursor = database.cursor(MySQLdb.cursors.DictCursor)
 cursor.execute("USE TRENOBOT;")
 

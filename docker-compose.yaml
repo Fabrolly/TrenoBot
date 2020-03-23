@@ -8,6 +8,8 @@ services:
             - database
         environment:
             - TELEGRAM_API_KEY=set_it_here
+        tty: true
+        stdin_open: true
 
     backend:
         build: ./backend
@@ -37,11 +39,13 @@ services:
             - database
         restart: unless-stopped
 
+
     database:
         image: mariadb:10
         restart: unless-stopped
         environment:
             - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=TRENOBOT
             - MYSQL_USER=trenobot
             - MYSQL_PASSWORD=trenobot
         volumes:

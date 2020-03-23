@@ -38,7 +38,7 @@ def programInfoFromSearch(
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = databaseController.time.strftime("%Y-%m-%d %H:%M:%S")
     try:
@@ -122,7 +122,7 @@ def programInfo(number, chatId, days, departure, arrival):
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = databaseController.time.strftime("%Y-%m-%d %H:%M:%S")
     try:
@@ -176,7 +176,7 @@ def showList(user_id):
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
 
     try:
@@ -224,7 +224,7 @@ def showList(user_id):
 def showListDirec(user_id):
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -285,7 +285,7 @@ def removeDir(dirNumber, userId):
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -318,7 +318,7 @@ def remove(trainNumber, userId):
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -350,7 +350,7 @@ def remove(trainNumber, userId):
 def addDire(number, chatId):
 
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = databaseController.time.strftime("%Y-%m-%d %H:%M:%S")
     try:
@@ -384,7 +384,7 @@ def summary(chatId):
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     response = "<b>Riepilogo del tuo account</b>\n\n"
 

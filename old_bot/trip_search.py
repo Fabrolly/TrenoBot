@@ -9,7 +9,8 @@ import buttons
 # import loginInfo
 
 # TOKEN = loginInfo.telegramKey()
-TOKEN = ""
+with open('token.txt', 'r') as content_file:
+        TOKEN = content_file.read()
 bot = telepot.Bot(TOKEN)
 
 
