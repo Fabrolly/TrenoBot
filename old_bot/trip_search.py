@@ -16,20 +16,23 @@ bot = telepot.Bot(TOKEN)
 
 def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id):
     # Chiedo alle api il trip
-    parsed_json = requests.get("http://backend:5000/api/trip/%s-%s-%s-%s-%s-%s" % (arrivo, partenza, mese, giorno, ora, now.year))
+    parsed_json = requests.get(
+        "http://backend:5000/api/trip/%s-%s-%s-%s-%s-%s"
+        % (arrivo, partenza, mese, giorno, ora, now.year)
+    )
     if parsed_json.status_code == 500:
         bot.sendMessage(
-                chat_id,
-                emojize("Stazione di Partenza e/o Arrivo inesistente", use_aliases=True),
-                parse_mode="html",
-                disable_web_page_preview=None,
-                disable_notification=None,
-            )
+            chat_id,
+            emojize("Stazione di Partenza e/o Arrivo inesistente", use_aliases=True),
+            parse_mode="html",
+            disable_web_page_preview=None,
+            disable_notification=None,
+        )
         return 0
 
-    parsed_json=parsed_json.json()
+    parsed_json = parsed_json.json()
     try:
-        for sol in range(0, 2):  # ciclo che fa visualizzare le prime 2 opzioni
+        for sol in range(0, 2):  #visualizzare le prime 2 opzioni
             risp = ""
             trains = []
             departure_time_keyboard = []
@@ -58,7 +61,6 @@ def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id
                 ]
 
                 # keyboard generate
-
                 trains.append(
                     parsed_json["soluzioni"][sol]["vehicles"][cont]["numeroTreno"]
                 )
@@ -118,7 +120,8 @@ def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id
         bot.sendMessage(
             chat_id,
             emojize(
-                "Le API di viaggiotreno non sono in grado di rispondere a questa richeiesta anche se il tuo comando e' valido.\n\nIl motivo e' sconosciuto e da attributire a viaggiatreno.it\n\nCerca qui il tuo treno: http://www.trenitalia.com/ \n\nQuando sai il numero del tuo treno torna qui! %s" %e ,
+                "Le API di viaggiotreno non sono in grado di rispondere a questa richeiesta anche se il tuo comando e' valido.\n\nIl motivo e' sconosciuto e da attributire a viaggiatreno.it\n\nCerca qui il tuo treno: http://www.trenitalia.com/ \n\nQuando sai il numero del tuo treno torna qui! %s"
+                % e,
                 use_aliases=True,
             ),
             parse_mode="html",
