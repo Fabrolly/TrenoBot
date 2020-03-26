@@ -42,7 +42,11 @@ def realTimeInformation(number):
     except:
         return abort(500)  # trenitalia api offline
 
-@app.route("/api/trip/<string:arrivo>-<string:partenza>-<int:mese>-<int:giorno>-<string:ora>-<int:anno>", methods=["GET"])
+
+@app.route(
+    "/api/trip/<string:arrivo>-<string:partenza>-<int:mese>-<int:giorno>-<string:ora>-<int:anno>",
+    methods=["GET"],
+)
 def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
     # Creo url per la richiesta del CODICE DELLE STAZIONI e interrogo
     urlPartenza = (
@@ -55,10 +59,7 @@ def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
     )
     # Interrogo per ottenere il codice della stazione di PARTENZA
     CodiceStazionePartenza = requests.get(urlPartenza)
-
-
-    CodiceStazionePartenza=CodiceStazionePartenza.text
-
+    CodiceStazionePartenza = CodiceStazionePartenza.text
     try:
         NomeCompletoStazionePartenza = CodiceStazionePartenza[
             : CodiceStazionePartenza.index("|")
@@ -76,13 +77,9 @@ def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
         while CodiceStazionePartenza[0] == "0":
             CodiceStazionePartenza = CodiceStazionePartenza[1:]
     except Exception as e:
-        abort(500) #stazione di partenza non esistente
-
-
+        abort(500)  # stazione di partenza non esistente
     # Interrogo per ottenere il codice della stazione di ARRIVO
     CodiceStazioneArrivo = requests.get(urlArrivo).text
-
-
     try:
         NomeCompletoStazioneArrivo = CodiceStazioneArrivo[
             : CodiceStazioneArrivo.index("|")
@@ -98,10 +95,7 @@ def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
         while CodiceStazioneArrivo[0] == "0":
             CodiceStazioneArrivo = CodiceStazioneArrivo[1:]
     except Exception as e:
-        abort(500) #stazione di arrivo non esistente
-
-
-
+        abort(500)  # stazione di arrivo non esistente
     # Interrogo con codici delle stazioni di partenza e ritorno e data e ora CODICEPARTENZA/CODICEARRIVO/AAA-MM-GGTHH:MM:SS occhio alla T che separa data e ora
     DataOra = "%s-%s-%sT%s:00:00" % (anno, mese, giorno, ora)
     urlRicerca = (
@@ -109,7 +103,6 @@ def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
         % (CodiceStazionePartenza, CodiceStazioneArrivo, DataOra)
     )
     response_json = requests.get(urlRicerca)
-
     try:
         response_json.json()
     except Exception as e:
@@ -118,14 +111,17 @@ def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
     return jsonify(response_json.json())
 
 
-
-
 class TrainNotFoundException(Exception):
     pass
+
+
 class DepartureStationNotFoundException(Exception):
     pass
+
+
 class ArrivalStationNotFoundException(Exception):
     pass
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
