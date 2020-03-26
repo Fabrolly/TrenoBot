@@ -80,7 +80,7 @@ def updateAlertsDatabase():
 
 def sendMessageKeyboard(chatId, msg, keyboard):
     # TOKEN = loginInfo.telegramKey()
-    with open('token.txt', 'r') as content_file:
+    with open("token.txt", "r") as content_file:
         TOKEN = content_file.read()
 
     bot = telepot.Bot(TOKEN)

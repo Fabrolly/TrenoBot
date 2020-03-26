@@ -24,7 +24,7 @@ services:
         build: ./frontend
         image: trenobot_frontend
         ports:
-            - 5000:5000
+            - 5001:5001
         depends_on:
             - backend
         restart: unless-stopped

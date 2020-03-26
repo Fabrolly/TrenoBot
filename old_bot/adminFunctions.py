@@ -95,7 +95,7 @@ def broadcast(msg):
         return (error, "")
 
     # TOKEN = loginInfo.telegramKey()
-    with open('token.txt', 'r') as content_file:
+    with open("token.txt", "r") as content_file:
         TOKEN = content_file.read()
 
     bot = telepot.Bot(TOKEN)

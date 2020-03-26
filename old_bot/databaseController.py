@@ -38,17 +38,18 @@ def createTrain(trainNumber):
     database.close()
     return usedTrain
 
+
 def addOrUpdateTrainDB(number):
 
-    jsonapi = requests.get('http://backend:5000/api/train/%s' %number)
+    jsonapi = requests.get("http://backend:5000/api/train/%s" % number)
 
-    #Handle errors:
-    if(jsonapi.status_code==404):
-        return 'Error: Il treno cercato non esiste :pensive:'
-    if(jsonapi.status_code==500):
-        return 'Error: Le API di viaggiotreno sono offline, non riesco a comunicare! :pensive:'
+    # Handle errors:
+    if jsonapi.status_code == 404:
+        return "Error: Il treno cercato non esiste :pensive:"
+    if jsonapi.status_code == 500:
+        return "Error: Le API di viaggiotreno sono offline, non riesco a comunicare! :pensive:"
 
-    #Convert API response to JSON
+    # Convert API response to JSON
     jsonapi = jsonapi.json()
 
     # Connecting to database
@@ -67,21 +68,19 @@ def addOrUpdateTrainDB(number):
     )  # Actual time, for the last_update filed
 
     rawjson = str(jsonapi)
-    rawjson=rawjson.replace("'", '"')
-    rawjson=rawjson.replace("None", 'null')
-    rawjson=rawjson.replace("False", 'false')
-    rawjson=rawjson.replace("True", 'true')
+    rawjson = rawjson.replace("'", '"')
+    rawjson = rawjson.replace("None", "null")
+    rawjson = rawjson.replace("False", "false")
+    rawjson = rawjson.replace("True", "true")
 
-    print (rawjson)
+    print(rawjson)
 
     try:
         fermate = rawjson[
             rawjson.index('"fermate":') + 10 : rawjson.index("}],") + 2
         ]  # list of all the stops, with binary and other info. I leave it in JSON.
     except:
-        return 'Le API di viaggiotreno non mi hanno restituito le fermate per questo treno. Riprova piú tardi o con un altro treno! :pensive:'
-
-
+        return "Le API di viaggiotreno non mi hanno restituito le fermate per questo treno. Riprova piú tardi o con un altro treno! :pensive:"
 
     # Prepare string for the content filed in INSERT record on DB
     content_filed1 = "'%s', %s, '%s', '%s', '%s', '%s', '%s'," % (

@@ -78,8 +78,8 @@ def sendMessageKeyboard(chatId, msg, keyboard):
 
 
 # TOKEN = loginInfo.telegramKey()
-with open('token.txt', 'r') as content_file:
-        TOKEN = content_file.read()
+with open("token.txt", "r") as content_file:
+    TOKEN = content_file.read()
 
 bot = telepot.Bot(TOKEN)
 bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})
