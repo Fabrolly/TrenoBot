@@ -2,7 +2,7 @@ version: "3"
 services:
     existing_bot:
         build: ./old_bot
-        image: trenobot_old_bot
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_old_bot
         restart: unless-stopped
         depends_on:
             - database
@@ -11,7 +11,7 @@ services:
 
     backend:
         build: ./backend
-        image: trenobot_backend
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_backend
         ports:
             - 5000:5000
         depends_on:
@@ -20,16 +20,16 @@ services:
 
     frontend:
         build: ./frontend
-        image: trenobot_frontend
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_frontend
         ports:
-            - 5000:5000
+            - 8000:5000
         depends_on:
             - backend
         restart: unless-stopped
 
     telegram-bot:
         build: ./telegram-bot
-        image: trenobot_telegram-bot
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot
         environment:
             - TELEGRAM_API_KEY=set_it_here
         depends_on:
