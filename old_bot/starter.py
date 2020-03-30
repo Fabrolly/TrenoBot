@@ -61,6 +61,8 @@ f.close()
 # Disconnecting
 database.close()
 
+import telegram
+
 ##THIS IS TO RUN 1 TIME ONLY. REMOVE COMMENTS, EXECUTE starter.py AND RE-ADD COMMENTS
 
 # my_cron = CronTab(user='fabrolly')

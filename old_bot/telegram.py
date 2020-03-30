@@ -29,7 +29,7 @@ def on_chat_message(msg):
 
     response, keyboard = messageParser.messageParser(message, chatId, msg, isKeyboard)
 
-    if response != None and len(response) > 0:
+    if response is not None and len(response) > 0:
         if isinstance(response, str):
             if response is not None:
                 if keyboard is not None:

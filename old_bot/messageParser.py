@@ -13,6 +13,7 @@ import adminFunctions
 
 
 def messageParser(msg, chatId, msgComplete, isKeybboard):
+
     # print(msg, chatId, msgComplete, isKeybboard)
     if not isKeybboard:
         added = usersController.addUserIfNotExist(msgComplete)
@@ -89,10 +90,8 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     if "pk" in msg:
-        print(msg)
         msg = msg[msg.index("pk") + 3 :]
         msg = msg.split("!")
-        print(msg)
         response = messageResponder.programInfoFromSearch(chatId, *msg)
         return response
 
@@ -113,7 +112,6 @@ def realTimeParser(msg, chatId):
     message = msg
     numbers = re.findall("\d+", message)
     return messageResponder.realTimeInfo(numbers[0])
-
 
 def programParser(msg, chatId):
     numbers = re.findall("\d+", msg)

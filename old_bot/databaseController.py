@@ -73,8 +73,6 @@ def addOrUpdateTrainDB(number):
     rawjson = rawjson.replace("False", "false")
     rawjson = rawjson.replace("True", "true")
 
-    print(rawjson)
-
     try:
         fermate = rawjson[
             rawjson.index('"fermate":') + 10 : rawjson.index("}],") + 2

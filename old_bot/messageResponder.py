@@ -98,7 +98,7 @@ def programInfo(number, chatId, days, departure, arrival):
         pass
 
     if (
-        departure is "" and arrival is ""
+        departure == "" and arrival == ""
     ):  # if are none, I use the whole route from the train object
         departure_datetime = requestedTrain.departure_datetime
         origin = requestedTrain.origin
@@ -294,7 +294,6 @@ def removeDir(dirNumber, userId):
             % (dirNumber, userId)
         )  # Use REPLACE instead of INSERT for update old records if exists
         database.commit()
-        print(row)
     except MySQLdb.Error as e:
         database.rollback()
         error = "Got Error {!r}, errno is {}".format(e, e.args[0])
