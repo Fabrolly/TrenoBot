@@ -113,6 +113,7 @@ def realTimeParser(msg, chatId):
     numbers = re.findall("\d+", message)
     return messageResponder.realTimeInfo(numbers[0])
 
+
 def programParser(msg, chatId):
     numbers = re.findall("\d+", msg)
 
@@ -210,14 +211,8 @@ def trip_search_parser(command, chatId):
     mese = data[data.index("-") + 1 :]
     giorno = data[: data.index("-")]
 
-    print("\n\n")
-    print(partenza)
-    print("\n")
-    print(arrivo)
-    print("\n")
-    print(mese)
-    print("\n")
-    print(giorno)
+    if ":" not in ora:
+        ora += str(":00")
 
     trip_search.trip_search(
         command, arrivo, partenza, mese, giorno, ora, data, now, chatId

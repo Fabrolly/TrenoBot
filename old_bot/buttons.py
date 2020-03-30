@@ -103,6 +103,24 @@ def backMainMenuButtons():
 
     return keyboard
 
+def backTripSearch():
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="Riprova", callback_data="Menu Ricerca"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="Menu' principale", callback_data="Menu Principale"
+                )
+            ]
+        ]
+    )
+
+    return keyboard
+
 
 def alertMenuButtons(trainNumber):
     keyboard = InlineKeyboardMarkup(

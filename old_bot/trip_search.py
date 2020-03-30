@@ -17,16 +17,21 @@ bot = telepot.Bot(TOKEN)
 def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id):
     # Chiedo alle api il trip
     parsed_json = requests.get(
-        "http://backend:5000/api/trip/%s-%s-%s-%s-%s-%s"
-        % (arrivo, partenza, mese, giorno, ora, now.year)
+        "http://backend:5000/api/trip/search?from=%s&to=%s&date=%s-%s-%sT%s:00"
+        % (partenza, arrivo, now.year, mese, giorno, ora)
     )
     if parsed_json.status_code == 500:
+
+        keyboard = buttons.backTripSearch(
+            )
+
         bot.sendMessage(
             chat_id,
-            emojize("Stazione di Partenza e/o Arrivo inesistente", use_aliases=True),
+            emojize(parsed_json.text, use_aliases=True),
             parse_mode="html",
             disable_web_page_preview=None,
             disable_notification=None,
+            reply_markup=keyboard,
         )
         return 0
 

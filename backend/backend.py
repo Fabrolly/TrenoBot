@@ -44,32 +44,30 @@ def realTimeInformation(number):
         return abort(500)  # trenitalia api offline
 
 
-@app.route(
-    "/api/trip/search",
-)
+@app.route("/api/trip/search",)
 def tripSearch():
     args = request.args
-    if request.args: #prendo in input gli argomenti della ricerca e verifico che ci siano tutti e che siano corretti
+    if (
+        request.args
+    ):  # prendo in input gli argomenti della ricerca e verifico che ci siano tutti e che siano corretti
         if "from" in args:
             partenza = args["from"]
         else:
-             return "No from string received", 500
+            return "No from string received", 500
         if "to" in args:
             arrivo = args.get("to")
         else:
-             return "No to string received", 500
+            return "No to string received", 500
         if "date" in args:
             data = args["date"]
             try:
                 datetime.datetime.strptime(data, "%Y-%m-%dT%H:%M:%S")
             except Exception as e:
-                return 'Data format is wrong. Use YYYY-MM-GGTHH:MM:SS', 500
+                return "Data format is wrong. Use YYYY-MM-GGTHH:MM:SS", 500
         else:
-             return "No date string received", 500
+            return "No date string received", 500
     else:
-        return "No query string received", 500 
-
-  
+        return "No query string received", 500
 
     # Creo url per la richiesta del CODICE DELLE STAZIONI e interrogo
     url_partenza = (
@@ -97,7 +95,10 @@ def tripSearch():
         while codice_stazione_partenza[0] == "0":
             codice_stazione_partenza = codice_stazione_partenza[1:]
     except Exception as e:
-        return "Departure station not existing", 500   # stazione di partenza non esistente
+        return (
+            "Departure station not existing",
+            500,
+        )  # stazione di partenza non esistente
     # Interrogo per ottenere il codice della stazione di ARRIVO
     codice_stazione_arrivo = requests.get(url_arrivo).text
     try:
@@ -113,7 +114,10 @@ def tripSearch():
         while codice_stazione_arrivo[0] == "0":
             codice_stazione_arrivo = codice_stazione_arrivo[1:]
     except Exception as e:
-        return "Destination station not existing", 500  # stazione di arrivo non esistente
+        return (
+            "Destination station not existing",
+            500,
+        )  # stazione di arrivo non esistente
     # Interrogo con codici delle stazioni di partenza e ritorno e data e ora CODICEPARTENZA/CODICEARRIVO/AAAA-MM-GGTHH:MM:SS occhio alla T che separa data e ora
     url_ricerca = (
         "http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/soluzioniViaggioNew/%s/%s/%s"
