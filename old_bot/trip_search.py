@@ -22,8 +22,7 @@ def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id
     )
     if parsed_json.status_code == 500:
 
-        keyboard = buttons.backTripSearch(
-            )
+        keyboard = buttons.backTripSearch()
 
         bot.sendMessage(
             chat_id,
@@ -37,7 +36,7 @@ def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id
 
     parsed_json = parsed_json.json()
     try:
-        for sol in range(0, 2):  #visualizzare le prime 2 opzioni
+        for sol in range(0, 2):  # visualizzare le prime 2 opzioni
             risp = ""
             trains = []
             departure_time_keyboard = []
