@@ -61,9 +61,6 @@ def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
     codice_stazione_partenza = requests.get(url_partenza)
     codice_stazione_partenza = codice_stazione_partenza.text
     try:
-        NomeCompletoStazionePartenza = codice_stazione_partenza[
-            : codice_stazione_partenza.index("|")
-        ]
         if "\n" in codice_stazione_partenza:
             codice_stazione_partenza = codice_stazione_partenza[
                 codice_stazione_partenza.index("|")
@@ -81,12 +78,10 @@ def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
     # Interrogo per ottenere il codice della stazione di ARRIVO
     codice_stazione_arrivo = requests.get(url_arrivo).text
     try:
-        nome_completo_stazione_arrivo = codice_stazione_arrivo[
-            : codice_stazione_arrivo.index("|")
-        ]
         if "\n" in codice_stazione_arrivo:
             codice_stazione_arrivo = codice_stazione_arrivo[
-                codice_stazione_arrivo.index("|") + 2 : codice_stazione_arrivo.index("\n")
+                codice_stazione_arrivo.index("|")
+                + 2 : codice_stazione_arrivo.index("\n")
             ]
         else:
             codice_stazione_arrivo = codice_stazione_arrivo[
