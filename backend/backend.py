@@ -49,60 +49,60 @@ def realTimeInformation(number):
 )
 def tripSearch(arrivo, partenza, mese, giorno, ora, anno):
     # Creo url per la richiesta del CODICE DELLE STAZIONI e interrogo
-    urlPartenza = (
+    url_partenza = (
         "http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/autocompletaStazione/%s"
         % partenza
     )
-    urlArrivo = (
+    url_arrivo = (
         "http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/autocompletaStazione/%s"
         % arrivo
     )
     # Interrogo per ottenere il codice della stazione di PARTENZA
-    CodiceStazionePartenza = requests.get(urlPartenza)
-    CodiceStazionePartenza = CodiceStazionePartenza.text
+    codice_stazione_partenza = requests.get(url_partenza)
+    codice_stazione_partenza = codice_stazione_partenza.text
     try:
-        NomeCompletoStazionePartenza = CodiceStazionePartenza[
-            : CodiceStazionePartenza.index("|")
+        NomeCompletoStazionePartenza = codice_stazione_partenza[
+            : codice_stazione_partenza.index("|")
         ]
-        if "\n" in CodiceStazionePartenza:
-            CodiceStazionePartenza = CodiceStazionePartenza[
-                CodiceStazionePartenza.index("|")
-                + 2 : CodiceStazionePartenza.index("\n")
+        if "\n" in codice_stazione_partenza:
+            codice_stazione_partenza = codice_stazione_partenza[
+                codice_stazione_partenza.index("|")
+                + 2 : codice_stazione_partenza.index("\n")
             ]
         else:
-            CodiceStazionePartenza = CodiceStazionePartenza[
-                CodiceStazionePartenza.index("|") + 2 :
+            codice_stazione_partenza = codice_stazione_partenza[
+                codice_stazione_partenza.index("|") + 2 :
             ]
 
-        while CodiceStazionePartenza[0] == "0":
-            CodiceStazionePartenza = CodiceStazionePartenza[1:]
+        while codice_stazione_partenza[0] == "0":
+            codice_stazione_partenza = codice_stazione_partenza[1:]
     except Exception as e:
         abort(500)  # stazione di partenza non esistente
     # Interrogo per ottenere il codice della stazione di ARRIVO
-    CodiceStazioneArrivo = requests.get(urlArrivo).text
+    codice_stazione_arrivo = requests.get(url_arrivo).text
     try:
-        NomeCompletoStazioneArrivo = CodiceStazioneArrivo[
-            : CodiceStazioneArrivo.index("|")
+        nome_completo_stazione_arrivo = codice_stazione_arrivo[
+            : codice_stazione_arrivo.index("|")
         ]
-        if "\n" in CodiceStazioneArrivo:
-            CodiceStazioneArrivo = CodiceStazioneArrivo[
-                CodiceStazioneArrivo.index("|") + 2 : CodiceStazioneArrivo.index("\n")
+        if "\n" in codice_stazione_arrivo:
+            codice_stazione_arrivo = codice_stazione_arrivo[
+                codice_stazione_arrivo.index("|") + 2 : codice_stazione_arrivo.index("\n")
             ]
         else:
-            CodiceStazioneArrivo = CodiceStazioneArrivo[
-                CodiceStazioneArrivo.index("|") + 2 :
+            codice_stazione_arrivo = codice_stazione_arrivo[
+                codice_stazione_arrivo.index("|") + 2 :
             ]
-        while CodiceStazioneArrivo[0] == "0":
-            CodiceStazioneArrivo = CodiceStazioneArrivo[1:]
+        while codice_stazione_arrivo[0] == "0":
+            codice_stazione_arrivo = codice_stazione_arrivo[1:]
     except Exception as e:
         abort(500)  # stazione di arrivo non esistente
     # Interrogo con codici delle stazioni di partenza e ritorno e data e ora CODICEPARTENZA/CODICEARRIVO/AAA-MM-GGTHH:MM:SS occhio alla T che separa data e ora
-    DataOra = "%s-%s-%sT%s:00:00" % (anno, mese, giorno, ora)
-    urlRicerca = (
+    data_ora_ricerca = "%s-%s-%sT%s:00:00" % (anno, mese, giorno, ora)
+    url_ricerca = (
         "http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/soluzioniViaggioNew/%s/%s/%s"
-        % (CodiceStazionePartenza, CodiceStazioneArrivo, DataOra)
+        % (codice_stazione_partenza, codice_stazione_arrivo, data_ora_ricerca)
     )
-    response_json = requests.get(urlRicerca)
+    response_json = requests.get(url_ricerca)
     try:
         response_json.json()
     except Exception as e:
