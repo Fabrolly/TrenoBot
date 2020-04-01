@@ -1,4 +1,5 @@
 import sys
+import os
 from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
@@ -11,7 +12,7 @@ from database_initialization import database_initialization as db_inizialization
 
 
 def delete_database():
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect(server, user, password)
     cursor = database.cursor()
     cursor.execute("DROP DATABASE IF EXISTS TRAINSTATISTICS;")
     database.commit()
@@ -38,7 +39,7 @@ def execute_query(table_name):
 
 
 def cursor_database():
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect(server, user, password)
     return database.cursor()
 
 
@@ -53,7 +54,7 @@ class Monolithic(unittest.TestCase):
         databases = show_database()
         self.assertEqual(len(databases), 3)
 
-        db_inizialization("localhost", "root", "password")
+        db_inizialization()
 
         print("\nCREAZIONE E INIZIALIZZAZIONE DATABASE\n")
 
@@ -65,9 +66,9 @@ class Monolithic(unittest.TestCase):
     def test_insert_data(self):
 
         print("\n\nTEST - INSERIMENTO RIGA\n")
-        db_inizialization("localhost", "root", "password")
+        db_inizialization()
 
-        database = MySQLdb.connect("localhost", "root", "password")
+        database = MySQLdb.connect(server, user, password)
         cursor = database.cursor()
         cursor.execute("use TRAINSTATISTICS;")
 
@@ -98,8 +99,8 @@ class Monolithic(unittest.TestCase):
     def test_delete_data(self):
 
         print("\n\nTEST - CANCELLAMENTO RIGA\n")
-        db_inizialization("localhost", "root", "password")
-        database = MySQLdb.connect("localhost", "root", "password")
+        db_inizialization()
+        database = MySQLdb.connect(server, user, password)
         cursor = database.cursor()
         cursor.execute("use TRAINSTATISTICS;")
 
@@ -132,4 +133,9 @@ class Monolithic(unittest.TestCase):
 
 # launch unit test cases
 if __name__ == "__main__":
+
+    server = os.environ.get('MARIADB_SERVER')
+    user = os.environ.get('MARIADB_USER')
+    password = os.environ.get('MARIADB_PASSWORD')
+
     unittest.main()

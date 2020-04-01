@@ -1,6 +1,6 @@
 # This class initialize the database and the necessary tables
 # For more information about DB see: /Documentation/Infrastructure and technologies.md
-import sys
+import os
 
 import MySQLdb
 import warnings
@@ -8,8 +8,11 @@ import warnings
 warnings.filterwarnings("ignore", category=MySQLdb.Warning)
 # ♦import loginInfo
 
+server = os.environ.get('MARIADB_SERVER')
+user = os.environ.get('MARIADB_USER')
+password = os.environ.get('MARIADB_PASSWORD')
 
-def database_initialization(server, user, password):
+def database_initialization():
     # Connecting to database as root
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
     database = MySQLdb.connect(server, user, password)
@@ -36,14 +39,4 @@ def database_initialization(server, user, password):
 # launch unit test cases
 if __name__ == "__main__":
 
-    if not len(sys.argv) == 4:
-        print(
-            "Il comando necessita in input dei parametri per il server, utente e password"
-        )
-        exit()
-
-    server = sys.argv[1]
-    user = sys.argv[2]
-    password = sys.argv[3]
-
-    database_initialization(server, user, password)
+    database_initialization()
