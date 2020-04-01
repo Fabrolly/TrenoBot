@@ -1,5 +1,7 @@
 # This class initialize the database and the necessary tables
 # For more information about DB see: /Documentation/Infrastructure and technologies.md
+import sys
+
 import MySQLdb
 import warnings
 
@@ -7,10 +9,10 @@ warnings.filterwarnings("ignore", category=MySQLdb.Warning)
 # ♦import loginInfo
 
 
-def database_initialization():
+def database_initialization(server, user, password):
     # Connecting to database as root
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect(server, user, password)
     cursor = database.cursor()
 
     # If the TRENOBOT database doses not exist, create and open it (if already exist a warning will be generated)
@@ -31,4 +33,17 @@ def database_initialization():
     database.close()
 
 
-database_initialization()
+# launch unit test cases
+if __name__ == "__main__":
+
+    if not len(sys.argv) == 4:
+        print(
+            "Il comando necessita in input dei parametri per il server, utente e password"
+        )
+        exit()
+
+    server = sys.argv[1]
+    user = sys.argv[2]
+    password = sys.argv[3]
+
+    database_initialization(server, user, password)

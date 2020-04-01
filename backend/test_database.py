@@ -53,7 +53,7 @@ class Monolithic(unittest.TestCase):
         databases = show_database()
         self.assertEqual(len(databases), 3)
 
-        db_inizialization()
+        db_inizialization("localhost", "root", "password")
 
         print("\nCREAZIONE E INIZIALIZZAZIONE DATABASE\n")
 
@@ -65,7 +65,8 @@ class Monolithic(unittest.TestCase):
     def test_insert_data(self):
 
         print("\n\nTEST - INSERIMENTO RIGA\n")
-        db_inizialization()
+        db_inizialization("localhost", "root", "password")
+
         database = MySQLdb.connect("localhost", "root", "password")
         cursor = database.cursor()
         cursor.execute("use TRAINSTATISTICS;")
@@ -97,7 +98,7 @@ class Monolithic(unittest.TestCase):
     def test_delete_data(self):
 
         print("\n\nTEST - CANCELLAMENTO RIGA\n")
-        db_inizialization()
+        db_inizialization("localhost", "root", "password")
         database = MySQLdb.connect("localhost", "root", "password")
         cursor = database.cursor()
         cursor.execute("use TRAINSTATISTICS;")
