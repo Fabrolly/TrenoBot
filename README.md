@@ -75,3 +75,26 @@ Per la gestione della repository viene utilizzato un modello di branching basato
   * Andare sulla pagina delle [Merge Request](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/merge_requests) e creare la merge request
   * Attendere la code-review e l'approvazione di almeno un collega
   * Effettuare il merge una volta risolti tutti i problemi segnalati dai colleghi
+
+### Scrittura dei test
+
+Per la scrittura dei test è necessario utilizzare il framework di testing [`unittest`](https://docs.python.org/3/library/unittest.html).
+
+Si deve dare la priorità ai test di unità e solo in seguito a quelli di integrazione. Ciascuna parte del sistema deve essere testabile da sola, senza la necessità che le altre funzionino.
+
+
+## Pipeline
+
+La pipeline che realizza la CI per il progetto si occupa delle seguenti task:
+
+* Pre-test:
+  * Controlla che il codice sia correttamente formattato
+  * Esegue il build di tutte le immagini docker e le pusha con il tag `test`
+* Test
+  * In ciascuna immagine docker di test esegue i test di unità
+* Build:
+  * Ritagga le immagini con `$COMMIT_SHA` e le pusha
+  * Utile per un eventuale server di development
+* Release:
+  * Eseguito solo in caso di commit su `sprintN` o `master`, tagga le immagini con il nome del branch
+  * Utile per un eventuale server di staging
