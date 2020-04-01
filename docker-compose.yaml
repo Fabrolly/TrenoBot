@@ -8,6 +8,8 @@ services:
             - database
         environment:
             - TELEGRAM_API_KEY=set_it_here
+        tty: true
+        stdin_open: true
 
     backend:
         build: ./backend
@@ -17,6 +19,8 @@ services:
         depends_on:
             - database
         restart: unless-stopped
+        tty: true
+        stdin_open: true
 
     frontend:
         build: ./frontend
@@ -26,6 +30,8 @@ services:
         depends_on:
             - backend
         restart: unless-stopped
+        tty: true
+        stdin_open: true
 
     telegram-bot:
         build: ./telegram-bot
@@ -36,6 +42,8 @@ services:
             - backend
             - database
         restart: unless-stopped
+        tty: true
+        stdin_open: true
 
     database:
         image: mariadb:10

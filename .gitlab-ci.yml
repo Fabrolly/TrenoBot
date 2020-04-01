@@ -46,21 +46,21 @@ test_unit_backend:
   image: ${DOCKER_IMAGE_BASE_NAME}trenobot_backend:test
   script:
     - cd /backend
-    - pytest
+    - python -m unittest discover backend/tests
 
 test_unit_frontend:
   stage: test
   image: ${DOCKER_IMAGE_BASE_NAME}trenobot_frontend:test
   script:
     - cd /frontend
-    - pytest
+    - python -m unittest discover frontend/tests
 
 test_unit_telegram-bot:
   stage: test
   image: ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot:test
   script:
     - cd /telegram-bot
-    - pytest
+    - python -m unittest discover telegram_bot/tests
 
 # build a development/latest-commit version of the image and push it tagging it as the first 8 chars of the commit sha
 build_dev:
