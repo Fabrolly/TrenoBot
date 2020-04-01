@@ -4,12 +4,13 @@ import MySQLdb
 from crontab import CronTab
 import warnings
 
+
 warnings.filterwarnings("ignore", category=MySQLdb.Warning)
 # ♦import loginInfo
 
 # Connecting to database as root
 # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-database = MySQLdb.connect("localhost", "root", "password")
+database = MySQLdb.connect("database", "root", "root")
 cursor = database.cursor()
 
 # Print all the databases in the system (for debug purpose only, can be removed)
@@ -59,6 +60,8 @@ f.close()
 
 # Disconnecting
 database.close()
+
+import telegram
 
 ##THIS IS TO RUN 1 TIME ONLY. REMOVE COMMENTS, EXECUTE starter.py AND RE-ADD COMMENTS
 

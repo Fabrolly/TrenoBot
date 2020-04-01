@@ -2,7 +2,7 @@ import MySQLdb
 import time
 from datetime import datetime
 import datetime as dt
-import apiViaggiotreno
+import requests
 import train
 
 # import loginInfo
@@ -13,7 +13,7 @@ def createTrain(trainNumber):
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root",loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
 
@@ -40,33 +40,49 @@ def createTrain(trainNumber):
 
 
 def addOrUpdateTrainDB(number):
-    jsonapi, raw_jsonapi, idTrain = apiViaggiotreno.realTimeInformation(number)
 
-    if "error" in idTrain:
-        return "Error: il treno cercato non esiste :pensive:"
+    jsonapi = requests.get("http://backend:5000/api/train/%s" % number)
+
+    # Handle errors:
+    if jsonapi.status_code == 404:
+        return "Error: Il treno cercato non esiste :pensive:"
+    if jsonapi.status_code == 500:
+        return "Error: Le API di viaggiotreno sono offline, non riesco a comunicare! :pensive:"
+
+    # Convert API response to JSON
+    jsonapi = jsonapi.json()
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor()
 
     # Prepare name filed for INSERT record on DB
-    field_train_db = """id, number, origin, destination, departure_datetime, arrival_datetime, duration, delay, state, 
+    field_train_db = """id, number, origin, destination, departure_datetime, arrival_datetime, duration, delay, state,
                         last_detection_time, last_detection_station, stations, alert, last_update"""
 
     # Prepare content filed that needing changes compared to the original json by viaggiotreno
     state = train_state(jsonapi)  # Deleted, regular..
-    # print(state)
     now = datetime.now().strftime(
         "%Y-%m-%d %H:%M:%S"
     )  # Actual time, for the last_update filed
-    fermate = raw_jsonapi[
-        raw_jsonapi.index('"fermate":') + 10 : raw_jsonapi.index("}],") + 2
-    ]  # list of all the stops, with binary and other info. I leave it in JSON.
+
+    rawjson = str(jsonapi)
+    rawjson = rawjson.replace("'", '"')
+    rawjson = rawjson.replace("None", "null")
+    rawjson = rawjson.replace("False", "false")
+    rawjson = rawjson.replace("True", "true")
+
+    try:
+        fermate = rawjson[
+            rawjson.index('"fermate":') + 10 : rawjson.index("}],") + 2
+        ]  # list of all the stops, with binary and other info. I leave it in JSON.
+    except:
+        return "Le API di viaggiotreno non mi hanno restituito le fermate per questo treno. Riprova piú tardi o con un altro treno! :pensive:"
 
     # Prepare string for the content filed in INSERT record on DB
     content_filed1 = "'%s', %s, '%s', '%s', '%s', '%s', '%s'," % (
-        idTrain,
+        jsonapi["fermate"][0]["id"],
         jsonapi["numeroTreno"],
         jsonapi["origineZero"],
         jsonapi["destinazioneZero"],
@@ -99,7 +115,7 @@ def addOrUpdateTrainDB(number):
         return "Got Error {!r}, errno is {}".format(e, e.args[0])
 
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
     cursor.execute("SELECT * FROM trains WHERE number = '%d'" % (int(number)))
@@ -111,7 +127,6 @@ def addOrUpdateTrainDB(number):
 
 # Function for translate timestamp (used in viaggiotreno) in DATETIME format for mariaDB DATETIME filed
 def convert_timestamp(timestamp):
-    print(timestamp)
     if timestamp == None:
         return "-"
     else:

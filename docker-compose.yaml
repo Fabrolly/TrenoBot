@@ -41,6 +41,7 @@ services:
         image: mariadb:10
         restart: unless-stopped
         environment:
+            - MYSQL_DATABASE=TRENOBOT
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=trenobot
             - MYSQL_PASSWORD=trenobot

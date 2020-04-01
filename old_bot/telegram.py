@@ -29,7 +29,7 @@ def on_chat_message(msg):
 
     response, keyboard = messageParser.messageParser(message, chatId, msg, isKeyboard)
 
-    if response != None and len(response) > 0:
+    if response is not None and len(response) > 0:
         if isinstance(response, str):
             if response is not None:
                 if keyboard is not None:
@@ -78,7 +78,8 @@ def sendMessageKeyboard(chatId, msg, keyboard):
 
 
 # TOKEN = loginInfo.telegramKey()
-TOKEN = ""
+with open("token.txt", "r") as content_file:
+    TOKEN = content_file.read()
 
 bot = telepot.Bot(TOKEN)
 bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})

@@ -1,8 +1,5 @@
 version: "3"
 services:
-    existing_bot:
-        volumes:
-            - ./Application:/Application
 
     backend:
         volumes:
