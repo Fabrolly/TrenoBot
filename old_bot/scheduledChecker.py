@@ -12,7 +12,7 @@ import buttons
 
 # Connecting to database
 # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-database = MySQLdb.connect("localhost", "root", "password")
+database = MySQLdb.connect("database", "root", "root")
 cursor = database.cursor(MySQLdb.cursors.DictCursor)
 cursor.execute("USE TRENOBOT;")
 
