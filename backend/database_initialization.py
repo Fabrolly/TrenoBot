@@ -8,9 +8,10 @@ import warnings
 warnings.filterwarnings("ignore", category=MySQLdb.Warning)
 # ♦import loginInfo
 
-server = os.environ.get('MARIADB_SERVER')
-user = os.environ.get('MARIADB_USER')
-password = os.environ.get('MARIADB_PASSWORD')
+server = os.environ.get("MARIADB_SERVER")
+user = os.environ.get("MARIADB_USER")
+password = os.environ.get("MARIADB_PASSWORD")
+
 
 def database_initialization():
     # Connecting to database as root

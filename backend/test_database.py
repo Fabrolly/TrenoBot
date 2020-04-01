@@ -134,8 +134,8 @@ class Monolithic(unittest.TestCase):
 # launch unit test cases
 if __name__ == "__main__":
 
-    server = os.environ.get('MARIADB_SERVER')
-    user = os.environ.get('MARIADB_USER')
-    password = os.environ.get('MARIADB_PASSWORD')
+    server = os.environ.get("MARIADB_SERVER")
+    user = os.environ.get("MARIADB_USER")
+    password = os.environ.get("MARIADB_PASSWORD")
 
     unittest.main()
