@@ -8,7 +8,7 @@ def addUserIfNotExist(msg):
 
     # Connecting to database
     # database = MySQLdb.connect("localhost","root",loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = time.strftime("%Y-%m-%d %H:%M:%S")
 

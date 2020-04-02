@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 ADD . .
 
-CMD python backend.py
+CMD python -m backend.backend

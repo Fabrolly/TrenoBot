@@ -2,45 +2,54 @@ version: "3"
 services:
     existing_bot:
         build: ./old_bot
-        image: trenobot_old_bot
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_old_bot
         restart: unless-stopped
         depends_on:
             - database
         environment:
             - TELEGRAM_API_KEY=set_it_here
+        tty: true
+        stdin_open: true
 
     backend:
         build: ./backend
-        image: trenobot_backend
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_backend
         ports:
             - 5000:5000
         depends_on:
             - database
         restart: unless-stopped
+        tty: true
+        stdin_open: true
 
     frontend:
         build: ./frontend
-        image: trenobot_frontend
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_frontend
         ports:
-            - 5000:5000
+            - 8000:5000
         depends_on:
             - backend
         restart: unless-stopped
+        tty: true
+        stdin_open: true
 
     telegram-bot:
         build: ./telegram-bot
-        image: trenobot_telegram-bot
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot
         environment:
             - TELEGRAM_API_KEY=set_it_here
         depends_on:
             - backend
             - database
         restart: unless-stopped
+        tty: true
+        stdin_open: true
 
     database:
         image: mariadb:10
         restart: unless-stopped
         environment:
+            - MYSQL_DATABASE=TRENOBOT
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=trenobot
             - MYSQL_PASSWORD=trenobot

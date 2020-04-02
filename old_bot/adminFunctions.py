@@ -9,7 +9,7 @@ def systemStats():
     msg = "<b>Statistiche</b>\n\n"
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -80,7 +80,7 @@ def systemStats():
 def broadcast(msg):
     # Connecting to database
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("localhost", "root", "password")
+    database = MySQLdb.connect("database", "root", "root")
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     msgAdmin = "<b>Messaggio mandato a:</b>\n\n"
     try:
@@ -95,7 +95,9 @@ def broadcast(msg):
         return (error, "")
 
     # TOKEN = loginInfo.telegramKey()
-    TOKEN = ""
+    with open("token.txt", "r") as content_file:
+        TOKEN = content_file.read()
+
     bot = telepot.Bot(TOKEN)
 
     for row in dbLines:

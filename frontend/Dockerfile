@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 ADD . .
 
-CMD python frontend.py
+CMD python -m frontend.frontend
