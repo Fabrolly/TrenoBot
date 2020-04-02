@@ -2,6 +2,12 @@ from flask import Flask, request, jsonify, abort
 import requests
 import datetime
 
+import database_initialization
+
+from database_initialization import database_initialization as db_inizialization
+
+db_inizialization()
+
 app = Flask(__name__)
 
 # request the Station_ID of the train by the number of the train.
