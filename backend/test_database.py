@@ -19,22 +19,19 @@ def delete_database():
     database.close()
 
 
-def show_database():
+def find_statistics_db():
     cursor = cursor_database()
     cursor.execute("show databases;")
-    print("Database esistenti:")
-    for databases in cursor:
-        print(databases[0])
-    return list(cursor)
+    for database in cursor:
+        if database[0] == "TRAINSTATISTICS":
+            return True
+    return False
 
 
 def execute_query(table_name):
     cursor = cursor_database()
     cursor.execute("use TRAINSTATISTICS;")
     cursor.execute(f"SELECT * FROM {table_name}")
-    print("Righe in Trains:")
-    for query_element in cursor:
-        print(query_element)
     return list(cursor)
 
 
@@ -50,22 +47,16 @@ class Monolithic(unittest.TestCase):
 
     def test_create_database(self):
 
-        print("\n\nTEST - CREAZIONE DATABASE\n")
-        databases = show_database()
-        self.assertEqual(len(databases), 3)
+        find_databases = find_statistics_db()
+        self.assertFalse(find_databases)
 
         db_inizialization()
 
-        print("\nCREAZIONE E INIZIALIZZAZIONE DATABASE\n")
-
-        databases = show_database()
-        self.assertEqual(len(databases), 4)
-
-        print("\nTEST PASSED")
+        find_databases = find_statistics_db()
+        self.assertTrue(find_databases)
 
     def test_insert_data(self):
 
-        print("\n\nTEST - INSERIMENTO RIGA\n")
         db_inizialization()
 
         database = MySQLdb.connect(server, user, password)
@@ -74,14 +65,12 @@ class Monolithic(unittest.TestCase):
 
         query_result = execute_query("trains")
         self.assertEqual(len(query_result), 0)
-
         departure_datetime = dt.datetime.strptime(
             "2020-03-31 16:08:00", "%Y-%m-%d %H:%M:%S"
         )
         arrival_datetime = dt.datetime.strptime(
             "2020-03-31 16:48:00", "%Y-%m-%d %H:%M:%S"
         )
-
         # stations = [{"Bergamo" : "16:08"}, {"Ponte S.Pietro" : "16:14"}, {"Cisano Caprino Berga" : "16:27"}, {"Lecco" : "16:48"}]
         stations = {}
 
@@ -89,16 +78,12 @@ class Monolithic(unittest.TestCase):
         cursor.execute(insert_query)
         database.commit()
         database.close()
-        print("\nAGGIUNTA ESEGUITA\n")
 
         query_result = execute_query("trains")
         self.assertEqual(len(query_result), 1)
 
-        print("\nTEST PASSED")
-
     def test_delete_data(self):
 
-        print("\n\nTEST - CANCELLAMENTO RIGA\n")
         db_inizialization()
         database = MySQLdb.connect(server, user, password)
         cursor = database.cursor()
@@ -123,12 +108,8 @@ class Monolithic(unittest.TestCase):
         database.commit()
         database.close()
 
-        print("\nRIMOZIONE ESEGUITA\n")
-
         query_result = execute_query("trains")
         self.assertEqual(len(query_result), 0)
-
-        print("\nTEST PASSED")
 
 
 # launch unit test cases
