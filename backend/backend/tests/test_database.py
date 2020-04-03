@@ -10,6 +10,10 @@ import MySQLdb
 
 from database_initialization import database_initialization as db_inizialization
 
+server = os.environ.get("DATABASE_HOST")
+user = os.environ.get("DATABASE_USER")
+password = os.environ.get("DATABASE_PASSWORD")
+
 
 def delete_database():
     database = MySQLdb.connect(server, user, password)
@@ -114,9 +118,5 @@ class Monolithic(unittest.TestCase):
 
 # launch unit test cases
 if __name__ == "__main__":
-
-    server = os.environ.get("DATABASE_HOST")
-    user = os.environ.get("DATABASE_USER")
-    password = os.environ.get("DATABASE_PASSWORD")
 
     unittest.main()
