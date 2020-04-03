@@ -1,16 +1,13 @@
 import unittest
-from backend import app
+from backend.backend import app
 from flask import json
 
-# python -m unittest test_app
 
-
-class TestMyApp(unittest.TestCase):
+class TestBackend(unittest.TestCase):
     def setUp(self):
         self.app = app.test_client()
 
     # RealTime informaton
-
     def test_home_data(self):
         rv = self.app.get("/")
 
