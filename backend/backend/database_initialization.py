@@ -8,9 +8,9 @@ import warnings
 warnings.filterwarnings("ignore", category=MySQLdb.Warning)
 # ♦import loginInfo
 
-server = os.environ.get("MARIADB_SERVER")
-user = os.environ.get("MARIADB_USER")
-password = os.environ.get("MARIADB_PASSWORD")
+server = os.environ.get("DATABASE_HOST")
+user = os.environ.get("DATABASE_USER")
+password = os.environ.get("DATABASE_PASSWORD")
 
 
 def database_initialization():
@@ -20,15 +20,15 @@ def database_initialization():
     cursor = database.cursor()
 
     # If the TRENOBOT database doses not exist, create and open it (if already exist a warning will be generated)
-    cursor.execute("CREATE DATABASE IF NOT EXISTS TRAINSTATISTICS;")
-    cursor.execute("use TRAINSTATISTICS;")
+    cursor.execute("CREATE DATABASE IF NOT EXISTS TRENOBOT;")
+    cursor.execute("use TRENOBOT;")
 
     # If tables doses not exist, create it (if already exist a warning will be generated)
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS trains (trainID INT PRIMARY KEY, number TEXT, origin TEXT, destination TEXT, stations JSON, departure_datetime DATETIME, arrival_datetime DATETIME, duration INT)"
+        "CREATE TABLE IF NOT EXISTS backend_trains (trainID INT PRIMARY KEY, number TEXT, origin TEXT, destination TEXT, stations JSON, departure_datetime DATETIME, arrival_datetime DATETIME, duration INT)"
     )
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS journeys (date DATETIME, trainID INT, real_departure_datetime DATETIME, real_arrival_datetime DATETIME, delay INT, state TEXT, alert TEXT, last_detection_datetime DATETIME, last_detection_station TEXT, last_update DATETIME, final_status TEXT, final_delay INT, PRIMARY KEY(date, trainID))"
+        "CREATE TABLE IF NOT EXISTS backend_journeys (date DATETIME, trainID INT, real_departure_datetime DATETIME, real_arrival_datetime DATETIME, delay INT, state TEXT, alert TEXT, last_detection_datetime DATETIME, last_detection_station TEXT, last_update DATETIME, final_status TEXT, final_delay INT, PRIMARY KEY(date, trainID))"
     )
 
     database.commit()

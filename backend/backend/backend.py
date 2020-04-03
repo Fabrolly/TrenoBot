@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, abort
 import requests
 import datetime
 
-from database_initialization import database_initialization as db_inizialization
+from .database_initialization import database_initialization as db_inizialization
 
 db_inizialization()
 

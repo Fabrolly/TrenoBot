@@ -18,6 +18,10 @@ services:
             - 5000:5000
         depends_on:
             - database
+        environment:
+            - DATABASE_HOST=database
+            - DATABASE_USER=trenobot
+            - DATABASE_PASSWORD=trenobot
         restart: unless-stopped
         tty: true
         stdin_open: true
