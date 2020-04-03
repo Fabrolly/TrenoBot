@@ -20,8 +20,8 @@ services:
             - database
         environment:
             - DATABASE_HOST=database
-            - DATABASE_USER=trenobot
-            - DATABASE_PASSWORD=trenobot
+            - DATABASE_USER=root
+            - DATABASE_PASSWORD=root
         restart: unless-stopped
         tty: true
         stdin_open: true

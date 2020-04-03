@@ -1,14 +1,11 @@
 import sys
 import os
-from os import path
-
-sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
 import datetime as dt
 import unittest
 import MySQLdb
 
-from database_initialization import database_initialization as db_inizialization
+from backend.database_initialization import database_initialization
 
 server = os.environ.get("DATABASE_HOST")
 user = os.environ.get("DATABASE_USER")
@@ -44,8 +41,7 @@ def cursor_database():
     return database.cursor()
 
 
-# class TestMssageParser(unittest.TestCase):
-class Monolithic(unittest.TestCase):
+class TestDatabase(unittest.TestCase):
     def setUp(self):
         delete_database()
 
@@ -54,14 +50,14 @@ class Monolithic(unittest.TestCase):
         find_databases = find_statistics_db()
         self.assertFalse(find_databases)
 
-        db_inizialization()
+        database_initialization(server, user, password)
 
         find_databases = find_statistics_db()
         self.assertTrue(find_databases)
 
     def test_insert_data(self):
 
-        db_inizialization()
+        database_initialization(server, user, password)
 
         database = MySQLdb.connect(server, user, password)
         cursor = database.cursor()
@@ -88,7 +84,7 @@ class Monolithic(unittest.TestCase):
 
     def test_delete_data(self):
 
-        db_inizialization()
+        database_initialization(server, user, password)
         database = MySQLdb.connect(server, user, password)
         cursor = database.cursor()
         cursor.execute("use TRENOBOT;")
@@ -114,9 +110,3 @@ class Monolithic(unittest.TestCase):
 
         query_result = execute_query("backend_trains")
         self.assertEqual(len(query_result), 0)
-
-
-# launch unit test cases
-if __name__ == "__main__":
-
-    unittest.main()

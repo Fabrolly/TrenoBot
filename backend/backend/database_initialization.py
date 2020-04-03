@@ -6,14 +6,9 @@ import MySQLdb
 import warnings
 
 warnings.filterwarnings("ignore", category=MySQLdb.Warning)
-# ♦import loginInfo
-
-server = os.environ.get("DATABASE_HOST")
-user = os.environ.get("DATABASE_USER")
-password = os.environ.get("DATABASE_PASSWORD")
 
 
-def database_initialization():
+def database_initialization(server, user, password):
     # Connecting to database as root
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
     database = MySQLdb.connect(server, user, password)
@@ -35,9 +30,3 @@ def database_initialization():
 
     # Disconnecting
     database.close()
-
-
-# launch unit test cases
-if __name__ == "__main__":
-
-    database_initialization()
