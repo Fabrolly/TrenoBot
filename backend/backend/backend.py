@@ -145,8 +145,7 @@ def tripSearch():
 
 @app.route("/api/add_train/<int:number>", methods=["GET"])
 def add_new_train_db(number):
-    return(add_train(number))
-
+    return add_train(number)
 
 
 class TrainNotFoundException(Exception):
