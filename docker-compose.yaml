@@ -29,6 +29,8 @@ services:
             - 8000:5000
         depends_on:
             - backend
+        environment:
+            - MOCK_API=1
         restart: unless-stopped
         tty: true
         stdin_open: true
