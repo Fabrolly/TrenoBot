@@ -4,12 +4,14 @@ import datetime
 import os
 
 from .database_initialization import database_initialization
+from .insert_db import add_train
 
 server = os.environ.get("DATABASE_HOST")
 user = os.environ.get("DATABASE_USER")
 password = os.environ.get("DATABASE_PASSWORD")
 
 database_initialization(server, user, password)
+
 
 app = Flask(__name__)
 
@@ -139,6 +141,12 @@ def tripSearch():
         return abort(500)
 
     return jsonify(response_json.json())
+
+
+@app.route("/api/add_train/<int:number>", methods=["GET"])
+def add_new_train_db(number):
+    return(add_train(number))
+
 
 
 class TrainNotFoundException(Exception):
