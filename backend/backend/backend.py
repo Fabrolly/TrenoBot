@@ -1,6 +1,15 @@
 from flask import Flask, request, jsonify, abort
 import requests
 import datetime
+import os
+
+from .database_initialization import database_initialization
+
+server = os.environ.get("DATABASE_HOST")
+user = os.environ.get("DATABASE_USER")
+password = os.environ.get("DATABASE_PASSWORD")
+
+database_initialization(server, user, password)
 
 app = Flask(__name__)
 
