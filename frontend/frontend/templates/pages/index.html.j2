@@ -1,0 +1,28 @@
+{% extends "base.html.j2" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <section class="index__hero text-light">
+        <div class="container">
+            <div class="h1">TrenoBot <small class="text-light"> - Portale statistiche</small></div>
+            <p class="lead">Visualizza le statistiche storiche dei tuoi treni</p>
+            <a class="btn btn-primary" href="#ricerca">Provalo ora</a>
+        </div>
+    </section>
+    <section class="container py-3">
+        <h2>Provalo</h2>
+        <form action="{{ url_for('stats.view') }}" method="GET">
+            <div class="form-group">
+                <label>Inserisci il numero del treno di cui vuoi vedere le statistiche storiche</label>
+                <input class="form-control" type="text" placeholder="Esempio: 5050" required name="train">
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary" data-test="submit-search">
+                    <i class="mdi mdi-magnify"></i>
+                    Visualizza statistiche
+                </button>
+            </div>
+        </form>
+    </section>
+{% endblock content %}
