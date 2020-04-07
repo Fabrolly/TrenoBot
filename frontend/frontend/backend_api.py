@@ -60,9 +60,7 @@ if os.environ.get("MOCK_API"):
         "GET",
         f"{API_BASE_URL}/stats/general",
         status_code=200,
-        json={
-            "avg_delay": 42,
-        },
+        json={"avg_delay": 42,},
     )
     r.mount(API_BASE_URL, adapter)
 
