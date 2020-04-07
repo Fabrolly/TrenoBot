@@ -51,7 +51,17 @@ if os.environ.get("MOCK_API"):
                 {"id": 6, "delay": 120},
                 {"id": 5, "delay": 67},
                 {"id": 4, "delay": 34},
-            ]
+            ],
+        },
+    )
+    r.mount(API_BASE_URL, adapter)
+
+    adapter.register_uri(
+        "GET",
+        f"{API_BASE_URL}/stats/general",
+        status_code=200,
+        json={
+            "avg_delay": 42,
         },
     )
     r.mount(API_BASE_URL, adapter)
@@ -69,9 +79,7 @@ def get_train_stats(train_id: str):
 
 
 def register_train(train_id: str):
-    response = r.post(f"{API_BASE_URL}/stats/train", data = {
-        "train": train_id
-    })
+    response = r.post(f"{API_BASE_URL}/stats/train", data={"train": train_id})
     if response.status_code == 404:
         return None
 
@@ -80,8 +88,17 @@ def register_train(train_id: str):
 
     return response.json()
 
+
 def get_ranking():
     response = r.get(f"{API_BASE_URL}/stats/ranking")
+    if response.status_code != 200:
+        raise Exception("Something wrong with the backend")
+
+    return response.json()
+
+
+def get_general_stats():
+    response = r.get(f"{API_BASE_URL}/stats/general")
     if response.status_code != 200:
         raise Exception("Something wrong with the backend")
 

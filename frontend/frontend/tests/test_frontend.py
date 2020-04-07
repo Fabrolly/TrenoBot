@@ -32,3 +32,9 @@ class TestFrontend(unittest.TestCase):
         self.assertTrue(browser.is_text_present("Treni peggiori"))
         self.assertTrue(browser.is_text_present("Treni migliori"))
         self.assertTrue(browser.is_text_present("Ritardo medio"))
+
+    def test_average_delay(self):
+        browser = Browser("flask", app=app)
+        browser.visit("/")
+        self.assertTrue(browser.is_text_present("ritardo medio"))
+        self.assertTrue(browser.is_text_present("30 giorni"))

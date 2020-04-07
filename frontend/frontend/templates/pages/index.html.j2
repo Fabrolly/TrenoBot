@@ -25,4 +25,11 @@
             </div>
         </form>
     </section>
+    <hr>
+    <section class="container my-3 mb-5">
+        <div class="text-center h4">
+            <i class="mdi mdi-gauge" style="font-size:10rem"></i>
+            <div>Il ritardo medio registrato tra tutti i treni negli ultimi 30 giorni è di<br> <b class="display-3">{{ stats["avg_delay"] }} minuti</b></div>
+        </div>
+    </section>
 {% endblock content %}

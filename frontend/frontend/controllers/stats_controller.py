@@ -30,10 +30,11 @@ def register():
     else:
         return redirect(url_for("stats.view", train=train_id))
 
+
 def ranking():
     ranking_response = backend_api.get_ranking()
     return render_template(
         "train/ranking.html.j2",
         best_trains=ranking_response["best"],
-        worst_trains=ranking_response["worst"]
+        worst_trains=ranking_response["worst"],
     )
