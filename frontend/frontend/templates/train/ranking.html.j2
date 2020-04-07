@@ -1,0 +1,34 @@
+{% extends "base.html.j2" %}
+
+{% block title %}Treni migliori e peggiori{% endblock %}
+
+{% block content %}
+<div class="container pt-3">
+<h1>Classifica treni</h1>
+<p>Vengono riportati i treni con meno ritardo e con più ritardo.</p>
+<div class="row">
+    <div class="col">
+        <h2>Treni peggiori</h2>
+        <ul class="list-group">
+            {% for train in worst_trains %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ url_for('stats.view', train=train['id'])}}">Treno {{ train['id'] }}</a>
+                    <span class="badge badge-danger badge-pill">Ritardo medio: {{ train['delay'] }} minuti</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col">
+        <h2>Treni migliori</h2>
+        <ul class="list-group">
+            {% for train in best_trains %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{{ url_for('stats.view', train=train['id'])}}">Treno {{ train['id'] }}</a>
+                    <span class="badge badge-success badge-pill">Ritardo medio: {{ train['delay'] }} minuti</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+</div>
+{% endblock %}
