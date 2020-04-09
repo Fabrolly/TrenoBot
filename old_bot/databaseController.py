@@ -14,6 +14,9 @@ def createTrain(trainNumber):
 
     # Connecting to database
     database = connect_db()
+    if isinstance(database, str):
+        if "Connection Error" in database:
+            exit()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
 
@@ -54,6 +57,9 @@ def addOrUpdateTrainDB(number):
 
     # Connecting to database
     database = connect_db()
+    if isinstance(database, str):
+        if "Connection Error" in database:
+            exit()
     cursor = database.cursor()
 
     # Prepare name filed for INSERT record on DB
@@ -114,6 +120,9 @@ def addOrUpdateTrainDB(number):
         return "Got Error {!r}, errno is {}".format(e, e.args[0])
 
     database = connect_db()
+    if isinstance(database, str):
+        if "Connection Error" in database:
+            exit()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
     cursor.execute("SELECT * FROM trains WHERE number = '%d'" % (int(number)))

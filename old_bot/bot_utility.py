@@ -18,4 +18,9 @@ def connect_db():
     USER = os.environ.get("DATABASE_USER")
     PASSWORD = os.environ.get("DATABASE_PASSWORD")
 
-    return MySQLdb.connect(SERVER, USER, PASSWORD)
+    try:
+        connect = MySQLdb.connect(SERVER, USER, PASSWORD)
+        return connect
+    except MySQLdb.Error as er:
+        print(er)
+    return "Connection Error!"

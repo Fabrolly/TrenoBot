@@ -8,3 +8,5 @@ RUN pip install -r requirements.txt
 ADD . .
 
 CMD python starter.py
+#WORKDIR /test
+#CMD python -m unittest

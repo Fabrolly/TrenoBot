@@ -11,6 +11,9 @@ def systemStats():
     msg = "<b>Statistiche</b>\n\n"
     # Connecting to database
     database = connect_db()
+    if isinstance(database, str):
+        if "Connection Error" in database:
+            exit()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -81,6 +84,9 @@ def systemStats():
 def broadcast(msg):
     # Connecting to database
     database = connect_db()
+    if isinstance(database, str):
+        if "Connection Error" in database:
+            exit()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     msgAdmin = "<b>Messaggio mandato a:</b>\n\n"
     try:

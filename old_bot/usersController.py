@@ -9,6 +9,9 @@ def addUserIfNotExist(msg):
 
     # Connecting to database
     database = connect_db()
+    if isinstance(database, str):
+        if "Connection Error" in database:
+            exit()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = time.strftime("%Y-%m-%d %H:%M:%S")
 

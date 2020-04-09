@@ -16,6 +16,9 @@ from bot_utility import connect_db
 def updateAlertsDatabase():
     # Connecting to database
     database = connect_db()
+    if isinstance(database, str):
+        if "Connection Error" in database:
+            exit()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
 
@@ -98,6 +101,9 @@ updateAlertsDatabase()
 
 # Connecting to database
 database = connect_db()
+if isinstance(database, str):
+    if "Connection Error" in database:
+        exit()
 cursor = database.cursor(MySQLdb.cursors.DictCursor)
 cursor.execute("USE TRENOBOT;")
 

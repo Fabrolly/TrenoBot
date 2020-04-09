@@ -4,3 +4,4 @@ python_dateutil==2.8.1
 telepot==12.7
 mysqlclient==1.4.6
 requests==2.22.0
+validators==0.14.3

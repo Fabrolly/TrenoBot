@@ -7,6 +7,9 @@ from bot_utility import connect_db
 
 # Connecting to database as root
 database = connect_db()
+if isinstance(database, str):
+    if "Connection Error" in database:
+        exit()
 cursor = database.cursor()
 
 # Print all the databases in the system (for debug purpose only, can be removed)
