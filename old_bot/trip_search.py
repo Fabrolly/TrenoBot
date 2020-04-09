@@ -2,16 +2,15 @@ import datetime
 import time
 import requests
 import json
-import telepot
+
+# import telepot
 from emoji import emojize
 import buttons
+from bot_utility import create_bot
 
 # import loginInfo
 
-# TOKEN = loginInfo.telegramKey()
-with open("token.txt", "r") as content_file:
-    TOKEN = content_file.read()
-bot = telepot.Bot(TOKEN)
+bot = create_bot()
 
 
 def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id):
@@ -35,6 +34,8 @@ def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id
         return 0
 
     parsed_json = parsed_json.json()
+    response_list = []
+    keyboard_list = []
     try:
         for sol in range(0, 2):  # visualizzare le prime 2 opzioni
             risp = ""
@@ -110,29 +111,17 @@ def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id
                 departure,
                 arrival,
             )
-            bot.sendMessage(
-                chat_id,
-                emojize(response, use_aliases=True),
-                parse_mode="html",
-                disable_web_page_preview=None,
-                disable_notification=None,
-                reply_markup=keyboard,
-            )
+            response_list.append(response)
+            keyboard_list.append(keyboard)
     except Exception as e:
         print(e)
         keyboard = buttons.backMainMenuButtons()
-        bot.sendMessage(
-            chat_id,
-            emojize(
-                "Le API di viaggiotreno non sono in grado di rispondere a questa richeiesta anche se il tuo comando e' valido.\n\nIl motivo e' sconosciuto e da attributire a viaggiatreno.it\n\nCerca qui il tuo treno: http://www.trenitalia.com/ \n\nQuando sai il numero del tuo treno torna qui! %s"
-                % e,
-                use_aliases=True,
-            ),
-            parse_mode="html",
-            disable_web_page_preview=None,
-            disable_notification=None,
-            reply_markup=keyboard,
+        return (
+            "Le API di viaggiotreno non sono in grado di rispondere a questa richeiesta anche se il tuo comando e' valido.\n\nIl motivo e' sconosciuto e da attributire a viaggiatreno.it\n\nCerca qui il tuo treno: http://www.trenitalia.com/ \n\nQuando sai il numero del tuo treno torna qui!",
+            keyboard,
         )
+
+    return (response_list, keyboard_list)
 
 
 def date_parser(command):
@@ -151,18 +140,5 @@ def date_parser(command):
 
     if command == "":
         output = "%s-%s" % (now.day, now.month)
-
-    giorno = output[: output.index("-")]
-    mese = output[output.index("-") + 1 :]
-    if int(giorno) > 31:
-        # il Giorno inserito e' inesistente. Verra' utilizzato il GIORNO ODIERNO
-        output = "%s-%s" % (now.day, now.month)
-
-    if int(mese) > 12:
-        return (
-            "Attenzione, il Mese inserito e' inesistente.\n\\nMese ricevuto = %s\n\nVerra' utilizzato il MESE ODIERNO"
-            % (mese),
-            "",
-        )
 
     return output

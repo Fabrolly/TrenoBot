@@ -2,18 +2,20 @@ import MySQLdb
 import time
 from datetime import datetime
 import datetime as dt
-import telepot
+
+# import telepot
 from emoji import emojize
 import buttons
 import urllib.request, urllib.parse, urllib.error
+from bot_utility import create_bot
+from bot_utility import connect_db
 
 # import loginInfo
 
 
 def updateAlertsDatabase():
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
 
@@ -46,7 +48,9 @@ def updateAlertsDatabase():
             lastAlert = page[page.index("<p> <p>") + 7 : page.index("</p></p>")]
 
         if (
-            "disagi" in lastAlert.lower()
+            "avverse" in lastAlert.lower()
+            or "retifica" in lastAlert.lower()
+            or "disagi" in lastAlert.lower()
             or "<strong>" in lastAlert.lower()
             or "cancellato" in lastAlert.lower()
             or "non sar" in lastAlert.lower()
@@ -79,11 +83,7 @@ def updateAlertsDatabase():
 
 
 def sendMessageKeyboard(chatId, msg, keyboard):
-    # TOKEN = loginInfo.telegramKey()
-    with open("token.txt", "r") as content_file:
-        TOKEN = content_file.read()
-
-    bot = telepot.Bot(TOKEN)
+    bot = create_bot()
     bot.sendMessage(
         chatId,
         emojize(msg, use_aliases=True),
@@ -97,8 +97,7 @@ def sendMessageKeyboard(chatId, msg, keyboard):
 updateAlertsDatabase()
 
 # Connecting to database
-# database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-database = MySQLdb.connect("database", "root", "root")
+database = connect_db()
 cursor = database.cursor(MySQLdb.cursors.DictCursor)
 cursor.execute("USE TRENOBOT;")
 

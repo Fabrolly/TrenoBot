@@ -3,6 +3,7 @@ import trip_search
 import buttons
 from dateutil import parser
 import MySQLdb
+from bot_utility import connect_db
 
 # import loginInfo
 
@@ -37,8 +38,7 @@ def programInfoFromSearch(
     destination = destination.upper()
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = databaseController.time.strftime("%Y-%m-%d %H:%M:%S")
     try:
@@ -121,8 +121,7 @@ def programInfo(number, chatId, days, departure, arrival):
         )
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = databaseController.time.strftime("%Y-%m-%d %H:%M:%S")
     try:
@@ -175,8 +174,7 @@ def programInfo(number, chatId, days, departure, arrival):
 def showList(user_id):
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
 
     try:
@@ -223,8 +221,7 @@ def showList(user_id):
 
 def showListDirec(user_id):
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -238,7 +235,7 @@ def showListDirec(user_id):
         return error
 
     if row > 0:
-        response = ":arrow_double_down: Ecco le due direttrici :arrow_double_down:"
+        response = ":arrow_double_down: Ecco le tue direttrici :arrow_double_down:"
         c = 0
         for item in dbLine:
             c = c + 1
@@ -284,8 +281,7 @@ def daysParser(days):
 def removeDir(dirNumber, userId):
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -316,8 +312,7 @@ def removeDir(dirNumber, userId):
 def remove(trainNumber, userId):
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -348,8 +343,7 @@ def remove(trainNumber, userId):
 
 def addDire(number, chatId):
 
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = databaseController.time.strftime("%Y-%m-%d %H:%M:%S")
     try:
@@ -382,8 +376,7 @@ def addDire(number, chatId):
 def summary(chatId):
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     response = "<b>Riepilogo del tuo account</b>\n\n"
 

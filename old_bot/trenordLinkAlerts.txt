@@ -13,3 +13,29 @@ Bergamo-Carnate-Milano http://www.trenord.it/IT/servizi/direttrici/D011/bergamo-
 Seregno-Carnate http://www.trenord.it/IT/servizi/direttrici/D039/seregno---carnate.aspx
 Bergamo-Treviglio http://www.trenord.it/IT/servizi/direttrici/D040/bergamo---treviglio.aspx
 Bergamo-Pioltello-Milano http://www.trenord.it/IT/servizi/direttrici/D012/bergamo---pioltello---milano.aspx
+Cremona-Treviglio http://www.trenord.it/IT/servizi/direttrici/D013/cremona---treviglio.aspx
+Verona-Brescia-Treviglio-Milano http://www.trenord.it/IT/servizi/direttrici/D014/verona---brescia---treviglio---milano.aspx
+Brescia-Piadena-Parma http://www.trenord.it/IT/servizi/direttrici/D015/brescia---piadena---parma.aspx
+Brescia-Cremona http://www.trenord.it/IT/servizi/direttrici/D016/brescia---cremona.aspx
+Mantova-Cremona-Lodi-Milano http://www.trenord.it/IT/servizi/direttrici/D017/mantova---cremona---lodi---milano.aspx
+Piacenza-Lodi-Milano http://www.trenord.it/IT/servizi/direttrici/D018/piacenza---lodi---milano.aspx
+Alessandria-Voghera-Pavia-Milano http://www.trenord.it/IT/servizi/direttrici/D019/alessandria---voghera---pavia---milano.aspx
+Stradella-Pavia-Milano http://www.trenord.it/IT/servizi/direttrici/D020/stradella---pavia---milano.aspx
+Pavia-Codogno http://www.trenord.it/IT/servizi/direttrici/D021/pavia---codogno.aspx
+Alessandria-Mortara-Milano http://www.trenord.it/IT/servizi/direttrici/D022/alessandria---mortara---milano.aspx
+Mortara-Novara http://www.trenord.it/IT/servizi/direttrici/D023/mortara---novara.aspx
+Pavia-Torreberetti-Alessandria http://www.trenord.it/IT/servizi/direttrici/D024/pavia---torreberetti---alessandria.aspx
+Pavia-Mortara-Vercelli http://www.trenord.it/IT/servizi/direttrici/D025/pavia---mortara---vercelli.aspx
+Voghera-Piacenza http://www.trenord.it/IT/servizi/direttrici/D026/voghera---piacenza.aspx
+Laveno-Varese-Saronno-Milano http://www.trenord.it/IT/servizi/direttrici/D034/laveno---varese---saronno---milano.aspx
+Como-Saronno-Milano http://www.trenord.it/IT/servizi/direttrici/D032/como---saronno---milano.aspx
+Novara-Saronno-Milano http://www.trenord.it/IT/servizi/direttrici/D033/novara---saronno---milano.aspx
+Asso-Seveso-Milano http://www.trenord.it/IT/servizi/direttrici/D035/asso---seveso---milano.aspx
+Brescia-Iseo-Edolo http://www.trenord.it/IT/servizi/direttrici/D028/brescia---iseo---edolo.aspx
+Malpensa-Milano Centrale http://www.trenord.it/IT/servizi/direttrici/D029/malpensa---milano-centrale.aspx
+Saronno-Milano-Lodi http://www.trenord.it/IT/servizi/direttrici/D031/saronno---milano---lodi.aspx
+Mariano/Camnago-Seveso-Milano http://www.trenord.it/IT/servizi/direttrici/D036/mariano-camnago---seveso---milano.aspx
+Lecco-Carnate-Milano http://www.trenord.it/it/circolazione-e-linee/direttrici.aspx
+Treviglio-Milano-Varese http://www.trenord.it/IT/servizi/direttrici/D027/treviglio---milano---varese.aspx
+Malpensa-Varese-Mendrisio-Como http://www.trenord.it/IT/servizi/direttrici/D042/malpensa---varese---mendrisio---como.aspx
+Milano_Rogoredo-Milano Bovisa http://www.trenord.it/IT/servizi/direttrici/D037/milano-rogoredo---milano-bovisa.aspx

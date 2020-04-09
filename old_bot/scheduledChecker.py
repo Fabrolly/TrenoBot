@@ -6,13 +6,13 @@ import datetime as dt
 import telepot
 from emoji import emojize
 import buttons
+from bot_utility import connect_db
 
 # import loginInfo
 
 
 # Connecting to database
-# database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-database = MySQLdb.connect("database", "root", "root")
+database = connect_db()
 cursor = database.cursor(MySQLdb.cursors.DictCursor)
 cursor.execute("USE TRENOBOT;")
 

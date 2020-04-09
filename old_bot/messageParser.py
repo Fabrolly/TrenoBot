@@ -30,8 +30,10 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     if "menu direttrice" in msg:
-        response = menuMessages.directressAddMenu()
-        return response
+        send_msg, send_buttons = menuMessages.directressAddMenu()
+        send_msg = [("https://imgur.com/a/wIfQbz2", "url"), send_msg]
+        send_buttons = ["", send_buttons]
+        return (send_msg, send_buttons)
 
     if "menu principale" in msg:
         response = menuMessages.mainMenu()
@@ -53,23 +55,20 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         response = menuMessages.searchMenu()
         return response
 
-    if "menu gprogrammazione" in msg:
-        response = menuMessages.programMenu()
-        return response
-
-    if "menu programma" in msg:
-        response = menuMessages.addListMenu()
-        return response
-
     if "treno" in msg or msg.isdigit():
         response = realTimeParser(msg, chatId)
         return response
 
     if "programma" in msg:
-        response = programParser(msg, chatId)
+        if "menu programmazione" in msg:
+            response = menuMessages.programMenu()
+        elif "menu programma" in msg:
+            response = menuMessages.addListMenu()
+        else:
+            response = programParser(msg, chatId)
         return response
 
-    if "rieplilogo" in msg:
+    if "riepilogo" in msg:
         response = messageResponder.summary(chatId)
         return response
 
@@ -96,7 +95,7 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     # ----admin functions
-
+    """
     if chatId == int(loginInfo.adminTelegramId()):
         if "/stats" in msg:
             return adminFunctions.systemStats()
@@ -104,6 +103,7 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
             msg = msg[11:]
             if msg != "":
                 return adminFunctions.broadcast(msg)
+    """
 
     return ("Sintassi comando non valida\nRiprova :interrobang:", ())
 
@@ -173,17 +173,21 @@ def trip_search_parser(command, chatId):
             arrivo = command[command.index(" ") + 1 :]
             arrivo = arrivo[arrivo.index(" ") + 1 :]
             arrivo = arrivo[: arrivo.index(" ") :]
-            data = trip_search.date_parser(
-                command[command.index(" il ") + 4 : command.index(" alle ")]
-            )
-            ora = command[command.index(" alle ") + 6 :]
+            if command.index(" il ") <= command.index(" alle "):
+                data = trip_search.date_parser(
+                    command[command.index(" il ") + 4 : command.index(" alle ")]
+                )
+                ora = command[command.index(" alle ") + 6 :]
+            else:
+                data = trip_search.date_parser(command[command.index(" il ") + 4 :])
+                ora = command[command.index(" alle ") + 6 : command.index(" il ")]
         if " il " in command and " alle " not in command:
             arrivo = command[command.index(" ") + 1 :]
             arrivo = arrivo[arrivo.index(" ") + 1 :]
             arrivo = arrivo[: arrivo.index(" ")]
             data = trip_search.date_parser(command[command.index(" il ") + 4 :])
             ora = "%s:%s" % (now.hour, now.minute)
-    else:
+    elif " da " in command and " a " in command:
         partenza = command[command.index(" da ") + 4 : command.index(" a ")]
         if " il " not in command and " alle " not in command:
             arrivo = command[command.index(" a ") + 3 :]
@@ -194,15 +198,35 @@ def trip_search_parser(command, chatId):
             data = trip_search.date_parser("")
             ora = command[command.index(" alle ") + 6 :]
         if " il " in command and " alle " in command:
-            arrivo = command[command.index(" a ") + 3 : command.index(" il ")]
-            data = trip_search.date_parser(
-                command[command.index(" il ") + 4 : command.index(" alle ")]
-            )
-            ora = command[command.index(" alle ") + 6 :]
+            if command.index(" il ") <= command.index(" alle "):
+                arrivo = command[command.index(" a ") + 3 : command.index(" il ")]
+                ora = command[command.index(" alle ") + 6 :]
+                data = trip_search.date_parser(
+                    command[command.index(" il ") + 4 : command.index(" alle ")]
+                )
+            else:
+                arrivo = command[command.index(" a ") + 3 : command.index(" alle ")]
+                ora = command[command.index(" alle ") + 6 : command.index(" il ")]
+                data = trip_search.date_parser(command[command.index(" il ") + 4 :])
         if " il " in command and " alle " not in command:
             arrivo = command[command.index(" a ") + 3 : command.index(" il ")]
             data = trip_search.date_parser(command[command.index(" il ") + 4 :])
             ora = "%s:%s" % (now.hour, now.minute)
+
+    try:
+        datetime.datetime(
+            year=now.year,
+            month=int(data[(data.index("-") + 1) :]),
+            day=int(data[: data.index("-")]),
+            hour=int(ora[: ora.index(":")]),
+            minute=int(ora[(ora.index(":") + 1) :]),
+        )
+    except ValueError:
+        return (
+            u"Attenzione, l'ora o la data inserita è <b>errata</b>.\n\nInput ricevuto = %s-%s %s\nLa preghiamo di riprovare. :pensive:"
+            % (data, now.year, ora),
+            "",
+        )
 
     # Sostituisco spazi con _
     arrivo = arrivo.replace(" ", "_")
@@ -214,11 +238,11 @@ def trip_search_parser(command, chatId):
     if ":" not in ora:
         ora += str(":00")
 
-    trip_search.trip_search(
+    trip_response = trip_search.trip_search(
         command, arrivo, partenza, mese, giorno, ora, data, now, chatId
     )
 
-    return ("", "")
+    return trip_response
 
 
 def removeParser(msg, chatId):
@@ -241,5 +265,9 @@ def removeDirParser(chatId, msg):
 
 def direParser(msg, chatId):
     message = msg
-    numbers = re.findall("\d+", message)
-    return messageResponder.addDire(numbers[0], chatId)
+    numbers = re.findall("\-?\d+", message)
+    exluded_index = [38, 41] + list(range(43, 50))
+    num_direttrici = [x for x in range(1, 51) if x not in exluded_index]
+    if int(numbers[0]) not in num_direttrici:
+        return ("Error: direttrice <b>non valida!</b> :pensive:", "")
+    return messageResponder.addDire(int(numbers[0]), chatId)

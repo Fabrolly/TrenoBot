@@ -1,15 +1,16 @@
 import MySQLdb
 
 # import loginInfo
-import telepot
+# import telepot
 from emoji import emojize
+from bot_utility import create_bot
+from bot_utility import connect_db
 
 
 def systemStats():
     msg = "<b>Statistiche</b>\n\n"
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     try:
         cursor.execute("USE TRENOBOT;")
@@ -79,8 +80,7 @@ def systemStats():
 
 def broadcast(msg):
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     msgAdmin = "<b>Messaggio mandato a:</b>\n\n"
     try:
@@ -94,11 +94,7 @@ def broadcast(msg):
         error = "Got Error {!r}, errno is {}".format(e, e.args[0])
         return (error, "")
 
-    # TOKEN = loginInfo.telegramKey()
-    with open("token.txt", "r") as content_file:
-        TOKEN = content_file.read()
-
-    bot = telepot.Bot(TOKEN)
+    bot = create_bot()
 
     for row in dbLines:
         bot.sendMessage(

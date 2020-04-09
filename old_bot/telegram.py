@@ -1,6 +1,7 @@
 import telepot
 import messageParser
 from emoji import emojize
+from bot_utility import create_bot
 
 # import loginInfo
 
@@ -54,14 +55,18 @@ def on_chat_message(msg):
         else:
             for item, key in zip(response, keyboard):
                 if response is not None:
-                    bot.sendMessage(
-                        chatId,
-                        emojize(item, use_aliases=True),
-                        parse_mode="html",
-                        disable_web_page_preview=None,
-                        disable_notification=None,
-                        reply_markup=key,
-                    )
+                    if isinstance(item, tuple):  # caso menu direttrice
+                        if item[1] == "url":
+                            bot.sendPhoto(chatId, item[0])
+                    else:
+                        bot.sendMessage(
+                            chatId,
+                            emojize(item, use_aliases=True),
+                            parse_mode="html",
+                            disable_web_page_preview=None,
+                            disable_notification=None,
+                            reply_markup=key,
+                        )
                 else:
                     print("messaggio non valido")
 
@@ -77,11 +82,7 @@ def sendMessageKeyboard(chatId, msg, keyboard):
     )
 
 
-# TOKEN = loginInfo.telegramKey()
-with open("token.txt", "r") as content_file:
-    TOKEN = content_file.read()
-
-bot = telepot.Bot(TOKEN)
+bot = create_bot()
 bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})
 
 print("Listening ...")

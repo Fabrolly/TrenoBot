@@ -4,6 +4,7 @@ from datetime import datetime
 import datetime as dt
 import requests
 import train
+from bot_utility import connect_db
 
 # import loginInfo
 
@@ -12,8 +13,7 @@ def createTrain(trainNumber):
     now = dt.datetime.now()
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root",loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
 
@@ -53,8 +53,7 @@ def addOrUpdateTrainDB(number):
     jsonapi = jsonapi.json()
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor()
 
     # Prepare name filed for INSERT record on DB
@@ -114,8 +113,7 @@ def addOrUpdateTrainDB(number):
         database.close()
         return "Got Error {!r}, errno is {}".format(e, e.args[0])
 
-    # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("USE TRENOBOT;")
     cursor.execute("SELECT * FROM trains WHERE number = '%d'" % (int(number)))

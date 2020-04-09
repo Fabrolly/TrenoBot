@@ -214,7 +214,7 @@ def mainMenuButtons():
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Treni Monitorati", callback_data="Menu gprogrammazione"
+                    text="Menu' Treni Monitorati", callback_data="Menu programmazione"
                 )
             ],
             [
@@ -225,7 +225,7 @@ def mainMenuButtons():
             [
                 InlineKeyboardButton(
                     text="Riepilogo completo dei miei avvisi",
-                    callback_data="Rieplilogo",
+                    callback_data="Riepilogo",
                 )
             ],
         ]

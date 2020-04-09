@@ -1,16 +1,12 @@
 # This class initialize the database and the necessary tables
 # For more information about DB see: /Documentation/Infrastructure and technologies.md
-import MySQLdb
 from crontab import CronTab
-import warnings
+from bot_utility import connect_db
 
-
-warnings.filterwarnings("ignore", category=MySQLdb.Warning)
-# ♦import loginInfo
+# import loginInfo
 
 # Connecting to database as root
-# database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
-database = MySQLdb.connect("database", "root", "root")
+database = connect_db()
 cursor = database.cursor()
 
 # Print all the databases in the system (for debug purpose only, can be removed)
@@ -33,6 +29,7 @@ cursor.execute(
 cursor.execute(
     "CREATE TABLE IF NOT EXISTS user_train (user_id INT, train_id TEXT, train_number INT, days TEXT, departure_datetime DATETIME, arrival_datetime DATETIME, origin TEXT, destination TEXT, last_alert TEXT, created_at DATETIME, PRIMARY KEY(user_id, train_id(10), train_number))"
 )
+cursor.execute("DROP TABLE IF EXISTS directress_alerts;")
 cursor.execute(
     "CREATE TABLE IF NOT EXISTS directress_alerts (id INT PRIMARY KEY, name TEXT, trenord_link TEXT, last_alert_text TEXT, last_update_datetime DATETIME)"
 )
@@ -49,6 +46,12 @@ with open("./trenordLinkAlerts.txt") as f:
     content = f.readlines()
     for lines in content:
         cont = cont + 1
+        # jump these lines
+        if cont == 38 or cont == 41:
+            cont = cont + 1
+        elif cont == 43:
+            cont = 50
+        assert cont <= 50
         args = lines.split(" ")
         cursor.execute(
             "INSERT IGNORE INTO directress_alerts (id, name, trenord_link) VALUES (%s, '%s', '%s');"

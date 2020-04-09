@@ -32,21 +32,9 @@ def addListMenu():
 
 
 def directressAddMenu():
-    print("arrivo quiiii")
-    mess = ":eyes: <b>Aggiungi una Direttrice Trenord alla tua Lista!</b>\n\n<i>Quando trenord pubblica un tweet o un avviso relativo a delle problematiche su una direttrice verrai immediatamente avvisato!</i>\n\n<b>Ecco le direttrici disponibili:</b>"
-    cont = 0
-    with open("./trenordLinkAlerts.txt") as f:
-        content = f.readlines()
-        print("file aperto!")
-        for lines in content:
-            cont = cont + 1
-            args = lines.split(" ")
-            mess += "\n%s - %s" % (cont, args[0])
-
-    mess += "\n\n<b>Scrivi</b> <i>'Direttrice Numero'</i> per aggiungere una direttrice.\n\nEsempio:\n<i>Direttrice 1</i>"
-    f.close()
+    mess = ":eyes: <b>Aggiungi una Direttrice Trenord alla tua Lista!</b>\n\n<i>Quando trenord pubblica un tweet o un avviso relativo a delle problematiche su una direttrice verrai immediatamente avvisato!</i>\n\nIndividua la tua direttrice nell'elenco qui sopra."
+    mess += "\n\n<b>Per aggiungere una direttrice, scrivi:\n</b> <i>'Direttrice Numero'</i>\n\n<b>Esempio:</b>\n<i>Direttrice 1</i>"
     keyboard = buttons.trenordAlertMenu()
-    print("ritorno funzione!")
     return (mess, keyboard)
 
 

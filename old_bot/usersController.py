@@ -1,5 +1,6 @@
 import MySQLdb
 import time
+from bot_utility import connect_db
 
 # import loginInfo
 
@@ -7,8 +8,7 @@ import time
 def addUserIfNotExist(msg):
 
     # Connecting to database
-    # database = MySQLdb.connect("localhost","root",loginInfo.databasePWS())
-    database = MySQLdb.connect("database", "root", "root")
+    database = connect_db()
     cursor = database.cursor(MySQLdb.cursors.DictCursor)
     now = time.strftime("%Y-%m-%d %H:%M:%S")
 

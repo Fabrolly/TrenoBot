@@ -7,7 +7,10 @@ services:
         depends_on:
             - database
         environment:
-            - TELEGRAM_API_KEY=set_it_here
+            - DATABASE_HOST=database
+            - DATABASE_USER=root
+            - DATABASE_PASSWORD=root
+            - TELEGRAM_API_KEY=1131079569:AAHGYPKGHQEBgEnmGXf3x771TwDVuD4QvuE
         tty: true
         stdin_open: true
 
@@ -38,7 +41,6 @@ services:
             - backend
             - database
         restart: unless-stopped
-
 
     database:
         image: mariadb:10
