@@ -6,7 +6,6 @@ import os
 from .database_initialization import database_initialization
 from .insert_db import add_train
 
-<<<<<<< HEAD
 server = os.environ.get("DATABASE_HOST")
 user = os.environ.get("DATABASE_USER")
 password = os.environ.get("DATABASE_PASSWORD")
@@ -14,8 +13,6 @@ password = os.environ.get("DATABASE_PASSWORD")
 database_initialization(server, user, password)
 
 
-=======
->>>>>>> sprint1
 app = Flask(__name__)
 
 # request the Station_ID of the train by the number of the train.
