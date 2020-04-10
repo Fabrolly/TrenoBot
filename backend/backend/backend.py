@@ -142,11 +142,6 @@ def add_new_train_db(number):
     return add_train(number)
 
 
-@app.route("/api/checkarrival", methods=["GET"])
-def check():
-    from .check_journey import check_arrival
-
-    return check_arrival()
 
 
 class TrainNotFoundException(Exception):

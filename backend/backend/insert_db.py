@@ -6,6 +6,8 @@ from datetime import datetime
 import mysql.connector
 from mysql.connector import Error
 import json
+from .check_journey import add_journey_db
+
 
 
 def db_connection():
@@ -25,11 +27,9 @@ def check_existing(number):
     records = cursor.fetchall()
 
     for row in records:
-        print(row)
         if row["trainID"] == number:
             return True
-        else:
-            return False
+    return False
 
 
 def add_to_db(json_train):
@@ -61,12 +61,30 @@ def add_to_db(json_train):
         train_duration,
     )
 
-    cursor.execute(insert_query, insert_tuple)
-    database.commit()
+    try:
+        cursor.execute(insert_query, insert_tuple)
+        database.commit()
+    except Exception as e:
+        return e
+    return True
+
+def stats_json_fetch(trainID):
+    import pandas as pd
+    database = db_connection()
+    cursor = database.cursor(dictionary=True)
+    query = "SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration  FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID=%s ORDER BY backend_journeys.DATE DESC" %(trainID)
+    cursor.execute(query)
+    json_string = json.dumps(cursor.fetchall(), indent=4, sort_keys=True, default=str)
+
+
+
+    return json_string
+
 
 
 def add_train(number):
     if check_existing(number):
+        return stats_json_fetch(number)
         return "il treno é nel db!"  # TODO: devo ritornarci le statistiche!
     else:
         json_train = requests.get("http://backend:5000/api/train/%s" % number)
@@ -77,5 +95,8 @@ def add_train(number):
             )  # se il treno non esiste ritorno l'errore che le api mi danno
         else:
             json_train = json_train.json()
-            add_to_db(json_train)
-            return "[]"  # ho aggiunto il treno al db ma non ho ancora le statistiche
+            res = add_to_db(json_train)
+            if res:
+                return "[]"  # ho aggiunto il treno al db ma non ho ancora le statistiche
+            else:
+                return str(res), 404

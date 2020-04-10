@@ -15,6 +15,7 @@ def database_initialization(server, user, password):
     cursor = database.cursor()
 
     # If the TRENOBOT database doses not exist, create and open it (if already exist a warning will be generated)
+    #cursor.execute("DROP database TRENOBOT;")
     cursor.execute("CREATE DATABASE IF NOT EXISTS TRENOBOT;")
     cursor.execute("use TRENOBOT;")
 
