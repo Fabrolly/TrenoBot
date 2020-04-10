@@ -77,7 +77,9 @@ def check_arrival():
                         add_journey_db(row["trainID"])
                         return "aggiornato"
                     else:
-                        return "IL treno é giá aggiornato"   #TODO: sistemare questi return
+                        return (
+                            "IL treno é giá aggiornato"  # TODO: sistemare questi return
+                        )
 
         else:
             return "nessun treno da aggiornare adesso"
