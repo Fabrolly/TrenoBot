@@ -7,15 +7,19 @@ import mysql.connector
 from mysql.connector import Error
 import json
 
-server = os.environ.get("DATABASE_HOST")
-user = os.environ.get("DATABASE_USER")
-password = os.environ.get("DATABASE_PASSWORD")
-database = mysql.connector.connect(
-    host=server, database="TRENOBOT", user=user, password=password
-)
+
+def db_connection():
+    server = os.environ.get("DATABASE_HOST")
+    user = os.environ.get("DATABASE_USER")
+    password = os.environ.get("DATABASE_PASSWORD")
+    database = mysql.connector.connect(
+        host=server, database="TRENOBOT", user=user, password=password
+    )
+    return database
 
 
 def check_existing(number):
+    database = db_connection()
     cursor = database.cursor(dictionary=True)
     cursor.execute("SELECT * FROM backend_trains")
     records = cursor.fetchall()
@@ -28,12 +32,8 @@ def check_existing(number):
             return False
 
 
-def convert_timestamp(timestamp):
-    datetime = dt.datetime.fromtimestamp(timestamp / 1000)
-    return datetime.strftime("%Y-%m-%d %H:%M:%S")
-
-
 def add_to_db(json_train):
+    database = db_connection()
     train_id = json_train["fermate"][0]["id"]
     train_number = json_train["numeroTreno"]
     train_origin = json_train["origineZero"]

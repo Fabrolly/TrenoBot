@@ -6,15 +6,18 @@ import mysql.connector
 from mysql.connector import Error
 import json
 
-server = os.environ.get("DATABASE_HOST")
-user = os.environ.get("DATABASE_USER")
-password = os.environ.get("DATABASE_PASSWORD")
-database = mysql.connector.connect(
-    host=server, database="TRENOBOT", user=user, password=password
-)
+def db_connection():
+    server = os.environ.get("DATABASE_HOST")
+    user = os.environ.get("DATABASE_USER")
+    password = os.environ.get("DATABASE_PASSWORD")
+    database = mysql.connector.connect(
+        host=server, database="TRENOBOT", user=user, password=password
+    )
+    return database
 
 
 def add_journey_db(trainID):
+    database = db_connection()
     cursor2 = database.cursor(buffered=True)
 
     json_train = requests.get("http://backend:5000/api/train/%s" % trainID)
@@ -50,6 +53,7 @@ def add_journey_db(trainID):
 
 
 def check_arrival():
+    database = db_connection()
     cursor = database.cursor(dictionary=True, buffered=True)
     cursor.execute("SELECT * FROM backend_trains")
     trains = cursor.fetchall()
