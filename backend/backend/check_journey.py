@@ -14,11 +14,6 @@ database = mysql.connector.connect(
 )
 
 
-def convert_timestamp(timestamp):
-    datetimes = dt.datetime.fromtimestamp(timestamp / 1000)
-    return datetimes.strftime("%Y-%m-%d %H:%M:%S")
-
-
 def add_journey_db(trainID):
     cursor2 = database.cursor(buffered=True)
 
