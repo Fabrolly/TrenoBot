@@ -33,7 +33,6 @@ class TestMessageParser(unittest.TestCase):
 
     # TEST MESSAGE PARSER - TRENO NON ESISTE
     def test_messageParser_ricerca_treno_error(self):
-        print("\nTEST MESSAGE PARSER - TRENO NON ESISTE")
         response = utility.call_mute_mp("Treno 0001")
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Error" in response[0])
@@ -204,9 +203,9 @@ class TestMessageParser(unittest.TestCase):
             "Direttrice Numero",
             "Esempio:</b>\n<i>Direttrice 1</i>",
         ]
-        self.assertEqual(utility.text_in_msg(response[0][1], key_word))
+        self.assertTrue(utility.text_in_msg(response[0][1], key_word))
         self.assertEqual(response[1][0], "")
-        self.assertEqual(
+        self.assertTrue(
             utility.text_in_buttons(
                 response[1][1], ["Le mie direttrici attive", "Menu' Principale"]
             )
@@ -228,6 +227,7 @@ class TestMessageParser(unittest.TestCase):
                     "BERGAMO",
                     "LECCO",
                     "Nei giorni:",
+                    "Lunedi Martedi Mercoledi Giovedi Venerdi",
                 ],
             )
         )
@@ -273,8 +273,7 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            test_cond
-            and utility.text_in_buttons(
+            utility.text_in_buttons(
                 response[1], ["Visualizza lista", "Torna al menu principale"]
             )
         )
