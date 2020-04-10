@@ -61,7 +61,7 @@ def check_arrival():
 
     now = datetime.now()
 
-    msg = ''
+    msg = ""
     for row in trains:
         now_datetime = timedelta(hours=now.hour, minutes=now.minute, seconds=0)
         minute_difference = (
@@ -77,11 +77,11 @@ def check_arrival():
                 if row_j["trainID"] == row["trainID"]:
                     if row_j["date"] != now.date():
                         add_journey_db(row["trainID"])
-                        msg += "aggiornato il treno %s" %row["trainID"]
+                        msg += "aggiornato il treno %s" % row["trainID"]
                     else:
-                        msg += "il treno %s é giá aggiornato" %row["trainID"]
+                        msg += "il treno %s é giá aggiornato" % row["trainID"]
 
         else:
-            msg += "il treno %s non é ancora arrivato" %row["trainID"]
-    
+            msg += "il treno %s non é ancora arrivato" % row["trainID"]
+
     return msg
