@@ -21,6 +21,7 @@ def check_existing(number):
     records = cursor.fetchall()
 
     for row in records:
+        print(row)
         if row["trainID"] == number:
             return True
         else:
@@ -38,8 +39,8 @@ def add_to_db(json_train):
     train_origin = json_train["origineZero"]
     train_destination = json_train["destinazioneZero"]
     train_stations = json.dumps(json_train["fermate"])
-    train_departure_time = convert_timestamp(json_train["orarioPartenza"])
-    train_arrival_time = convert_timestamp(json_train["orarioArrivo"])
+    train_departure_time = json_train["compOrarioPartenza"]
+    train_arrival_time = json_train["compOrarioArrivo"]
 
     factors = (60, 1, 1 / 60)
     t1 = sum(
@@ -64,14 +65,15 @@ def add_to_db(json_train):
     database.commit()
 
 
+
 def add_train(number):
     if check_existing(number):
-        return "il treno é nel db!"
+        return "il treno é nel db!"   #TODO: devo ritornarci le statistiche!
     else:
         json_train = requests.get("http://backend:5000/api/train/%s" % number)
         if json_train.status_code != 200:
-            return json_train
+            return 'Train Not Found', 404 #se il treno non esiste ritorno l'errore che le api mi danno
         else:
             json_train = json_train.json()
             add_to_db(json_train)
-            return "Treno aggiunto nel db!"
+            return "[]"  #ho aggiunto il treno al db ma non ho ancora le statistiche
