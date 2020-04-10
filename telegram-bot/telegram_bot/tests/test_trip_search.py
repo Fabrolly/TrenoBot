@@ -1,7 +1,7 @@
 import re
 import datetime
 import unittest
-import test.test_utility_methods as utility
+from .test_utility_methods import *
 
 
 def extract_assert_hour(text, time):
@@ -42,19 +42,19 @@ class TestTripSearch(unittest.TestCase):
         if datetime.datetime.now().hour <= 15:
             test_search_msg.append("Ricerca da Roma Tiburtina a Milano Lambrate")
         for msg in test_search_msg:
-            response = utility.call_mute_mp(msg)
+            response = call_mute_mp(msg)
             self.assertTrue(isinstance(response, tuple))
             self.assertTrue(isinstance(response[0], list))
             self.assertTrue(len(response[0]) <= 2)
             self.assertTrue(isinstance(response[1], list))
             self.assertTrue(
-                utility.text_in_msg(
+                text_in_msg(
                     " ".join(response[0]),
                     ["Soluzione", "Treno", "Durata", "Milano", "Roma"],
                 )
             )
             self.assertTrue(
-                utility.text_in_buttons(
+                text_in_buttons(
                     response[1],
                     ["Aggiungi 1111 alla lista", "Aggiungi 2222 alla lista"],
                     True,
@@ -68,7 +68,7 @@ class TestTripSearch(unittest.TestCase):
             "Ricerca da Milano a Roma il 31-12",
         ]
         for msg in test_search_msg:
-            response = utility.call_mute_mp(msg)
+            response = call_mute_mp(msg)
             self.assertTrue(isinstance(response, tuple))
             key_word = [
                 "Le API di viaggiotreno non sono in grado di rispondere a questa richeiesta anche se il tuo comando e' valido.",
@@ -76,12 +76,12 @@ class TestTripSearch(unittest.TestCase):
                 "Cerca qui il tuo treno: http://www.trenitalia.com/",
                 "Quando sai il numero del tuo treno torna qui!",
             ]
-            self.assertTrue(utility.text_in_msg(response[0], key_word))
-            self.assertTrue(utility.text_in_buttons(response[1], ["Menu' principale"]))
+            self.assertTrue(text_in_msg(response[0], key_word))
+            self.assertTrue(text_in_buttons(response[1], ["Menu' principale"]))
 
     # TEST FUNCTIONALITY - RICERCA UN TRENO ERROR STAZIONE PARTENZA
     def test_ricerca_treno_error_partenza(self):
-        response = utility.call_mute_mp("Ricerca da Peslago a Lecco")
+        response = call_mute_mp("Ricerca da Peslago a Lecco")
         self.assertTrue(isinstance(response, tuple))
         key_word = [
             "Stazione di <b>PARTENZA</b> non esistente.",
@@ -90,12 +90,12 @@ class TestTripSearch(unittest.TestCase):
             "Oppure prova a scrivere il <b>nome completo!</b>",
             "Esempio: Milano Porta Garibaldi",
         ]
-        self.assertTrue(utility.text_in_msg(response[0], key_word))
+        self.assertTrue(text_in_msg(response[0], key_word))
         self.assertEqual(response[1], "")
 
     # TEST FUNCTIONALITY - RICERCA UN TRENO ERROR STAZIONE ARRIVO
     def test_ricerca_treno_error_arrivo(self):
-        response = utility.call_mute_mp("Ricerca da Lecco a Peslago")
+        response = call_mute_mp("Ricerca da Lecco a Peslago")
         self.assertTrue(isinstance(response, tuple))
         key_word = [
             "Errore\n\n-Prova a scrivere solo le <b>prime parole chiave</b>, non il nome completo!",
@@ -106,7 +106,7 @@ class TestTripSearch(unittest.TestCase):
             "Esempi Corretti:",
             "Da Roma a Milano\nDa Roma a Milano il 10-8",
         ]
-        self.assertTrue(utility.text_in_msg(response[0], key_word))
+        self.assertTrue(text_in_msg(response[0], key_word))
         self.assertEqual(response[1], "")
 
     # TEST FUNCTIONALITY - RICERCA UN TRENO CON DATA E/O ORA SBAGLIATE
@@ -123,14 +123,14 @@ class TestTripSearch(unittest.TestCase):
             "Ricerca da Milano a Roma alle 1530",
         ]
         for msg in test_msg:
-            response = utility.call_mute_mp(msg)
+            response = call_mute_mp(msg)
             self.assertTrue(isinstance(response, tuple))
             key_word = [
                 u"Attenzione, l'ora o la data inserita è <b>errata</b>",
                 "Input ricevuto =",
                 "La preghiamo di riprovare.",
             ]
-            self.assertTrue(utility.text_in_msg(response[0], key_word))
+            self.assertTrue(text_in_msg(response[0], key_word))
             self.assertEqual(response[1], "")
 
     # TEST FUNCTIONALITY - RICERCA UN TRENO CON ORA
@@ -139,20 +139,20 @@ class TestTripSearch(unittest.TestCase):
         test_msg = ["Ricerca da Milano a Roma alle ", "Ricerca Milano Roma alle "]
         for msg in test_msg:
             for start_time in test_times:
-                response = utility.call_mute_mp(msg + start_time)
+                response = call_mute_mp(msg + start_time)
                 self.assertTrue(isinstance(response, tuple))
                 self.assertTrue(isinstance(response[0], list))
                 self.assertTrue(len(response[0]) <= 2)
                 self.assertTrue(isinstance(response[1], list))
                 self.assertTrue(extract_assert_hour("!".join(response[0]), start_time))
                 self.assertTrue(
-                    utility.text_in_msg(
+                    text_in_msg(
                         " ".join(response[0]),
                         ["Soluzione", "Treno", "Durata", "Milano", "Roma"],
                     )
                 )
                 self.assertTrue(
-                    utility.text_in_buttons(
+                    text_in_buttons(
                         response[1],
                         ["Aggiungi 1111 alla lista", "Aggiungi 2222 alla lista"],
                         True,
@@ -184,20 +184,20 @@ class TestTripSearch(unittest.TestCase):
             test_msg.append("Ricerca da Roma Tiburtina a Milano Lambrate il ")
         for msg in test_msg:
             for date in test_dates:
-                response = utility.call_mute_mp(msg + date)
+                response = call_mute_mp(msg + date)
                 self.assertTrue(isinstance(response, tuple))
                 self.assertTrue(isinstance(response[0], list))
                 self.assertTrue(len(response[0]) <= 2)
                 self.assertTrue(isinstance(response[1], list))
                 self.assertTrue(extract_assert_day(" ".join(response[0]), date))
                 self.assertTrue(
-                    utility.text_in_msg(
+                    text_in_msg(
                         " ".join(response[0]),
                         ["Soluzione", "Treno", "Durata", "Milano", "Roma"],
                     )
                 )
                 self.assertTrue(
-                    utility.text_in_buttons(
+                    text_in_buttons(
                         response[1],
                         ["Aggiungi 1111 alla lista", "Aggiungi 2222 alla lista"],
                         True,
@@ -224,7 +224,7 @@ class TestTripSearch(unittest.TestCase):
             + start_time,
         ]
         for msg in test_msg:
-            response = utility.call_mute_mp(msg)
+            response = call_mute_mp(msg)
             self.assertTrue(isinstance(response, tuple))
             self.assertTrue(isinstance(response[0], list))
             self.assertTrue(len(response[0]) <= 2)
@@ -232,13 +232,13 @@ class TestTripSearch(unittest.TestCase):
             self.assertTrue(extract_assert_hour("!".join(response[0]), start_time))
             self.assertTrue(extract_assert_day(" ".join(response[0]), date))
             self.assertTrue(
-                utility.text_in_msg(
+                text_in_msg(
                     " ".join(response[0]),
                     ["Soluzione", "Treno", "Durata", "Milano", "Roma"],
                 )
             )
             self.assertTrue(
-                utility.text_in_buttons(
+                text_in_buttons(
                     response[1],
                     ["Aggiungi 1111 alla lista", "Aggiungi 2222 alla lista"],
                     True,

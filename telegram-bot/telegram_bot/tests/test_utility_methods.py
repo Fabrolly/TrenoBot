@@ -4,8 +4,11 @@ import io
 import sys
 import re
 from telepot.namedtuple import *
-from messageParser import messageParser as mp
-from messageResponder import remove
+from telegram_bot.messageParser import messageParser as mp
+from telegram_bot.messageResponder import remove
+
+# from .messageParser import messageParser as mp
+# from messageResponder import remove
 
 
 # USER_ID = random.randint(10000000, 99999999)

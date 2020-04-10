@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 ADD . .
 
-CMD python -m bot.bot
+CMD python -m telegram_bot.bot

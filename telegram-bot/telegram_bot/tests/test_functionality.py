@@ -1,21 +1,21 @@
 import random
 import unittest
-import test.test_utility_methods as utility
+from .test_utility_methods import *
 
 
 class TestFunctionality(unittest.TestCase):
     def setUp(self):
-        self.assertTrue(utility.is_riepilogo_empty())
+        self.assertTrue(is_riepilogo_empty())
 
     def tearDown(self):
-        self.assertTrue(utility.is_riepilogo_empty())
+        self.assertTrue(is_riepilogo_empty())
 
     # TEST FUNCTIONALITY - MONITORA RIMUOVI DIRETTRICE
     def test_monitora_rimuovi_direttrice(self):
-        response = utility.call_mute_mp("direttrice 1")
-        response = utility.call_mute_mp("lista direttrici")
+        response = call_mute_mp("direttrice 1")
+        response = call_mute_mp("lista direttrici")
         self.assertTrue(
-            utility.text_in_msg(
+            text_in_msg(
                 response[0],
                 [
                     "Ecco le tue direttrici",
@@ -25,44 +25,40 @@ class TestFunctionality(unittest.TestCase):
                 ],
             )
         )
-        self.assertTrue(utility.text_in_buttons(response[1], ["Menu' principale"]))
-        response = utility.call_mute_mp("/rdir1")
+        self.assertTrue(text_in_buttons(response[1], ["Menu' principale"]))
+        response = call_mute_mp("/rdir1")
+        self.assertTrue(text_in_msg(response[0], ["Direttrice 1 <b>rimossa</b>"]))
         self.assertTrue(
-            utility.text_in_msg(response[0], ["Direttrice 1 <b>rimossa</b>"])
-        )
-        self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Torna al menu direttrici", "Le mie direttrici attive"]
             )
         )
 
     # TEST FUNCTIONALITY - MONITORA LA STESSA DIRETTRICE
     def test_monitora_stessa_direttrice(self):
-        response = utility.call_mute_mp("direttrice 1")
-        response = utility.call_mute_mp("direttrice 1")
+        response = call_mute_mp("direttrice 1")
+        response = call_mute_mp("direttrice 1")
         self.assertTrue(
-            utility.text_in_msg(response[0], ["Questa direttrice e' gia' monitorata."])
+            text_in_msg(response[0], ["Questa direttrice e' gia' monitorata."])
         )
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Torna al menu direttrici", "Le mie direttrici attive"]
             )
         )
-        response = utility.call_mute_mp("/rdir1")
+        response = call_mute_mp("/rdir1")
+        self.assertTrue(text_in_msg(response[0], ["Direttrice 1 <b>rimossa</b>"]))
         self.assertTrue(
-            utility.text_in_msg(response[0], ["Direttrice 1 <b>rimossa</b>"])
-        )
-        self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Torna al menu direttrici", "Le mie direttrici attive"]
             )
         )
 
     # TEST FUNCTIONALITY - MONITORA PIU' DIRETTRICI
     def test_monitora_piu_direttrici(self):
-        response = utility.call_mute_mp("direttrice 1")
-        response = utility.call_mute_mp("direttrice 2")
-        response = utility.call_mute_mp("lista direttrici")
+        response = call_mute_mp("direttrice 1")
+        response = call_mute_mp("direttrice 2")
+        response = call_mute_mp("lista direttrici")
         key_word = [
             "Ecco le tue direttrici",
             "Direttrice 1",
@@ -72,9 +68,9 @@ class TestFunctionality(unittest.TestCase):
             "Saronno-Seregno-Milano-Albairate",
             "Rimuovi: /rdir2",
         ]
-        self.assertTrue(utility.text_in_msg(response[0], key_word))
-        response = utility.call_mute_mp("/rdir1")
-        response = utility.call_mute_mp("/rdir2")
+        self.assertTrue(text_in_msg(response[0], key_word))
+        response = call_mute_mp("/rdir1")
+        response = call_mute_mp("/rdir2")
 
     # TEST FUNCTIONALITY - MONITORA DIRETTRICE INESISTENTE
     def test_monitora_direttrice_inesistente(self):
@@ -90,10 +86,10 @@ class TestFunctionality(unittest.TestCase):
             "direttrice 0.12",
         ]
         for msg in test_msg:
-            response = utility.call_mute_mp(msg)
+            response = call_mute_mp(msg)
             self.assertTrue(isinstance(response, tuple))
             self.assertTrue(
-                utility.text_in_msg(
+                text_in_msg(
                     response[0], ["Error: direttrice <b>non valida!</b> :pensive:"]
                 )
             )
@@ -108,8 +104,8 @@ class TestFunctionality(unittest.TestCase):
             "programma " + str(train_code),
         ]
         for msg in test_msg:
-            response = utility.call_mute_mp(msg)
-            response = utility.call_mute_mp("lista")
+            response = call_mute_mp(msg)
+            response = call_mute_mp("lista")
             self.assertTrue(isinstance(response, tuple))
             self.assertTrue(isinstance(response[0], list))
             self.assertEqual(len(response[0]), 2)
@@ -121,15 +117,15 @@ class TestFunctionality(unittest.TestCase):
                 "BERGAMO :arrow_right: LECCO",
                 "Giorni:",
             ]
-            self.assertTrue(utility.text_in_msg(" ".join(response[0]), key_word))
+            self.assertTrue(text_in_msg(" ".join(response[0]), key_word))
             self.assertEqual(response[1][0], "")
             self.assertTrue(
-                utility.text_in_buttons(
+                text_in_buttons(
                     response[1][1],
                     ["Stato in Real Time", "Rimuovi Treno " + str(train_code)],
                 )
             )
-            utility.call_mute_remove_train(train_code)
+            call_mute_remove_train(train_code)
 
     # TEST FUNCTIONALITY - AGGIUNGI RIMUOVI TRENO CON GIORNI
     def test_aggiungi_rimuovi_treno_con_giorni(self):
@@ -148,7 +144,7 @@ class TestFunctionality(unittest.TestCase):
             rand_days = random.sample(days, 2)
             self.assertEqual(len(rand_days), 2)
             self.assertNotEqual(rand_days[0], rand_days[-1])
-            response = utility.call_mute_mp(
+            response = call_mute_mp(
                 "programma "
                 + str(train_code)
                 + " "
@@ -156,7 +152,7 @@ class TestFunctionality(unittest.TestCase):
                 + " "
                 + rand_days[-1]
             )
-            response = utility.call_mute_mp("lista")
+            response = call_mute_mp("lista")
             self.assertTrue(isinstance(response, tuple))
             self.assertTrue(isinstance(response[0], list))
             self.assertEqual(len(response[0]), 2)
@@ -170,15 +166,15 @@ class TestFunctionality(unittest.TestCase):
                 rand_days[0],
                 rand_days[-1],
             ]
-            self.assertTrue(utility.text_in_msg(" ".join(response[0]), key_word))
+            self.assertTrue(text_in_msg(" ".join(response[0]), key_word))
             self.assertEqual(response[1][0], "")
             self.assertTrue(
-                utility.text_in_buttons(
+                text_in_buttons(
                     response[1][1],
                     ["Stato in Real Time", "Rimuovi Treno " + str(train_code)],
                 )
             )
-            utility.call_mute_remove_train(train_code)
+            call_mute_remove_train(train_code)
             cont_iter = cont_iter + 1
 
     # TEST FUNCTIONALITY - PROGRAMMA TRENO DA A CON ERROR
@@ -190,17 +186,17 @@ class TestFunctionality(unittest.TestCase):
             "Programma " + str(train_code) + " da Lecco a Bergamo",
         ]
         for msg in test_msg:
-            response = utility.call_mute_mp(msg)
+            response = call_mute_mp(msg)
             self.assertTrue(isinstance(response, tuple))
-            cond_partenza = utility.text_in_msg(
+            cond_partenza = text_in_msg(
                 response[0],
                 ["ERRORE", "Stazione di partenza NON esistente per questo treno"],
             )
-            cond_arrivo = utility.text_in_msg(
+            cond_arrivo = text_in_msg(
                 response[0],
                 ["ERRORE", "Stazione di arrivo NON esistente per questo treno"],
             )
-            cond_successiva = utility.text_in_msg(
+            cond_successiva = text_in_msg(
                 response[0],
                 [
                     "ERRORE",
@@ -213,11 +209,11 @@ class TestFunctionality(unittest.TestCase):
     # TEST FUNCTIONALITY - AGGIUNGI STESSO TRENO
     def test_aggiungi_stesso_treno(self):
         train_code = 5050
-        response = utility.call_mute_mp("programma " + str(train_code))
-        response = utility.call_mute_mp("programma " + str(train_code))
+        response = call_mute_mp("programma " + str(train_code))
+        response = call_mute_mp("programma " + str(train_code))
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue(
-            utility.text_in_msg(
+            text_in_msg(
                 response[0],
                 [
                     "Questo treno e' gia' nella tua lista.",
@@ -226,19 +222,19 @@ class TestFunctionality(unittest.TestCase):
             )
         )
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Visualizza lista", "Torna al menu principale"]
             )
         )
-        utility.call_mute_remove_train(train_code)
+        call_mute_remove_train(train_code)
 
     # TEST FUNCTIONALITY - AGGIUNGI PIU' TRENI
     def test_aggiungi_piu_treni(self):
         train_code_1 = 5050
         train_code_2 = 4949
-        response = utility.call_mute_mp("programma " + str(train_code_1))
-        response = utility.call_mute_mp("programma " + str(train_code_2))
-        response = utility.call_mute_mp("lista")
+        response = call_mute_mp("programma " + str(train_code_1))
+        response = call_mute_mp("programma " + str(train_code_2))
+        response = call_mute_mp("lista")
         self.assertEqual(len(response[0]), 3)
         self.assertEqual(len(response[1]), 3)
         key_word = [
@@ -248,9 +244,9 @@ class TestFunctionality(unittest.TestCase):
             "<b>Treno " + str(train_code_1) + "</b>",
             "BERGAMO :arrow_right: LECCO",
         ]
-        self.assertTrue(utility.text_in_msg(" ".join(response[0]), key_word))
+        self.assertTrue(text_in_msg(" ".join(response[0]), key_word))
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1][1:],
                 [
                     "Stato in Real Time",
@@ -259,8 +255,8 @@ class TestFunctionality(unittest.TestCase):
                 ],
             )
         )
-        utility.call_mute_remove_train(train_code_1)
-        utility.call_mute_remove_train(train_code_2)
+        call_mute_remove_train(train_code_1)
+        call_mute_remove_train(train_code_2)
 
 
 # launch unit test cases

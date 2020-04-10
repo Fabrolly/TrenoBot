@@ -141,7 +141,7 @@ def alertMenuButtons(trainNumber):
 def searchResultMenuButtons(
     chatid, trainNumber, departure_datetime, arrival_datetime, departure, arrival
 ):
-    from messageResponder import programInfoFromSearch
+    from .messageResponder import programInfoFromSearch
 
     tast = []
     days = "12345"

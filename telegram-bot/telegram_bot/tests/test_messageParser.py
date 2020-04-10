@@ -1,6 +1,6 @@
 import unittest
 import validators
-import test.test_utility_methods as utility
+from .test_utility_methods import *
 
 
 class TestMessageParser(unittest.TestCase):
@@ -8,24 +8,24 @@ class TestMessageParser(unittest.TestCase):
     # TEST MESSAGE PARSER - TRENO
     def test_messageParser_ricerca_treno(self):
         search_train = "Treno 5050"
-        response = utility.call_mute_mp(search_train)
+        response = call_mute_mp(search_train)
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         self.assertTrue(
-            utility.text_in_msg(
+            text_in_msg(
                 response[0], [search_train, "BERGAMO", "LECCO", "Durata", "Stato"]
             )
         )
         self.assertTrue(
-            utility.text_in_buttons(response[1], ["Aggiorna", "Aggiungi alla Lista"])
+            text_in_buttons(response[1], ["Aggiorna", "Aggiungi alla Lista"])
         )
-        response = utility.call_mute_mp("rimuovi 5050")
-        self.assertTrue(utility.is_riepilogo_empty())
+        response = call_mute_mp("rimuovi 5050")
+        self.assertTrue(is_riepilogo_empty())
 
     # TEST MESSAGE PARSER - SINTASSI NON VALIDA
     def test_messageParser_syntax_error(self):
-        response = utility.call_mute_mp("Ciao")
+        response = call_mute_mp("Ciao")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertFalse("Sintassi comando non valida" not in response[0])
@@ -33,47 +33,47 @@ class TestMessageParser(unittest.TestCase):
 
     # TEST MESSAGE PARSER - TRENO NON ESISTE
     def test_messageParser_ricerca_treno_error(self):
-        response = utility.call_mute_mp("Treno 0001")
+        response = call_mute_mp("Treno 0001")
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Error" in response[0])
         self.assertEqual(response[1], "")
 
     # TEST MESSAGE PARSER - START
     def test_messageParser_start(self):
-        response = utility.call_mute_mp("/start")
+        response = call_mute_mp("/start")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
-        self.assertTrue(utility.is_menu_principale(response[0], response[1]))
+        self.assertTrue(is_menu_principale(response[0], response[1]))
 
     # TEST MESSAGE PARSER - RDIR & RIMUOVI DIRETTRICE
     def test_messageParser_rdir_rimuovi_direttrice(self):
-        response = utility.call_mute_mp("/rdir1")
-        response1 = utility.call_mute_mp("rimuovi direttrice 1")
+        response = call_mute_mp("/rdir1")
+        response1 = call_mute_mp("rimuovi direttrice 1")
         self.assertEqual(response, response1)
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         self.assertTrue(
-            utility.text_in_msg(response[0], ["La direttrice 1", "non e' monitorata"])
+            text_in_msg(response[0], ["La direttrice 1", "non e' monitorata"])
         )
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Torna al menu direttrici", "Le mie direttrici attive"]
             )
         )
 
     # TEST MESSAGE PARSER - MENU PRINCIPALE
     def test_messageParser_menu_principale(self):
-        response = utility.call_mute_mp("menu principale")
+        response = call_mute_mp("menu principale")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
-        self.assertTrue(utility.is_menu_principale(response[0], response[1]))
+        self.assertTrue(is_menu_principale(response[0], response[1]))
 
     # TEST MESSAGE PARSER - MENU TRENO
     def test_messageParser_menu_treno(self):
-        response = utility.call_mute_mp("menu treno")
+        response = call_mute_mp("menu treno")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
@@ -82,16 +82,16 @@ class TestMessageParser(unittest.TestCase):
             "Ti basta scrivere il numero del tuo treno come l'esempio che segue:",
             "Treno 5050",
         ]
-        self.assertTrue(utility.text_in_msg(response[0], key_word))
+        self.assertTrue(text_in_msg(response[0], key_word))
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Non conosco il numero del treno", "Menu' Principale"]
             )
         )
 
     # TEST MESSAGE PARSER - MENU RICERCA
     def test_messageParser_menu_ricerca(self):
-        response = utility.call_mute_mp("menu ricerca")
+        response = call_mute_mp("menu ricerca")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
@@ -103,12 +103,12 @@ class TestMessageParser(unittest.TestCase):
             "Ricerca da Milano a Roma alle 20:30 il 10-2",
             "Se ometti la data o l'ora viene considerata la data/ora attuale",
         ]
-        self.assertTrue(utility.text_in_msg(response[0], key_word))
-        self.assertTrue(utility.text_in_buttons(response[1], ["Menu' Principale"]))
+        self.assertTrue(text_in_msg(response[0], key_word))
+        self.assertTrue(text_in_buttons(response[1], ["Menu' Principale"]))
 
     # TEST MESSAGE PARSER - MENU PROGRAMMAZIONE
     def test_messageParser_menu_programmazione(self):
-        response = utility.call_mute_mp("menu programmazione")
+        response = call_mute_mp("menu programmazione")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
@@ -123,12 +123,12 @@ class TestMessageParser(unittest.TestCase):
             "Visualizza la tua lista",
             "Menu' Principale",
         ]
-        self.assertTrue(utility.text_in_msg(response[0], text_key_word))
-        self.assertTrue(utility.text_in_buttons(response[1], button_key_word))
+        self.assertTrue(text_in_msg(response[0], text_key_word))
+        self.assertTrue(text_in_buttons(response[1], button_key_word))
 
     # TEST MESSAGE PARSER - MENU PROGRAMMA
     def test_messageParser_menu_programma(self):
-        response = utility.call_mute_mp("menu programma")
+        response = call_mute_mp("menu programma")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
@@ -140,12 +140,12 @@ class TestMessageParser(unittest.TestCase):
             "Se ometti i giorni della settimana viene considerato da Lunedi' a Venerdi'.",
             "Se ometti le stazioni intermedie viene considerata l'intera tratta",
         ]
-        self.assertTrue(utility.text_in_msg(response[0], key_word))
-        self.assertTrue(utility.text_in_buttons(response[1], ["Menu' Principale"]))
+        self.assertTrue(text_in_msg(response[0], key_word))
+        self.assertTrue(text_in_buttons(response[1], ["Menu' Principale"]))
 
     # TEST MESSAGE PARSER - RIEPILOGO
     def test_messageParser_riepilogo(self):
-        response = utility.call_mute_mp("riepilogo")
+        response = call_mute_mp("riepilogo")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
@@ -155,38 +155,38 @@ class TestMessageParser(unittest.TestCase):
             "Non hai alcuna Direttrice monitorata",
             "Per aggiungere, rimuovere o modificare la tua lista usa i pulsanti qui sotto",
         ]
-        self.assertTrue(utility.text_in_msg(response[0], key_word))
+        self.assertTrue(text_in_msg(response[0], key_word))
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Lista Treni", "Lista direttrici", "Menu' Principale"]
             )
         )
 
     # TEST MESSAGE PARSER - LISTA
     def test_messageParser_lista(self):
-        response = utility.call_mute_mp("lista")
+        response = call_mute_mp("lista")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         self.assertTrue(
-            utility.text_in_msg(response[0], ["Non hai alcun Treno nella tua /lista"])
+            text_in_msg(response[0], ["Non hai alcun Treno nella tua /lista"])
         )
-        self.assertTrue(utility.text_in_buttons(response[1], ["Menu' principale"]))
+        self.assertTrue(text_in_buttons(response[1], ["Menu' principale"]))
 
     # TEST MESSAGE PARSER - LISTA DIRETTRICI
     def test_messageParser_lista_direttrici(self):
-        response = utility.call_mute_mp("lista direttrici")
+        response = call_mute_mp("lista direttrici")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         self.assertTrue(
-            utility.text_in_msg(response[0], ["Non hai alcuna Direttrice monitorata"])
+            text_in_msg(response[0], ["Non hai alcuna Direttrice monitorata"])
         )
-        self.assertTrue(utility.text_in_buttons(response[1], ["Menu' principale"]))
+        self.assertTrue(text_in_buttons(response[1], ["Menu' principale"]))
 
     # TEST MESSAGE PARSER - MENU DIRETTRICE
     def test_messageParser_menu_direttrice(self):
-        response = utility.call_mute_mp("menu direttrice")
+        response = call_mute_mp("menu direttrice")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
@@ -203,10 +203,10 @@ class TestMessageParser(unittest.TestCase):
             "Direttrice Numero",
             "Esempio:</b>\n<i>Direttrice 1</i>",
         ]
-        self.assertTrue(utility.text_in_msg(response[0][1], key_word))
+        self.assertTrue(text_in_msg(response[0][1], key_word))
         self.assertEqual(response[1][0], "")
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1][1], ["Le mie direttrici attive", "Menu' Principale"]
             )
         )
@@ -214,12 +214,12 @@ class TestMessageParser(unittest.TestCase):
     # TEST MESSAGE PARSER - PROGRAMMA
     def test_messageParser_programma(self):
         train_code = 5050
-        response = utility.call_mute_mp("programma " + str(train_code))
+        response = call_mute_mp("programma " + str(train_code))
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         self.assertTrue(
-            utility.text_in_msg(
+            text_in_msg(
                 response[0],
                 [
                     "Riceverai aggiornamenti sul",
@@ -232,21 +232,21 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Visualizza lista", "Torna al menu principale"]
             )
         )
-        utility.call_mute_remove_train(train_code)
-        self.assertTrue(utility.is_riepilogo_empty())
+        call_mute_remove_train(train_code)
+        self.assertTrue(is_riepilogo_empty())
 
     # TEST MESSAGE PARSER - DIRETTRICE
     def test_messageParser_direttrice(self):
-        response = utility.call_mute_mp("direttrice 1")
+        response = call_mute_mp("direttrice 1")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         self.assertTrue(
-            utility.text_in_msg(
+            text_in_msg(
                 response[0],
                 [
                     "Riceverai aggiornamenti sulla direttrice selezionata non appena ci saranno novita'!"
@@ -254,26 +254,26 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Torna al menu direttrici", "Le mie direttrici attive"]
             )
         )
-        response = utility.call_mute_mp("/rdir1")
-        self.assertTrue(utility.is_riepilogo_empty())
+        response = call_mute_mp("/rdir1")
+        self.assertTrue(is_riepilogo_empty())
 
     # TEST MESSAGE PARSER - RIMUOVI
     def test_messageParser_rimuovi(self):
-        response = utility.call_mute_mp("rimuovi 5050")
+        response = call_mute_mp("rimuovi 5050")
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         self.assertTrue(
-            utility.text_in_msg(
+            text_in_msg(
                 response[0], ["Nella tua /lista <b>non esiste</b> il Treno 5050"]
             )
         )
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Visualizza lista", "Torna al menu principale"]
             )
         )
@@ -282,14 +282,14 @@ class TestMessageParser(unittest.TestCase):
     def test_messageParser_pk(self):
         # pk 9631!12345!13:00!16:10!Milano Centrale!Roma Termini
         train_code = 2573
-        response = utility.call_mute_mp(
+        response = call_mute_mp(
             "pk " + str(train_code) + "!12345!18:01!18:40!Lecco!Milano Centrale"
         )
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         self.assertTrue(
-            utility.text_in_msg(
+            text_in_msg(
                 response[0],
                 [
                     "Riceverai aggiornamenti sul\n\n<b>Treno "
@@ -301,12 +301,12 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            utility.text_in_buttons(
+            text_in_buttons(
                 response[1], ["Visualizza lista", "Torna al menu principale"]
             )
         )
-        utility.call_mute_remove_train(train_code)
-        self.assertTrue(utility.is_riepilogo_empty())
+        call_mute_remove_train(train_code)
+        self.assertTrue(is_riepilogo_empty())
 
 
 # launch unit test cases if main

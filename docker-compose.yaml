@@ -1,18 +1,5 @@
 version: "3"
 services:
-    existing_bot:
-        build: ./old_bot
-        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_old_bot
-        restart: unless-stopped
-        depends_on:
-            - database
-        environment:
-            - DATABASE_HOST=database
-            - DATABASE_USER=root
-            - DATABASE_PASSWORD=root
-            - TELEGRAM_API_KEY=1131079569:AAHGYPKGHQEBgEnmGXf3x771TwDVuD4QvuE
-        tty: true
-        stdin_open: true
 
     backend:
         build: ./backend
@@ -44,7 +31,10 @@ services:
         build: ./telegram-bot
         image: ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot
         environment:
-            - TELEGRAM_API_KEY=set_it_here
+            - DATABASE_HOST=database
+            - DATABASE_USER=root
+            - DATABASE_PASSWORD=root
+            - TELEGRAM_API_KEY=1131079569:AAHGYPKGHQEBgEnmGXf3x771TwDVuD4QvuE
         depends_on:
             - backend
             - database
