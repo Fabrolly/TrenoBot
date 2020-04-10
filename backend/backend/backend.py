@@ -137,11 +137,9 @@ def tripSearch():
     return jsonify(response_json.json())
 
 
-@app.route("/api/add_train/<int:number>", methods=["GET"])
+@app.route("/api/train_stats/<int:number>", methods=["GET"])
 def add_new_train_db(number):
     return add_train(number)
-
-
 
 
 class TrainNotFoundException(Exception):

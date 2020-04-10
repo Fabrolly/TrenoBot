@@ -9,7 +9,6 @@ import json
 from .check_journey import add_journey_db
 
 
-
 def db_connection():
     server = os.environ.get("DATABASE_HOST")
     user = os.environ.get("DATABASE_USER")
@@ -68,24 +67,23 @@ def add_to_db(json_train):
         return e
     return True
 
+
 def stats_json_fetch(trainID):
-    import pandas as pd
     database = db_connection()
     cursor = database.cursor(dictionary=True)
-    query = "SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration  FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID=%s ORDER BY backend_journeys.DATE DESC" %(trainID)
+    query = (
+        "SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration,  stations FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID=%s ORDER BY backend_journeys.DATE DESC"
+        % (trainID)
+    )
     cursor.execute(query)
     json_string = json.dumps(cursor.fetchall(), indent=4, sort_keys=True, default=str)
 
-
-
     return json_string
-
 
 
 def add_train(number):
     if check_existing(number):
         return stats_json_fetch(number)
-        return "il treno é nel db!"  # TODO: devo ritornarci le statistiche!
     else:
         json_train = requests.get("http://backend:5000/api/train/%s" % number)
         if json_train.status_code != 200:
@@ -97,6 +95,6 @@ def add_train(number):
             json_train = json_train.json()
             res = add_to_db(json_train)
             if res:
-                return "[]"  # ho aggiunto il treno al db ma non ho ancora le statistiche
+                return stats_json_fetch(number) #avendolo appena aggiunto ritorneró un array vuoto 
             else:
                 return str(res), 404
