@@ -6,6 +6,7 @@ import mysql.connector
 from mysql.connector import Error
 import json
 
+
 def db_connection():
     server = os.environ.get("DATABASE_HOST")
     user = os.environ.get("DATABASE_USER")
