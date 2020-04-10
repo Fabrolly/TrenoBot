@@ -65,15 +65,17 @@ def add_to_db(json_train):
     database.commit()
 
 
-
 def add_train(number):
     if check_existing(number):
-        return "il treno é nel db!"   #TODO: devo ritornarci le statistiche!
+        return "il treno é nel db!"  # TODO: devo ritornarci le statistiche!
     else:
         json_train = requests.get("http://backend:5000/api/train/%s" % number)
         if json_train.status_code != 200:
-            return 'Train Not Found', 404 #se il treno non esiste ritorno l'errore che le api mi danno
+            return (
+                "Train Not Found",
+                404,
+            )  # se il treno non esiste ritorno l'errore che le api mi danno
         else:
             json_train = json_train.json()
             add_to_db(json_train)
-            return "[]"  #ho aggiunto il treno al db ma non ho ancora le statistiche
+            return "[]"  # ho aggiunto il treno al db ma non ho ancora le statistiche

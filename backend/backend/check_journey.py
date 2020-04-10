@@ -18,13 +18,14 @@ def convert_timestamp(timestamp):
     datetimes = dt.datetime.fromtimestamp(timestamp / 1000)
     return datetimes.strftime("%Y-%m-%d %H:%M:%S")
 
+
 def add_journey_db(trainID):
-    cursor2 = database.cursor( buffered=True)
+    cursor2 = database.cursor(buffered=True)
 
     json_train = requests.get("http://backend:5000/api/train/%s" % trainID)
 
     if json_train.status_code != 200:
-        return #non riesco ad aggiornare il treno!
+        return  # non riesco ad aggiornare il treno!
     else:
         now = datetime.now()
 
@@ -52,6 +53,7 @@ def add_journey_db(trainID):
         cursor2.execute(insert_query, insert_tuple)
         database.commit()
 
+
 def check_arrival():
     cursor = database.cursor(dictionary=True, buffered=True)
     cursor.execute("SELECT * FROM backend_trains")
@@ -60,22 +62,22 @@ def check_arrival():
     now = datetime.now()
     for row in trains:
         now_datetime = timedelta(hours=now.hour, minutes=now.minute, seconds=0)
-        minute_difference = (now_datetime - row["arrival_datetime"]).total_seconds() / 60.0
+        minute_difference = (
+            now_datetime - row["arrival_datetime"]
+        ).total_seconds() / 60.0
 
-        if minute_difference > 15 :
+        if minute_difference > 15:
             now = datetime.now()
             cursor.execute("SELECT * FROM backend_journeys")
             trains_j = cursor.fetchall()
 
             for row_j in trains_j:
-                if row_j['trainID'] == row['trainID']:
-                    if row_j['date'] != now.date():
-                        add_journey_db(row['trainID'])
-                        return 'aggiornato'
+                if row_j["trainID"] == row["trainID"]:
+                    if row_j["date"] != now.date():
+                        add_journey_db(row["trainID"])
+                        return "aggiornato"
                     else:
-                        return 'IL treno é giá aggiornato'
-        
-        else:
-            return 'nessun treno da aggiornare adesso'
-        
+                        return "IL treno é giá aggiornato"   #TODO: sistemare questi return
 
+        else:
+            return "nessun treno da aggiornare adesso"
