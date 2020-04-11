@@ -18,6 +18,7 @@ def db_connection():
     )
     return database
 
+
 def check_existing(number):
     database = db_connection()
     cursor = database.cursor(dictionary=True)
@@ -28,6 +29,7 @@ def check_existing(number):
         if row["trainID"] == number:
             return True
     return False
+
 
 def add_to_db(json_train):
     database = db_connection()
