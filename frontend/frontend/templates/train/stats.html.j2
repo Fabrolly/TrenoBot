@@ -1,0 +1,52 @@
+{% extends "base.html.j2" %}
+
+{% block title %}Treno {{ train_id }}{% endblock %}
+
+{% block content %}
+    <div class="container pt-3">
+        <h1>Treno {{ train_id}}</h1>
+        {% if created %}
+            <div class="alert alert-info" role="alert">
+                Il treno che hai cercato non era ancora tracciato dai nosti sistemi. Da oggi in poi verranno raccolte le statistiche.
+            </div>
+        {% endif %}
+        {% if stats != None %}
+            {% if stats | length == 0%}
+                <p>Nessuna statistica ancora registrata. Riprova più tardi</p>
+            {% else %}
+                <p>Ecco le statistiche per il treno {{ train_id }}</p>
+                <canvas id="statsChart" width="4" height="1"></canvas>
+                <script>
+                    var stats = {{ stats }};
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+                <script src="/static/js/displayStats.js"></script>
+
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Informazioni aggiuntive</h3>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li data-name="daysMonitoring">Numero corse monitorate: </li>
+                            <li data-name="firstMonitoring">Primo monitoraggio: </li>
+                            <li data-name="lastMonitoring">Ultimo monitoraggio: </li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li data-name="averageDelay">Ritardo medio: </li>
+                            <li data-name="onTimeDays">Corse in orario: </li>
+                            <li data-name="lateDays">Corse in ritardo: </li>
+                            <li data-name="nCancelled">Corse cancellate: </li>
+                            <li data-name="nAltered">Corse alterate: </li>
+                        </ul>
+                    </div>
+                </div>
+                <script src="/static/js/fillDetails.js"></script>
+            {% endif %}
+        {% else %}
+            <p>Il treno che hai cercato non esiste. Assicurati di aver inserito un numero corretto.</p>
+        {% endif %}
+    </div>
+{% endblock %}
