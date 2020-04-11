@@ -5,6 +5,7 @@ services:
         image: ${DOCKER_IMAGE_BASE_NAME}trenobot_old_bot
         restart: unless-stopped
         depends_on:
+            - backend
             - database
         environment:
             - TELEGRAM_API_KEY=set_it_here

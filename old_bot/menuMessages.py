@@ -32,7 +32,6 @@ def addListMenu():
 
 
 def directressAddMenu():
-    print("arrivo quiiii")
     mess = ":eyes: <b>Aggiungi una Direttrice Trenord alla tua Lista!</b>\n\n<i>Quando trenord pubblica un tweet o un avviso relativo a delle problematiche su una direttrice verrai immediatamente avvisato!</i>\n\n<b>Ecco le direttrici disponibili:</b>"
     cont = 0
     with open("./trenordLinkAlerts.txt") as f:
