@@ -9,12 +9,15 @@ def view():
         return "Bad request", 400
 
     backend_response = backend_api.get_train_stats(train_id)
-    return render_template(
-        "train/stats.html.j2",
-        train_id=train_id,
-        stats=backend_response.get("stats"),
-        created=backend_response.get("created", False),
-    )
+    if backend_response:
+        return render_template(
+            "train/stats.html.j2",
+            train_id=train_id,
+            stats=backend_response.get("stats"),
+            created=backend_response.get("created", False),
+        )
+    else:
+        return render_template("train/stats.html.j2", train_id=train_id, stats=None,)
 
 
 def ranking():

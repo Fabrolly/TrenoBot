@@ -109,6 +109,19 @@ def get_stats(train_number):
         return jsonify({"created": True, "stats": []})
 
 
+@app.route("/api/stats/ranking", methods=["GET"])
+def get_stats_ranking():
+    best_trains = database_utils.get_best_trains()
+    worst_trains = database_utils.get_worst_trains()
+    return jsonify({"best": best_trains, "worst": worst_trains})
+
+
+@app.route("/api/stats/general", methods=["GET"])
+def get_general_stats():
+    stats = database_utils.get_general_stats()
+    return jsonify({"stats": stats})
+
+
 def check_arrival_loop():
     while True:
         check_arrival()

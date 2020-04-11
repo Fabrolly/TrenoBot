@@ -68,3 +68,30 @@ def get_stats(train_id):
     cursor.execute(query)
     stats = cursor.fetchall()
     return stats
+
+
+def get_best_trains():
+    database = db_connection()
+    cursor = database.cursor(dictionary=True)
+    query = f"SELECT backend_trains.trainID, AVG(delay) as delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID GROUP BY backend_trains.trainID ORDER BY AVG(delay) ASC LIMIT 10"
+    cursor.execute(query)
+    best_trains = cursor.fetchall()
+    return best_trains
+
+
+def get_worst_trains():
+    database = db_connection()
+    cursor = database.cursor(dictionary=True)
+    query = f"SELECT backend_trains.trainID, AVG(delay) as delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID GROUP BY backend_trains.trainID ORDER BY AVG(delay) DESC LIMIT 10"
+    cursor.execute(query)
+    worst_trains = cursor.fetchall()
+    return worst_trains
+
+
+def get_general_stats():
+    database = db_connection()
+    cursor = database.cursor(dictionary=True)
+    query = f"SELECT AVG(delay) as avg_delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID"
+    cursor.execute(query)
+    stats = cursor.fetchall()[0]
+    return stats

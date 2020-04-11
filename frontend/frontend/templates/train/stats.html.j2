@@ -46,15 +46,7 @@
                 <script src="/static/js/fillDetails.js"></script>
             {% endif %}
         {% else %}
-            <p>Il treno non è ancora presente nei nostri sistemi, perciò non è possibile consultare le statistiche</p>
-            <p>Clicca sul pulsante per iniziare il tracciamento del treno.</p>
-            <form action="{{ url_for('stats.register') }}" method="POST">
-                <input type="hidden" value="{{ train_id }}" name="train">
-                <button class="btn btn-primary">
-                    <i class="mdi mdi-check"></i>
-                    Registra treno {{ train_id }}
-                </button>
-            </form>
+            <p>Il treno che hai cercato non esiste. Assicurati di aver inserito un numero corretto.</p>
         {% endif %}
     </div>
 {% endblock %}
