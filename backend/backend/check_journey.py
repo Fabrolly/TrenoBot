@@ -116,4 +116,3 @@ def check_arrival():
 
                 if not res:  # qualcosa é andato storto nell'aggiornamento!
                     return str(res)
-

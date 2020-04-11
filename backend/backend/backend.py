@@ -150,12 +150,12 @@ def add_new_train_db(number):
 class TrainNotFoundException(Exception):
     pass
 
+
 def check_arrival_loop():
     while True:
-        print('fatto')
+        print("fatto")
         check_arrival()
-        time.sleep(5 * 60) # sleep 5 minutes
-        
+        time.sleep(5 * 60)  # sleep 5 minutes
 
 
 if __name__ == "__main__":
@@ -169,6 +169,3 @@ if __name__ == "__main__":
     x.start()
 
     app.run(debug=True, host="0.0.0.0")
-
-    
-

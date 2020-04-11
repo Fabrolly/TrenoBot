@@ -95,7 +95,7 @@ def add_train(number):
             json_train = json_train.json()
             res = add_to_db(json_train)
             if res:
-                return '[]'  #treno aggiunto ma non ho ancora le statistiche
+                return "[]"  # treno aggiunto ma non ho ancora le statistiche
 
             else:
                 return str(res), 404
