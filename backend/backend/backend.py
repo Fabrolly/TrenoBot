@@ -146,10 +146,8 @@ def tripSearch():
 def add_new_train_db(number):
     return add_train(number)
 
-
 class TrainNotFoundException(Exception):
     pass
-
 
 def check_arrival_loop():
     while True:
