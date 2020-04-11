@@ -1,6 +1,16 @@
 from flask import Flask, request, jsonify, abort
 import requests
 import datetime
+import os
+import threading
+import pathlib
+import time
+
+
+from .database_initialization import database_initialization
+from .insert_db import add_train
+from .check_journey import check_arrival
+
 
 app = Flask(__name__)
 
@@ -132,9 +142,30 @@ def tripSearch():
     return jsonify(response_json.json())
 
 
+@app.route("/api/train_stats/<int:number>", methods=["GET"])
+def add_new_train_db(number):
+    return add_train(number)
+
+
 class TrainNotFoundException(Exception):
     pass
 
 
+def check_arrival_loop():
+    while True:
+        check_arrival()
+        print("Controllo automatico treni in arrivo eseguito. Prossimo tra 10 minuti.")
+        time.sleep(10 * 60)  # sleep 10 minutes
+
+
 if __name__ == "__main__":
+
+    server = os.environ.get("DATABASE_HOST")
+    user = os.environ.get("DATABASE_USER")
+    password = os.environ.get("DATABASE_PASSWORD")
+    database_initialization(server, user, password)
+
+    x = threading.Thread(target=check_arrival_loop)
+    x.start()
+
     app.run(debug=True, host="0.0.0.0")

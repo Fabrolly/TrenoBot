@@ -1,2 +1,4 @@
+mysqlclient==1.4.6
 requests==2.22.0
 Flask==1.0.3
+mysql-connector-python==8.0.19
