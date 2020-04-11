@@ -1,6 +1,6 @@
 import random
 import unittest
-from .test_utility_methods import *
+from telegram_bot.tests.test_utility_methods import *
 
 
 class TestFunctionality(unittest.TestCase):

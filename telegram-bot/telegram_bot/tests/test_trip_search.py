@@ -1,7 +1,7 @@
 import re
 import datetime
 import unittest
-from .test_utility_methods import *
+from telegram_bot.tests.test_utility_methods import *
 
 
 def extract_assert_hour(text, time):
@@ -79,35 +79,12 @@ class TestTripSearch(unittest.TestCase):
             self.assertTrue(text_in_msg(response[0], key_word))
             self.assertTrue(text_in_buttons(response[1], ["Menu' principale"]))
 
-    # TEST FUNCTIONALITY - RICERCA UN TRENO ERROR STAZIONE PARTENZA
-    def test_ricerca_treno_error_partenza(self):
-        response = call_mute_mp("Ricerca da Peslago a Lecco")
-        self.assertTrue(isinstance(response, tuple))
-        key_word = [
-            "Stazione di <b>PARTENZA</b> non esistente.",
-            "CONSIGLI:",
-            "Prova a scrivere solo le <b>prime parole chiave</b>, non il nome completo!",
-            "Oppure prova a scrivere il <b>nome completo!</b>",
-            "Esempio: Milano Porta Garibaldi",
-        ]
-        self.assertTrue(text_in_msg(response[0], key_word))
-        self.assertEqual(response[1], "")
-
-    # TEST FUNCTIONALITY - RICERCA UN TRENO ERROR STAZIONE ARRIVO
-    def test_ricerca_treno_error_arrivo(self):
-        response = call_mute_mp("Ricerca da Lecco a Peslago")
-        self.assertTrue(isinstance(response, tuple))
-        key_word = [
-            "Errore\n\n-Prova a scrivere solo le <b>prime parole chiave</b>, non il nome completo!",
-            "Esempio:\nMilano Porta\n\n-Oppure prova a scrivere il <b>nome completo!",
-            "Esempio: Milano Porta Garibaldi",
-            "Se il nome della stazione comprende piu' parole <b>usa i connettivi 'da' e 'a'</b> come in questo formato:",
-            "Da Milano Centrale a Reggio Calabria",
-            "Esempi Corretti:",
-            "Da Roma a Milano\nDa Roma a Milano il 10-8",
-        ]
-        self.assertTrue(text_in_msg(response[0], key_word))
-        self.assertEqual(response[1], "")
+    # TEST FUNCTIONALITY - RICERCA UN TRENO CON ERROR IN STAZIONE PARTENZA O ARRIVO
+    def test_ricerca_treno_error_partenza_arrivo(self):
+        test_msg = ["Ricerca da Peslago a Lecco", "Ricerca da Lecco a Peslago"]
+        for msg in test_msg:
+            response = call_mute_mp(msg)
+            self.assertEqual(response, 0)
 
     # TEST FUNCTIONALITY - RICERCA UN TRENO CON DATA E/O ORA SBAGLIATE
     def test_ricerca_treno_data_ora_error(self):
