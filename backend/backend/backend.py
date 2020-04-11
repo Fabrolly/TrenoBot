@@ -153,9 +153,9 @@ class TrainNotFoundException(Exception):
 
 def check_arrival_loop():
     while True:
-        print("fatto")
         check_arrival()
-        time.sleep(5 * 60)  # sleep 5 minutes
+        print("Controllo automatico treni in arrivo eseguito. Prossimo tra 5 minuti.")
+        time.sleep(10 * 60)  # sleep 10 minutes
 
 
 if __name__ == "__main__":

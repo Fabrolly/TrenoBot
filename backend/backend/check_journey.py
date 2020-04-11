@@ -72,10 +72,13 @@ def add_journey_db(trainID):
                 train_last_detection_time,
                 train_last_detection_station,
             )
+        else:
+            print('Il treno %s dovrebbe essere arrivato ma non é a destinazione! Journey non aggiunta. Riprovo al prossimo controllo' %(trainID))
 
         try:
             cursor2.execute(insert_query, insert_tuple)
             database.commit()
+            print('Journey odierna del treno %s aggiunta con successo' %(trainID))
         except Exception as e:
             return e
         return True
@@ -88,7 +91,6 @@ def check_arrival():
     trains = cursor.fetchall()
 
     now = datetime.now()
-
     for (
         row
     ) in (
