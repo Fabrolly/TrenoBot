@@ -119,7 +119,7 @@ def get_stats_ranking():
 @app.route("/api/stats/general", methods=["GET"])
 def get_general_stats():
     stats = database_utils.get_general_stats()
-    return jsonify({"stats": stats})
+    return jsonify(stats)
 
 
 def check_arrival_loop():
