@@ -89,7 +89,6 @@ def check_arrival():
 
     now = datetime.now()
 
-    msg = ""
     for (
         row
     ) in (
@@ -101,8 +100,8 @@ def check_arrival():
         ).total_seconds() / 60.0
 
         if (
-            minute_difference > 30
-        ):  # Seleziono i treni che sono arrivati (in teoria) giá da almeno 30 minuti
+            minute_difference > 20
+        ):  # Seleziono i treni che sono arrivati (in teoria) giá da almeno 20 minuti
             query = (
                 "SELECT backend_journeys.DATE FROM backend_journeys INNER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID=%s ORDER BY backend_journeys.DATE DESC"
                 % (row["trainID"])
@@ -118,4 +117,3 @@ def check_arrival():
                 if not res:  # qualcosa é andato storto nell'aggiornamento!
                     return str(res)
 
-    return "tappost"

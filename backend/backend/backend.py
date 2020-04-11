@@ -2,9 +2,14 @@ from flask import Flask, request, jsonify, abort
 import requests
 import datetime
 import os
+import threading
+import pathlib
+import time
+
 
 from .database_initialization import database_initialization
 from .insert_db import add_train
+from .check_journey import check_arrival
 
 
 app = Flask(__name__)
@@ -145,13 +150,25 @@ def add_new_train_db(number):
 class TrainNotFoundException(Exception):
     pass
 
+def check_arrival_loop():
+    while True:
+        print('fatto')
+        check_arrival()
+        time.sleep(5 * 60) # sleep 5 minutes
+        
+
 
 if __name__ == "__main__":
 
     server = os.environ.get("DATABASE_HOST")
     user = os.environ.get("DATABASE_USER")
     password = os.environ.get("DATABASE_PASSWORD")
-
     database_initialization(server, user, password)
 
+    x = threading.Thread(target=check_arrival_loop)
+    x.start()
+
     app.run(debug=True, host="0.0.0.0")
+
+    
+
