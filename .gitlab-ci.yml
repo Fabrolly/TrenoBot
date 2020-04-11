@@ -48,6 +48,17 @@ test_unit_backend:
     - cd /backend
     - python -m unittest discover backend/tests
 
+test_integration_backend:
+  stage: test
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - apk add --no-cache docker-compose
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $DOCKER_REGISTRY
+    - docker-compose build backend frontend telegram-bot
+    - docker-compose run --rm backend ./wait-for.sh database:3306 -- python -m unittest discover backend/tests_integration/
+
 test_unit_frontend:
   stage: test
   image: ${DOCKER_IMAGE_BASE_NAME}trenobot_frontend:test
