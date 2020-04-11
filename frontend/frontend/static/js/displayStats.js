@@ -13,7 +13,7 @@ Chart.defaults.global.legend.display = false;
   var myChart = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: stats.map((s) => s.day),
+      labels: stats.map((s) => s.date),
       datasets: [
         {
           label: "Ritardo/Anticipo accumulato",

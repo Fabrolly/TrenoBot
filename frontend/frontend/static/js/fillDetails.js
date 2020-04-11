@@ -8,10 +8,10 @@ function fillDetails() {
     var daysMonitoring = stats.length;
     document.querySelector("[data-name='daysMonitoring']").innerHTML += daysMonitoring
 
-    var firstMonitoring = stats[0].day;
+    var firstMonitoring = stats[0].date;
     document.querySelector("[data-name='firstMonitoring']").innerHTML += firstMonitoring
 
-    var lastMonitoring = stats[stats.length-1].day;
+    var lastMonitoring = stats[stats.length-1].date;
     document.querySelector("[data-name='lastMonitoring']").innerHTML += lastMonitoring
 
     var averageDelay = average(stats.map(s => s.delay));
@@ -23,10 +23,10 @@ function fillDetails() {
     var lateDays = stats.filter(s => s.delay > 0).length;
     document.querySelector("[data-name='lateDays']").innerHTML += lateDays
 
-    var nCancelled = "TODO";
+    var nCancelled = stats.filter((s) => s.state == "CANCELED").length;
     document.querySelector("[data-name='nCancelled']").innerHTML += nCancelled
 
-    var nAltered = "TODO";
+    var nAltered = stats.filter((s) => s.state == "MODIFIED").length;
     document.querySelector("[data-name='nAltered']").innerHTML += nAltered;
 }
 

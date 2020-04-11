@@ -3,26 +3,26 @@ import os
 import requests
 import requests_mock
 
-API_BASE_URL = "http://backend/api"
+API_BASE_URL = "http://backend:5000/api"
 
 r = requests.session()
 if os.environ.get("MOCK_API"):
     adapter = requests_mock.Adapter()
     adapter.register_uri(
         "GET",
-        f"{API_BASE_URL}/stats/train/just_created",
+        f"{API_BASE_URL}/train/just_created/stats",
         status_code=200,
         json={"created": True, "stats": []},
     )
     adapter.register_uri(
         "GET",
-        f"{API_BASE_URL}/stats/train/no_stats",
+        f"{API_BASE_URL}/train/no_stats/stats",
         status_code=200,
         json={"stats": []},
     )
     adapter.register_uri(
         "GET",
-        f"{API_BASE_URL}/stats/train/with_stats",
+        f"{API_BASE_URL}/train/with_stats/stats",
         status_code=200,
         json={
             "stats": [
@@ -63,7 +63,7 @@ if os.environ.get("MOCK_API"):
 
 
 def get_train_stats(train_id: str):
-    response = r.get(f"{API_BASE_URL}/stats/train/{train_id}")
+    response = r.get(f"{API_BASE_URL}/train/{train_id}/stats")
     if response.status_code == 404:
         return None
 

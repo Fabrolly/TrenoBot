@@ -39,15 +39,15 @@ def add_journey_db(trainID):
         now = datetime.now()
 
         if "PG" in json_train["tipoTreno"]:
-            state = "Regolare"
+            state = "ON_TIME"
         else:
             if "ST" in json_train["tipoTreno"]:
-                state = "Soppresso"
+                state = "CANCELED"
             else:
-                state = "Parzialmente Soppresso"
+                state = "MODIFIED"
 
         if (
-            "Regolare" in state
+            "ON_TIME" in state
             and json_train["stazioneUltimoRilevamento"] == json_train["destinazione"]
         ):
             # se é regolare ma non é ancora arrivato non aggiorno il viaggio (é in grande ritardo)

@@ -84,7 +84,7 @@ def trip_search():
     return jsonify(response_ricerca.json())
 
 
-@app.route("/api/train_stats/<int:train_number>", methods=["GET"])
+@app.route("/api/train/<int:train_number>/stats", methods=["GET"])
 def get_stats(train_number):
     """
     Get historical stats for a train
