@@ -26,6 +26,12 @@ class TestFrontend(unittest.TestCase):
         browser.visit("/stats/view?train=no_stats")
         self.assertTrue(browser.is_text_present("Nessuna statistica"))
 
+    def test_train_just_created(self):
+        browser = Browser("flask", app=app)
+        browser.visit("/stats/view?train=just_created")
+        self.assertTrue(browser.is_text_present("Nessuna statistica"))
+        self.assertTrue(browser.is_text_present("non era ancora tracciato"))
+
     def test_ranking(self):
         browser = Browser("flask", app=app)
         browser.visit("/stats/ranking")

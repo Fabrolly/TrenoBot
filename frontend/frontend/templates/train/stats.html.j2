@@ -5,6 +5,11 @@
 {% block content %}
     <div class="container pt-3">
         <h1>Treno {{ train_id}}</h1>
+        {% if created %}
+            <div class="alert alert-info" role="alert">
+                Il treno che hai cercato non era ancora tracciato dai nosti sistemi. Da oggi in poi verranno raccolte le statistiche.
+            </div>
+        {% endif %}
         {% if stats != None %}
             {% if stats | length == 0%}
                 <p>Nessuna statistica ancora registrata. Riprova più tardi</p>

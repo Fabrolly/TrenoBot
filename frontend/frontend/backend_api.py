@@ -9,7 +9,10 @@ r = requests.session()
 if os.environ.get("MOCK_API"):
     adapter = requests_mock.Adapter()
     adapter.register_uri(
-        "GET", f"{API_BASE_URL}/stats/train/not_registered", status_code=404
+        "GET",
+        f"{API_BASE_URL}/stats/train/just_created",
+        status_code=200,
+        json={"created": True, "stats": []},
     )
     adapter.register_uri(
         "GET",
@@ -29,12 +32,6 @@ if os.environ.get("MOCK_API"):
                 {"day": 4, "delay": 3},
             ]
         },
-    )
-    adapter.register_uri(
-        "POST",
-        f"{API_BASE_URL}/stats/train",
-        status_code=200,
-        json={"message": "OK, train registered"},
     )
 
     adapter.register_uri(
@@ -67,17 +64,6 @@ if os.environ.get("MOCK_API"):
 
 def get_train_stats(train_id: str):
     response = r.get(f"{API_BASE_URL}/stats/train/{train_id}")
-    if response.status_code == 404:
-        return None
-
-    if response.status_code != 200:
-        raise Exception("Something wrong with the backend")
-
-    return response.json()
-
-
-def register_train(train_id: str):
-    response = r.post(f"{API_BASE_URL}/stats/train", data={"train": train_id})
     if response.status_code == 404:
         return None
 
