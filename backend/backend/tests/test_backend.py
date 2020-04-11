@@ -46,7 +46,7 @@ class TestBackend(unittest.TestCase):
         rv = self.app.get(
             "/api/trip/search?from=lekko&to=milano&date=2020-04-15T18:00:0"
         )
-        self.assertEqual(rv.status_code, 500)
+        self.assertEqual(rv.status_code, 404)
         data = rv.data.decode("UTF-8")
         self.assertEqual(data, "Departure station not existing")
 
@@ -54,7 +54,7 @@ class TestBackend(unittest.TestCase):
         rv = self.app.get(
             "/api/trip/search?from=lecco&to=mi4dno&date=2020-04-15T18:00:0"
         )
-        self.assertEqual(rv.status_code, 500)
+        self.assertEqual(rv.status_code, 404)
         data = rv.data.decode("UTF-8")
         self.assertEqual(data, "Destination station not existing")
 
@@ -62,19 +62,19 @@ class TestBackend(unittest.TestCase):
         rv = self.app.get("/api/trip/search?&to=milano&date=2020-04-15T18:00:0")
         self.assertEqual(rv.status_code, 500)
         data = rv.data.decode("UTF-8")
-        self.assertEqual(data, "No from string received")
+        self.assertEqual(data, "A parameter is missing")
 
     def test_trip_solution4(self):  # miss parameter to
         rv = self.app.get("/api/trip/search?from=lecco&date=2020-04-15T18:00:0")
         self.assertEqual(rv.status_code, 500)
         data = rv.data.decode("UTF-8")
-        self.assertEqual(data, "No to string received")
+        self.assertEqual(data, "A parameter is missing")
 
     def test_trip_solution5(self):  # miss parameter date
         rv = self.app.get("/api/trip/search?from=lecco")
         self.assertEqual(rv.status_code, 500)
         data = rv.data.decode("UTF-8")
-        self.assertEqual(data, "No to string received")
+        self.assertEqual(data, "A parameter is missing")
 
     def test_trip_solution6(self):  # datetime format error
         rv = self.app.get("/api/trip/search?from=lecco&to=palermo&date=2020-04-15T00:0")

@@ -28,7 +28,7 @@ def convert_timestamp(timestamp):
 
 def add_journey_db(trainID):
     database = db_connection()
-    cursor2 = database.cursor(buffered=True)
+    cursor = database.cursor(buffered=True)
 
     json_train = requests.get("http://backend:5000/api/train/%s" % trainID)
 
@@ -49,7 +49,8 @@ def add_journey_db(trainID):
         if (
             "Regolare" in state
             and json_train["stazioneUltimoRilevamento"] == json_train["destinazione"]
-        ):  # se é regolare ma non é ancora arrivato non aggiorno il viaggio (é in grande ritardo)
+        ):
+            # se é regolare ma non é ancora arrivato non aggiorno il viaggio (é in grande ritardo)
             train_departure_time = json_train["compOrarioPartenzaZeroEffettivo"]
             train_arrival_time = json_train["compOrarioArrivoZeroEffettivo"]
             train_delay = json_train["ritardo"]
@@ -79,7 +80,7 @@ def add_journey_db(trainID):
             )
 
         try:
-            cursor2.execute(insert_query, insert_tuple)
+            cursor.execute(insert_query, insert_tuple)
             database.commit()
             print("Journey odierna del treno %s aggiunta con successo" % (trainID))
         except Exception as e:
@@ -94,19 +95,15 @@ def check_arrival():
     trains = cursor.fetchall()
 
     now = datetime.now()
-    for (
-        row
-    ) in (
-        trains
-    ):  # per ogni treno nel db controllo quando devono arrivare a destinazione in teoria
+    for row in trains:
+        # per ogni treno nel db controllo quando devono arrivare a destinazione in teoria
         now_datetime = timedelta(hours=now.hour, minutes=now.minute, seconds=0)
         minute_difference = (
             now_datetime - row["arrival_datetime"]
         ).total_seconds() / 60.0
 
-        if (
-            minute_difference > 20
-        ):  # Seleziono i treni che sono arrivati (in teoria) giá da almeno 20 minuti
+        if minute_difference > 20:
+            # Seleziono i treni che sono arrivati (in teoria) giá da almeno 20 minuti
             query = (
                 "SELECT backend_journeys.DATE FROM backend_journeys INNER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID=%s ORDER BY backend_journeys.DATE DESC"
                 % (row["trainID"])
@@ -114,10 +111,10 @@ def check_arrival():
             cursor.execute(query)
             last_update = cursor.fetchone()
 
-            if (
-                last_update is None or last_update["DATE"] != now.date()
-            ):  # Devo aggiornare il viaggio odierno o l'ho giá aggiornato oggi? Controllo il valore di last_update
+            if last_update is None or last_update["DATE"] != now.date():
+                # Devo aggiornare il viaggio odierno o l'ho giá aggiornato oggi? Controllo il valore di last_update
                 res = add_journey_db(row["trainID"])  # lo aggiorno
 
-                if not res:  # qualcosa é andato storto nell'aggiornamento!
+                if not res:
+                    # qualcosa é andato storto nell'aggiornamento!
                     return str(res)
