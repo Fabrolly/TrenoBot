@@ -48,7 +48,7 @@ test_unit_backend:
     - cd /backend
     - python -m unittest discover backend/tests
 
-test_integration_backend:
+test_integration:
   stage: test
   image: docker:stable
   services:
