@@ -18,19 +18,12 @@ def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id
         "http://backend:5000/api/trip/search?from=%s&to=%s&date=%s-%s-%sT%s:00"
         % (partenza, arrivo, now.year, mese, giorno, ora)
     )
-    if parsed_json.status_code == 500:
+    if parsed_json.status_code == 500 or parsed_json.status_code == 404:
 
-        keyboard = backTripSearch()
-
-        bot.sendMessage(
-            chat_id,
-            emojize(parsed_json.text, use_aliases=True),
-            parse_mode="html",
-            disable_web_page_preview=None,
-            disable_notification=None,
-            reply_markup=keyboard,
+        return (
+            parsed_json.text,
+            backTripSearch(),
         )
-        return 0
 
     parsed_json = parsed_json.json()
     response_list = []

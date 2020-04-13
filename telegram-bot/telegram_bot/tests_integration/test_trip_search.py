@@ -1,7 +1,7 @@
 import re
 import datetime
 import unittest
-from telegram_bot.tests.test_utility_methods import *
+from telegram_bot.tests_integration.test_utility_methods import *
 
 
 def extract_assert_hour(text, time):
@@ -84,7 +84,17 @@ class TestTripSearch(unittest.TestCase):
         test_msg = ["Ricerca da Peslago a Lecco", "Ricerca da Lecco a Peslago"]
         for msg in test_msg:
             response = call_mute_mp(msg)
-            self.assertEqual(response, 0)
+            self.assertTrue(isinstance(response, tuple))
+            cond_departure = text_in_msg(
+                response[0], ["Departure station not existing"]
+            )
+            cond_destination = text_in_msg(
+                response[0], ["Destination station not existing"]
+            )
+            self.assertTrue(cond_departure or cond_destination)
+            self.assertTrue(
+                text_in_buttons(response[1], ["Riprova", "Menu' principale"],)
+            )
 
     # TEST FUNCTIONALITY - RICERCA UN TRENO CON DATA E/O ORA SBAGLIATE
     def test_ricerca_treno_data_ora_error(self):

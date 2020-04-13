@@ -1,6 +1,6 @@
 import unittest
 import validators
-from telegram_bot.tests.test_utility_methods import *
+from telegram_bot.tests_integration.test_utility_methods import *
 
 
 class TestMessageParser(unittest.TestCase):

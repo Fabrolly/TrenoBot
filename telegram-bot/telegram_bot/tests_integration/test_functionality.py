@@ -1,6 +1,6 @@
 import random
 import unittest
-from telegram_bot.tests.test_utility_methods import *
+from telegram_bot.tests_integration.test_utility_methods import *
 
 
 class TestFunctionality(unittest.TestCase):
@@ -231,7 +231,7 @@ class TestFunctionality(unittest.TestCase):
     # TEST FUNCTIONALITY - AGGIUNGI PIU' TRENI
     def test_aggiungi_piu_treni(self):
         train_code_1 = 5050
-        train_code_2 = 4949
+        train_code_2 = 5049
         response = call_mute_mp("programma " + str(train_code_1))
         response = call_mute_mp("programma " + str(train_code_2))
         response = call_mute_mp("lista")
@@ -240,7 +240,7 @@ class TestFunctionality(unittest.TestCase):
         key_word = [
             "Ecco la tua lista",
             "<b>Treno " + str(train_code_2) + "</b>",
-            "CHIAVENNA :arrow_right: COLICO",
+            "LECCO :arrow_right: BERGAMO",
             "<b>Treno " + str(train_code_1) + "</b>",
             "BERGAMO :arrow_right: LECCO",
         ]
