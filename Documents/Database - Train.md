@@ -20,7 +20,7 @@ I hid the 'stops' field because it contains a JSON with all the train stops, and
 * **state** 'Regolare' (regular), 'Parzialmente Soppresso' (Partially suppressed, see the alert field), 'Soppresso' (suppressed)
 * **last_detection_time** the last time the train was detected (-- if is not departed yet )
 * **last_detection_station** the last station where the train was detected (-- if is not departed yet)
-* **alert** if the train is partially suppressed here there is other information about the train (modifications, ecc) 
+* **alert** if the train is partially suppressed here there is other information about the train (modifications, ecc)
 * **last_update** time of last update of the DB
 
 Example for partially suppressed train:
@@ -32,7 +32,7 @@ The 'stops' field (here omitted) contains, FOR EVERY STOP, the following informa
 When the system need a Train:
 * Check if the train already exists on the DB
 * If the train exists and the last_update field is not older than 2 minutes the system use the local information
-* If the train exists and the last_update field is older than 2 minutes the system update all field by a new API request 
+* If the train exists and the last_update field is older than 2 minutes the system update all field by a new API request
 
 In this way I have a two-minute 'cache' on all trains.
 Very often it happens that, if a specific train has a problem, many users request information on the same train: with this expedient the system doesn't need to interrogate the API every time to get the information from trenitalia.

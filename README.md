@@ -69,6 +69,10 @@ Per la gestione della repository viene utilizzato un modello di branching basato
 * `git checkout feature-branch`
 * `git merge sprintN` per unire i cambiamenti già mergiati a quelli che si vuole mergiare ed evitare conflitti in fase di merge
 * Risolvere gli eventuali conflitti
+* Assicurarsi che i test di integrazione funzionino
+  * `docker-compose build backend frontend telegram-bot`
+  * `docker-compose run --rm NOME_SERVIZIO ./wait-for.sh database:3306 -- python -m unittest discover NOME_SERVIZIO/tests_integration/`
+
 * `git push origin feature-branch`
 * Una volta portata a termine la storia/quando si vuole creare la merge request (non è necessario farlo all'ultimo momento)
   * Andare sulla pagina [Issues](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/issues) ed assicurarsi che la propria branch/feature abbia una issue dedicata

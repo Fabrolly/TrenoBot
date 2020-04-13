@@ -20,10 +20,10 @@ def database_initialization(server, user, password):
 
     # If tables doses not exist, create it (if already exist a warning will be generated)
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS backend_trains (trainID INT PRIMARY KEY, number TEXT, origin TEXT, destination TEXT, stations JSON, departure_datetime DATETIME, arrival_datetime DATETIME, duration INT)"
+        "CREATE TABLE IF NOT EXISTS backend_trains (trainID INT PRIMARY KEY, number TEXT, origin TEXT, destination TEXT, stations JSON, departure_datetime TIME, arrival_datetime TIME, duration INT)"
     )
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS backend_journeys (date DATETIME, trainID INT, real_departure_datetime DATETIME, real_arrival_datetime DATETIME, delay INT, state TEXT, alert TEXT, last_detection_datetime DATETIME, last_detection_station TEXT, last_update DATETIME, final_status TEXT, final_delay INT, PRIMARY KEY(date, trainID))"
+        "CREATE TABLE IF NOT EXISTS backend_journeys (date DATE, trainID INT, real_departure_datetime TIME, real_arrival_datetime TIME, delay INT, state TEXT, alert TEXT, last_detection_datetime DATETIME, last_detection_station TEXT, PRIMARY KEY(date, trainID))"
     )
 
     database.commit()
