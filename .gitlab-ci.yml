@@ -93,12 +93,12 @@ build_dev:
     - docker tag ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot:${CI_COMMIT_SHA:0:8}
     - docker push ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot:${CI_COMMIT_SHA:0:8}
 
-# build docs and publish them
+# build docs and publish them, only stable docs are ok
 pages:
   stage: build
-  # only:
-  #  - master
-  #  - /^sprint\d+$/
+  only:
+    - master
+    - /^sprint\d+$/
   script:
     - pip install -r requirements.txt
     - pip install -r frontend/requirements.txt
