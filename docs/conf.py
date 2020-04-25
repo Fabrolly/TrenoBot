@@ -46,10 +46,10 @@ copyright = "{0}, TrenoBot".format(datetime.datetime.now().year)
 
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
     "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
-    "sphinx.ext.napoleon",
 ]
 
 
@@ -64,3 +64,4 @@ html_show_sourcelink = True
 
 autosummary_generate = True
 autodoc_default_flags = ["members"]
+napoleon_use_param = True

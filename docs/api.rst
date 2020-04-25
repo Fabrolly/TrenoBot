@@ -18,6 +18,8 @@ frontend
 
    frontend.frontend
    frontend.backend_api
+   frontend.controllers.page_controller
+   frontend.controllers.stats_controller
 
 
 telegram-bot
