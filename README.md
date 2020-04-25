@@ -1,31 +1,104 @@
-# TrenoBot For Telegram - A Chatbot for railway monitoring 
+# Trenobot - Laboratorio di Progettazione
 
-A bot for Telegram to monitor trains on Italian territory
+A Telegram Bot to monitor italian trains
 
-## The idea
-The development started in 2016, as a personal project. The success of the project, however, requires a complete redesign to support the large amount of users and data to be managed. For this occasion I decided to completely rewrite the bot and make it public on ghithub.
+## Prima dello sviluppo
 
-## Why is born
-In the information age, more and more applications provide us daily information to live in a simpler way. Traffic, news, reminder, applications, digital notice-board... However, many of these are based on broadcast messages, not personalized and not related to the information we are interested in. This is the main reason for which, in 2016, I developed this Telegram Bot for my needs. Over time I discovered that my needs were not only mine, but of all Italian commuters: so, I started making the bot accessible to everyone on Telegram.
+Per lo sviluppo del progetto è richiesto l'IDE [VSCode](https://code.visualstudio.com/)
 
-## What trenobot can do
-* Trenobot can provide real-time information for any Italian train (excluding Italo) of any category: from regional to high-speed trains.
-* You can set your trains, to stay updated daily and automatically before and during the run of your train.
-Receive message for strikes, faults or alerts (including weather) on your route.
-* Find out when your train will be canceled long before station announcements.
-* Search for a train by entering your departure, destination and time: add it to your list, view the price or view the real time information.
+Estensioni di VSCode richieste per lo sviluppo:
 
-Single train real time information: 
-* train status (regular, canceled, modified)
-* train delay (minute by minute)
-* intermediate stations and arrival tracks
-* last station where the train was detected
-* time of the last position contact of the train
-* weather in the arrival station
+* [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
+* [Visual Studio IntelliCode](https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode)
+* [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
-Accuracy of TrainBot updates: - / + 1 minute.
-Accuracy of official channels or announcements at the station: - / + 5 minutes.
+### Impostazione ambiente di sviluppo
+
+Da eseguire la prima volta:
+
+* Eseguire `git config core.autocrlf true`
+* Posizionarsi sul branch `sprintN` ed effettuare il pull
+* Installare [git-lfs](https://help.github.com/en/github/managing-large-files/installing-git-large-file-storage)
+* Creare un virtual env con: `python3 -m venv venv`
+* Attivare il virtual env: `source venv/bin/activate`
+* Installare i pacchetti necessari al supporto allo sviluppo: `pip install -r requirements.txt`
+* Eseguire lo script `.repo/setup-git-hooks.sh` per impostare l'esecuzione di script prima del commit, per formattare in automatico il codice secondo [PEP8]()
+* Installare (se presenti) i file `requirements.txt` presenti nelle varie cartelle dei sottoprogetti, ad esempio `pip install -r backend/requirements.txt`
+* Si e' pronti per sviluppare
+
+### Per le volte successive
+
+* Attivare il virtualenv con `source venv/bin/activate`
+
+## Sviluppo
+
+Per avviare tutta l'infrastruttura necessaria all'esecuzione del progetto e' consigliabile l'utilizzo di Docker e Docker Compose.
+
+Per avviare tutto il progetto in sviluppo e' necessario eseguire `docker-compose -f docker-compose.yaml -f docker-compose.development.yaml up` che avvia i tutti i servizi. L'applicazione del file di deployment aggiunge un mount delle cartelle del codice dentro il docker, in modo da velocizzare lo sviluppo in caso si utilizzino framework che supportino il live-reload del codice.
+
+Per i singoli servizi e' possibile sia eseguire manualmente il servizio o eseguire solo il docker corrispondente con: `docker-compose -f docker-compose.yaml -f docker-compose.development.yaml up NOMESERVIZIO`.
+
+### Utilizzo di Git
+
+#### Messaggi di commit
+
+Leggere [questo](https://chris.beams.io/posts/git-commit/)
+
+> * Separate subject from body with a blank line
+> * Limit the subject line to 50 characters (if possible)
+> * Capitalize the subject line
+> * Do not end the subject line with a period
+> * Use the imperative mood in the subject line (When applied this commit will... "YOUR COMMIT MESSAGE")
+> * Wrap the body at 72 characters (if possible)
+> * Use the body to explain what and why vs. how
+
+#### Modello di branching
+
+Per la gestione della repository viene utilizzato un modello di branching basato su [git flow](https://nvie.com/posts/a-successful-git-branching-model/), con un focus sul feature-branching.
+
+* Il branch `master` contiene i commit di tutti gli sprint conclusi fino a questo momento
+* I branch `sprintN` contengono i commit dello sprint N-esimo, a fine sprint il branch N-esimo viene mergiato dentro `master`
+* Dal branch dello sprint corrente scaturiscono i `feature-branch` relativi alle storie del progetto che vengono mergiati nel branch dello sprint a fine feature
+
+#### Come comportarsi al momento del merge
+
+* Assicurarsi di essere su una `feature-branch` con `git status`
+* Assicurarsi di aver committato tutti i cambimenti necessari
+* `git checkout sprintN`
+* `git pull origin sprintN` per scaricare tutti i cambiamenti già mergiati nel branch dello sprint
+* `git checkout feature-branch`
+* `git merge sprintN` per unire i cambiamenti già mergiati a quelli che si vuole mergiare ed evitare conflitti in fase di merge
+* Risolvere gli eventuali conflitti
+* Assicurarsi che i test di integrazione funzionino
+  * `docker-compose build backend frontend telegram-bot`
+  * `docker-compose run --rm NOME_SERVIZIO ./wait-for.sh database:3306 -- python -m unittest discover NOME_SERVIZIO/tests_integration/`
+
+* `git push origin feature-branch`
+* Una volta portata a termine la storia/quando si vuole creare la merge request (non è necessario farlo all'ultimo momento)
+  * Andare sulla pagina [Issues](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/issues) ed assicurarsi che la propria branch/feature abbia una issue dedicata
+  * Andare sulla pagina delle [Merge Request](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/merge_requests) e creare la merge request
+  * Attendere la code-review e l'approvazione di almeno un collega
+  * Effettuare il merge una volta risolti tutti i problemi segnalati dai colleghi
+
+### Scrittura dei test
+
+Per la scrittura dei test è necessario utilizzare il framework di testing [`unittest`](https://docs.python.org/3/library/unittest.html).
+
+Si deve dare la priorità ai test di unità e solo in seguito a quelli di integrazione. Ciascuna parte del sistema deve essere testabile da sola, senza la necessità che le altre funzionino.
 
 
+## Pipeline
 
-![Dataset Example](https://raw.githubusercontent.com/Fabrolly/TrenoBot/master/Documentation/Class%20diagram.png)
+La pipeline che realizza la CI per il progetto si occupa delle seguenti task:
+
+* Pre-test:
+  * Controlla che il codice sia correttamente formattato
+  * Esegue il build di tutte le immagini docker e le pusha con il tag `test`
+* Test
+  * In ciascuna immagine docker di test esegue i test di unità
+* Build:
+  * Ritagga le immagini con `$COMMIT_SHA` e le pusha
+  * Utile per un eventuale server di development
+* Release:
+  * Eseguito solo in caso di commit su `sprintN` o `master`, tagga le immagini con il nome del branch
+  * Utile per un eventuale server di staging

@@ -1,0 +1,19 @@
+version: "3"
+services:
+
+    backend:
+        volumes:
+            - ./backend:/backend
+
+    frontend:
+        volumes:
+            - ./frontend:/frontend
+
+    telegram-bot:
+        volumes:
+            - ./telegram-bot:/telegram-bot
+
+    database:
+        volumes:
+            - ./.data/mysql:/var/lib/mysql
+
