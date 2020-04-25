@@ -131,10 +131,10 @@ def check_arrival_loop():
 
 class JSONEncoderWithDefault(flask.json.JSONEncoder):
     def default(self, o):
+        """
+        """
         return str(o)
 
-
-app.json_encoder = JSONEncoderWithDefault
 
 if __name__ == "__main__":
     SERVER = os.environ.get("DATABASE_HOST")
@@ -145,4 +145,5 @@ if __name__ == "__main__":
     x = threading.Thread(target=check_arrival_loop)
     x.start()
 
+    app.json_encoder = JSONEncoderWithDefault
     app.run(debug=True, host="0.0.0.0")

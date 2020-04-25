@@ -1,3 +1,8 @@
+"""
+A module to interact with the HTTP API provided by the backend.
+The module mocks method if the environment variable "MOCK_API" is set.
+"""
+
 import os
 
 import requests
@@ -63,6 +68,12 @@ if os.environ.get("MOCK_API"):
 
 
 def get_train_stats(train_id: str):
+    """
+    Get the stats of a certain train from the backend
+
+    Args:
+        train_id (str): id of the train to get the data
+    """
     response = r.get(f"{API_BASE_URL}/train/{train_id}/stats")
     if response.status_code == 404:
         return None
