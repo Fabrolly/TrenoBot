@@ -9,6 +9,8 @@ from .. import backend_api
 
 def view():
     """
+    .. :quickref: Page; Get single train stats
+
     Show the stats related to a certain train.
     Handles the case of a missing train.
     Warn the user if the train was just inserted.
@@ -31,6 +33,8 @@ def view():
 
 def ranking():
     """
+    .. :quickref: Page; Get ranking of the trains
+
     Show the ranking of the trains.
     """
     ranking_response = backend_api.get_ranking()

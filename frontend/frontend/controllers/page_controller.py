@@ -11,6 +11,10 @@ from .. import backend_api
 
 
 def index():
-    """Serve the index page"""
+    """
+    .. :quickref: Page; Get Index
+
+    Serve the index page
+    """
     stats = backend_api.get_general_stats()
     return render_template("pages/index.html.j2", stats=stats)

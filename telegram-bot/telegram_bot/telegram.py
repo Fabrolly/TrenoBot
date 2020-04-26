@@ -1,3 +1,6 @@
+"""
+This module contains general handlers for setting up and running the bot
+"""
 import telepot
 import time
 from .messageParser import *
@@ -17,7 +20,11 @@ def keyboardParser(msg):
 
 
 def on_chat_message(msg):
-
+    """
+    Handle an incoming message
+    Args:
+        message: the incoming message
+    """
     if isinstance(msg, str) and ".chatId" in msg:
         message = msg[: msg.index(".")].lower()
         chatId = msg[msg.index(".chatId") + 7 :]
@@ -75,6 +82,14 @@ def on_chat_message(msg):
 
 
 def sendMessageKeyboard(chatId, msg, keyboard):
+    """
+    Send an inline keyboard
+
+    Params:
+        chatId: where to send the message
+        msg: the text
+        keyboard: the inline keyboard instance to send
+    """
     bot.sendMessage(
         chatId,
         emojize(msg, use_aliases=True),
@@ -86,6 +101,9 @@ def sendMessageKeyboard(chatId, msg, keyboard):
 
 
 def run():
+    """
+    Run the bot
+    """
     bot = create_bot()
     bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})
 

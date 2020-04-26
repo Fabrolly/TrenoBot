@@ -1,3 +1,6 @@
+"""
+The entrypoint/main for the backend service, defining routes and the background thread to check trains.
+"""
 from flask import Flask, request, jsonify, abort
 import flask
 
@@ -11,16 +14,25 @@ import time
 
 from .database_initialization import database_initialization
 from . import database_utils
-from .check_journey import check_arrival
+from . import check_journey
 from . import trenitalia_interface
 
 app = Flask(__name__)
 
 
 @app.route("/api/train/<int:train_number>", methods=["GET"])
-def get_train_status(train_number):
+def get_train_status(train_number: int):
     """
-    Return the JSON containing all the real time information of a train, by it's number
+    .. :quickref: Train; Get all the real time information for a train
+
+
+    Get all the real time information for a train
+
+    Returns:
+        a JSON with the data
+
+    Args:
+        train_number: the identifier of the train
     """
 
     # find station ID for the full request
@@ -37,7 +49,12 @@ def get_train_status(train_number):
 @app.route("/api/trip/search")
 def trip_search():
     """
-    Search for a trip given from to and date
+    .. :quickref: Trip; Search for a trip
+
+    Given a "from", "to", and "date" as query parameters, search for trips solutions
+
+    Returns:
+        a JSON with the data
     """
     # prendo in input gli argomenti della ricerca e verifico che ci siano tutti e che siano corretti
     partenza = request.args.get("from")
@@ -85,9 +102,18 @@ def trip_search():
 
 
 @app.route("/api/train/<int:train_number>/stats", methods=["GET"])
-def get_stats(train_number):
+def get_stats(train_number: int):
+
     """
+    .. :quickref: Stats; Get historical stats for a train
+
     Get historical stats for a train
+
+    Returns:
+        a JSON with the data
+
+    Args:
+        train_number: the identifier of the train
     """
     if database_utils.is_train_in_database(train_number):
         return jsonify(
@@ -111,6 +137,15 @@ def get_stats(train_number):
 
 @app.route("/api/stats/ranking", methods=["GET"])
 def get_stats_ranking():
+    """
+    .. :quickref: Ranking; Get ranking for all the trains
+
+
+    Get ranking for all the trains
+
+    Returns:
+        a JSON with the data
+    """
     best_trains = database_utils.get_best_trains()
     worst_trains = database_utils.get_worst_trains()
     return jsonify({"best": best_trains, "worst": worst_trains})
@@ -118,20 +153,38 @@ def get_stats_ranking():
 
 @app.route("/api/stats/general", methods=["GET"])
 def get_general_stats():
+    """
+    .. :quickref: GeneralStats; Get general aggregated stats
+
+    Get general aggregated stats
+
+    Returns:
+        a JSON with the data
+    """
     stats = database_utils.get_general_stats()
     return jsonify(stats)
 
 
 def check_arrival_loop():
+    """
+    Run the periodic checks for trains
+    """
     while True:
-        check_arrival()
+        check_journey.check_arrival()
         print("Controllo automatico treni in arrivo eseguito. Prossimo tra 10 minuti.")
         time.sleep(10 * 60)  # sleep 10 minutes
 
 
 class JSONEncoderWithDefault(flask.json.JSONEncoder):
+    """
+    Override some of the the standard Flask JSON Encoder behaviors
+    """
+
     def default(self, o):
         """
+        When serialization to JSON is not available, return everything as a string.
+
+        This is useful to handle objects such as datetimes.
         """
         return str(o)
 

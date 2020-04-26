@@ -15,7 +15,7 @@ app.add_url_rule(
 )
 
 
-def main(host: str="0.0.0.0", port: int=5000):
+def main(host: str = "0.0.0.0", port: int = 5000):
     """
     Runs the server on a certain host and port.
     The default hosts accepts all incoming connections.

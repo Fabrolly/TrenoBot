@@ -1,3 +1,6 @@
+"""
+A module with various helper functions to extract data from the database
+"""
 import sys
 import os
 import requests
@@ -10,6 +13,12 @@ from .check_journey import add_journey_db
 
 
 def db_connection():
+    """
+    Return a connection to the database
+
+    Returns:
+        connection to the database
+    """
     server = os.environ.get("DATABASE_HOST")
     user = os.environ.get("DATABASE_USER")
     password = os.environ.get("DATABASE_PASSWORD")
@@ -19,7 +28,13 @@ def db_connection():
     return database
 
 
-def is_train_in_database(train_number):
+def is_train_in_database(train_number: int) -> bool:
+    """
+    Check if a train is saved in the database
+
+    Args:
+        train_number: identifier of the train
+    """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
     cursor.execute(f"SELECT * FROM backend_trains WHERE trainID = {train_number}")
@@ -28,6 +43,12 @@ def is_train_in_database(train_number):
 
 
 def store_train(train: dict):
+    """
+    Store a train in the database
+
+    Args:
+        train: the train to store
+    """
     database = db_connection()
     train_id = train["fermate"][0]["id"]
     train_number = train["numeroTreno"]
@@ -61,7 +82,16 @@ def store_train(train: dict):
         raise exception
 
 
-def get_stats(train_id):
+def get_stats(train_id) -> list:
+    """
+    Get historical stats for a certain train
+
+    Args:
+        train_id: identifier of the train
+
+    Returns:
+        the historical stats for the train
+    """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
     query = f"SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration,  stations FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} ORDER BY backend_journeys.DATE DESC"
@@ -71,6 +101,9 @@ def get_stats(train_id):
 
 
 def get_best_trains():
+    """
+    Get the best trains according to average delay
+    """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
     query = f"SELECT backend_trains.trainID, AVG(delay) as delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID GROUP BY backend_trains.trainID ORDER BY AVG(delay) ASC LIMIT 10"
@@ -80,6 +113,9 @@ def get_best_trains():
 
 
 def get_worst_trains():
+    """
+    Get the worst trains according to average delay
+    """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
     query = f"SELECT backend_trains.trainID, AVG(delay) as delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID GROUP BY backend_trains.trainID ORDER BY AVG(delay) DESC LIMIT 10"
@@ -89,6 +125,9 @@ def get_worst_trains():
 
 
 def get_general_stats():
+    """
+    Get average general stats for all stored trains
+    """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
     query = f"SELECT AVG(delay) as avg_delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID"

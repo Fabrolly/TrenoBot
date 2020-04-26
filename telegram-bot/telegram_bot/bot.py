@@ -1,11 +1,15 @@
-# This class initialize the database and the necessary tables
-# For more information about DB see: /Documentation/Infrastructure and technologies.md
+"""
+A module to setup the database instance of the bot
+"""
 from crontab import CronTab
 from .bot_utility import connect_db
 from .telegram import *
 
 
 def main():
+    """
+    Setup the bot database environment
+    """
     # Connecting to database as root
     database = connect_db()
     if isinstance(database, str):

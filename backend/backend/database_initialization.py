@@ -1,5 +1,6 @@
-# This class initialize the database and the necessary tables
-# For more information about DB see: /Documentation/Infrastructure and technologies.md
+"""
+A module to initialize the database and the necessary tables
+"""
 import os
 
 import MySQLdb
@@ -8,7 +9,15 @@ import warnings
 warnings.filterwarnings("ignore", category=MySQLdb.Warning)
 
 
-def database_initialization(server, user, password):
+def database_initialization(server: str, user: str, password: str):
+    """
+    Create the database for the backend
+
+    Args:
+        server: host of the databsase
+        user: user of the databsase
+        password: password of the databsase
+    """
     # Connecting to database as root
     # database = MySQLdb.connect("localhost","root", loginInfo.databasePWS())
     database = MySQLdb.connect(server, user, password)

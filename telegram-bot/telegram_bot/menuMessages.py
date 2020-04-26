@@ -1,3 +1,9 @@
+"""
+This module contains various functions to generate messages and interactions
+for the menu
+"""
+
+
 from .buttons import *
 
 

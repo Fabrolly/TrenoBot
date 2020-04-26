@@ -1,3 +1,8 @@
+"""
+This module contains various functions to generate Telegram Inline Keybord
+instances to allow to better interact with the bot
+"""
+
 import telepot
 from telepot.namedtuple import *
 

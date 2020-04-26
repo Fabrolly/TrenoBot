@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+This module contains functions to parse messages and act according to their content
+
+"""
 
 from .messageResponder import *
 from .usersController import *
@@ -18,6 +21,17 @@ import time
 
 
 def messageParser(msg, chatId, msgComplete, isKeybboard):
+    """
+    Generate response based on the message content
+    Params:
+        msg: the message text to parse
+        chatId: the chat where the message come from
+        msgComplete: the complete message instance
+        isKeybboard: if the message comes from a inline keyboard reply
+    Returns:
+        the response to send
+
+    """
 
     # print(msg, chatId, msgComplete, isKeybboard)
     if not isKeybboard:
@@ -99,17 +113,6 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         response = programInfoFromSearch(chatId, *msg)
         return response
 
-    # ----admin functions
-    """
-    if chatId == int(loginInfo.adminTelegramId()):
-        if "/stats" in msg:
-            return adminFunctions.systemStats()
-        if "/broadcast" in msg:
-            msg = msg[11:]
-            if msg != "":
-                return adminFunctions.broadcast(msg)
-    """
-
     return ("Sintassi comando non valida\nRiprova :interrobang:", ())
 
 
@@ -156,7 +159,10 @@ def programParser(msg, chatId):
 
 
 def trip_search_parser(command, chatId):
+    """
+    Handle the search for a trip
 
+    """
     now = datetime.datetime.now()
 
     if " da " not in command and " a " not in command:

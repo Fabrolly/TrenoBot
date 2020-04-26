@@ -1,3 +1,6 @@
+"""
+A module to generate responses to the messages
+"""
 from .databaseController import *
 from .trip_search import *
 from .buttons import *

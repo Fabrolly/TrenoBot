@@ -49,6 +49,9 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
     "sphinx.ext.autosummary",
+    "sphinxcontrib.httpdomain",
+    "sphinxcontrib.autohttp.flask",
+    "sphinxcontrib.autohttp.flaskqref",
     "sphinx.ext.doctest",
 ]
 
