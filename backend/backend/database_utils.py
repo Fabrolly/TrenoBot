@@ -33,9 +33,44 @@ def store_train(train: dict):
     train_number = train["numeroTreno"]
     train_origin = train["origineZero"]
     train_destination = train["destinazioneZero"]
-    train_stations = json.dumps(train["fermate"])
+    train_stations = train["fermate"]
     train_departure_time = train["compOrarioPartenza"]
     train_arrival_time = train["compOrarioArrivo"]
+
+
+    #Il campo stazioni lo memorizzo nel DB dei treni controllati a livello di statistiche poiché puo essere utile elenco stazioni
+    #Visto che questo campo contiene un sacco di info real time inutili, che non memorizzo del DB quindi li cancello
+    for item in train_stations:    
+        item.pop('actualFermataType', None)
+        item.pop('arrivoReale', None)
+        item.pop('binarioEffettivoArrivoCodice', None)
+        item.pop('binarioEffettivoArrivoDescrizione', None)
+        item.pop('binarioEffettivoArrivoTipo', None)
+        item.pop('binarioEffettivoPartenzaCodice', None)
+        item.pop('binarioEffettivoPartenzaDescrizione', None)
+        item.pop('binarioEffettivoPartenzaTipo', None)
+        item.pop('binarioProgrammatoArrivoDescrizione', None)
+        item.pop('binarioProgrammatoPartenzaCodice', None)
+        item.pop('binarioProgrammatoPartenzaDescrizione', None)
+        item.pop('effettiva', None)
+        item.pop('isNextChanged', None)
+        item.pop('kcNumTreno', None)
+        item.pop('listaCorrispondenze', None)
+        item.pop('materiale_label', None)
+        item.pop('orientamento', None)
+        item.pop('partenzaReale', None)
+        item.pop('partenzaTeoricaZero', None)
+        item.pop('programmataZero', None)
+        item.pop('ritardo', None)
+        item.pop('ritardoArrivo', None)
+        item.pop('ritardoPartenza', None)
+        item.pop('visualizzaPrevista', None)
+        item.pop('arrivoTeoricoZero', None)
+        item.pop('binarioProgrammatoArrivoCodice', None)
+        item.pop('nextTrattaType', None)
+        item.pop('programmata', None)
+
+    train_stations = json.dumps(train_stations)
 
     factors = (60, 1, 1 / 60)
     t1 = sum(i * j for i, j in zip(map(int, train["compDurata"].split(":")), factors))
@@ -64,7 +99,7 @@ def store_train(train: dict):
 def get_stats(train_id):
     database = db_connection()
     cursor = database.cursor(dictionary=True)
-    query = f"SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration,  stations FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} ORDER BY backend_journeys.DATE DESC"
+    query = f"SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} ORDER BY backend_journeys.DATE DESC"
     cursor.execute(query)
     stats = cursor.fetchall()
     return stats
