@@ -69,7 +69,6 @@ def store_train(train: dict):
         item.pop('binarioProgrammatoArrivoCodice', None)
         item.pop('nextTrattaType', None)
         item.pop('programmata', None)
-
     train_stations = json.dumps(train_stations)
 
     factors = (60, 1, 1 / 60)
