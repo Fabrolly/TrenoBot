@@ -16,6 +16,19 @@ def removeButtons():
 
     return keyboard
 
+def backToPrimaryMenu():
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="Torna al menu principale", callback_data="Menu Principale"
+                )
+            ],
+        ]
+    )
+
+    return keyboard
+
 
 def removeDirButtons():
     keyboard = InlineKeyboardMarkup(
@@ -206,26 +219,31 @@ def summaryButtons():
 def mainMenuButtons():
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Treno Real Time", callback_data="Menu Treno")],
+            [InlineKeyboardButton(text="📡 Treno in Real Time ", callback_data="Menu Treno")],
             [
                 InlineKeyboardButton(
-                    text="Ricerca un Treno", callback_data="Menu Ricerca"
+                    text="🚆 Ricerca Soluzione di Viaggio 🚆", callback_data="Menu Ricerca"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Treni Monitorati", callback_data="Menu programmazione"
+                    text="⏰ I miei Treni monitorati ⏰", callback_data="Menu programmazione"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Direttrici Monitorate", callback_data="Menu Direttrice"
+                    text="🔔 Le mie Direttrici monitorate 🔔", callback_data="Menu Direttrice"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Riepilogo completo dei miei avvisi",
+                    text="📃 Riepilogo completo monitoraggi 📃",
                     callback_data="Riepilogo",
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📊 Statistiche 📊", callback_data="Menu statistiche"
                 )
             ],
         ]

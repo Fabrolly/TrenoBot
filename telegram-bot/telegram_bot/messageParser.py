@@ -48,6 +48,10 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         response = realTimeMenu()
         return response
 
+    if "menu statistiche" in msg:
+        response = statsMenu()
+        return response
+
     if "lista direttrici" in msg:
         response = showListDirec(chatId)
         return response

@@ -23,6 +23,12 @@ def searchMenu():
 
     return (mess, keyboard)
 
+def statsMenu():
+    mess = "📊 <b>Classifica dei treni migliori e peggiori</b>\n\nPer visualizzare le statistiche di un treno particolare digita per esempio '<i> Statistiche 5050 </i>'"
+    keyboard = backToPrimaryMenu()
+
+    return (mess, keyboard)
+
 
 def addListMenu():
     mess = ":eyes: <b>Aggiungi un treno alla tua Lista!</b>\n\nVerrai aggiornato automaticamente sui ritardi, cancellazioni, modifiche e binari del tuo treno!\n\n<b>Esempio</b>\nper aggiungere il treno <b>35091</b>, puoi scrivere:\n\n<i>Programma 35091\nProgramma 35091 da Piacenza a Parma\nProgramma 35091 lunedi venerdi</i>\n\n:exclamation: Se ometti i giorni della settimana viene considerato da Lunedi' a Venerdi'.\n:exclamation: Se ometti le stazioni intermedie viene considerata l'intera tratta"
