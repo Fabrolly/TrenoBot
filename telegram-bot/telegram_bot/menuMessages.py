@@ -23,6 +23,7 @@ def searchMenu():
 
     return (mess, keyboard)
 
+
 def statsMenu():
     mess = "📊 <b>Classifica dei treni migliori e peggiori</b>\n\nPer visualizzare le statistiche di un treno particolare digita per esempio '<i> Statistiche 5050 </i>'"
     keyboard = backToPrimaryMenu()
