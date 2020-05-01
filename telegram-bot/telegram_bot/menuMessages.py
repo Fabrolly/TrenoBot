@@ -1,3 +1,7 @@
+"""
+A module that returns the description messages for the menu of the bot and the related keyboard
+"""
+
 from .buttons import *
 
 
@@ -25,6 +29,13 @@ def searchMenu():
 
 
 def statsMenu():
+    """
+    Function that return the message of statistics menu and the relative keyboard
+
+    Returns:
+        String with the statistics menu message
+        Inlinekeybord Object for back at the primary menu
+    """
     mess = "📊 <b>Classifica dei treni migliori e peggiori</b>\n\nPer visualizzare le statistiche di un treno particolare digita per esempio '<i> Statistiche 5050 </i>'"
     keyboard = backToPrimaryMenu()
 

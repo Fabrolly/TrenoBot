@@ -1,3 +1,6 @@
+"""
+A module that returns various type of keyboards for messages
+"""
 import telepot
 from telepot.namedtuple import *
 
@@ -16,8 +19,14 @@ def removeButtons():
 
     return keyboard
 
+def backToPrimaryMenu() -> InlineKeyboardMarkup:
+    """
+    Function that return a Inlinekeybord object containing a button for return to the primaty menu
+    Args:
 
-def backToPrimaryMenu():
+    Returns:
+        Inlinekeybord Object 
+    """
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -220,27 +229,20 @@ def summaryButtons():
 def mainMenuButtons():
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
+            [InlineKeyboardButton(text="📡 Treno in Real Time ", callback_data="Menu Treno")],
             [
                 InlineKeyboardButton(
-                    text="📡 Treno in Real Time ", callback_data="Menu Treno"
+                    text="🚆 Ricerca Soluzione di Viaggio 🚆", callback_data="Menu Ricerca"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="🚆 Ricerca Soluzione di Viaggio 🚆",
-                    callback_data="Menu Ricerca",
+                    text="⏰ I miei Treni monitorati ⏰", callback_data="Menu programmazione"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="⏰ I miei Treni monitorati ⏰",
-                    callback_data="Menu programmazione",
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text="🔔 Le mie Direttrici monitorate 🔔",
-                    callback_data="Menu Direttrice",
+                    text="🔔 Le mie Direttrici monitorate 🔔", callback_data="Menu Direttrice"
                 )
             ],
             [
@@ -256,8 +258,6 @@ def mainMenuButtons():
             ],
         ]
     )
-    print("\n\n")
-    print(keyboard)
     return keyboard
 
 
