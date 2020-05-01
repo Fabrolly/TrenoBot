@@ -1,9 +1,15 @@
 import telepot
 from .messageParser import *
+from .trenordAlertChecker import main as trenord_alert_check
+from .scheduledChecker import main as scheduled_train_check
 
 # import messageParser
 from emoji import emojize
 from .bot_utility import create_bot
+
+import time
+import os
+import threading
 
 # import loginInfo
 
@@ -83,13 +89,32 @@ def sendMessageKeyboard(chatId, msg, keyboard):
         reply_markup=keyboard,
     )
 
+def check_users_train_loop(): 
+    while True:
+        print("Controllo automatico treni utente programmati")
+        scheduled_train_check()
+        print("Prossimo controllo treni in partenza tra 2 minuti")
+        time.sleep(2 * 60)  # sleep 2 minutes
+
+def check_users_trenord_alert_loop(): 
+    while True:
+        print("Controllo automatico direttrici utente monitorate")
+        trenord_alert_check()
+        print("Prossimo controllo direttrici tra 10 minuti")
+        time.sleep(10 * 60)  # sleep 10 minutes
+
 
 bot = create_bot()
 bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})
 
+x = threading.Thread(target=check_users_train_loop)
+x.start()
+
+y = threading.Thread(target=check_users_trenord_alert_loop)
+y.start()
+
 print("Listening ...")
 
-import time
 
 while 1:
     time.sleep(5)

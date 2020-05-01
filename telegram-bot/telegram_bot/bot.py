@@ -1,5 +1,7 @@
-# This class initialize the database and the necessary tables
-# For more information about DB see: /Documentation/Infrastructure and technologies.md
+"""
+A module that initialize the crontab, the database and the necessary tables
+For more information about DB see: /Documentation/Infrastructure and technologies.md
+"""
 from crontab import CronTab
 from .bot_utility import connect_db
 

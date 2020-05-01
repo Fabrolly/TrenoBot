@@ -104,15 +104,15 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     # ----admin functions
-    """
-    if chatId == int(loginInfo.adminTelegramId()):
+
+    if chatId == 4260245:
         if "/stats" in msg:
-            return adminFunctions.systemStats()
+            return systemStats()
         if "/broadcast" in msg:
             msg = msg[11:]
             if msg != "":
-                return adminFunctions.broadcast(msg)
-    """
+                return broadcast(msg)
+
 
     return ("Sintassi comando non valida\nRiprova :interrobang:", ())
 

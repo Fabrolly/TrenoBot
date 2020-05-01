@@ -11,7 +11,7 @@ def removeButtons():
             [InlineKeyboardButton(text="Visualizza lista", callback_data="/lista")],
             [
                 InlineKeyboardButton(
-                    text="Torna al menu principale", callback_data="Menu Principale"
+                    text="🏠 Menu principale🏠 ", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -32,7 +32,7 @@ def backToPrimaryMenu() -> InlineKeyboardMarkup:
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="Torna al menu principale", callback_data="Menu Principale"
+                    text=" 🏠 Menu principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -108,6 +108,11 @@ def RealTimeButtons(trainNumber):
                     callback_data="Programma %s" % (trainNumber),
                 )
             ],
+            [
+                InlineKeyboardButton(
+                    text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
+                )
+            ]
         ]
     )
 
@@ -119,7 +124,7 @@ def backMainMenuButtons():
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="Menu' principale", callback_data="Menu Principale"
+                    text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
                 )
             ]
         ]
@@ -134,7 +139,7 @@ def backTripSearch():
             [InlineKeyboardButton(text="Riprova", callback_data="Menu Ricerca")],
             [
                 InlineKeyboardButton(
-                    text="Menu' principale", callback_data="Menu Principale"
+                    text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -197,7 +202,7 @@ def trenordAlertButtons():
             [InlineKeyboardButton(text="Rimuovi avvisi", callback_data="Treno")],
             [
                 InlineKeyboardButton(
-                    text="Menu' Principale", callback_data="Menu Principale"
+                    text="🏠 Menu' Principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -285,7 +290,7 @@ def programMenuButtons():
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Principale", callback_data="Menu Principale"
+                    text="🏠 Menu' Principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -305,7 +310,7 @@ def trainMenuButtons():
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Principale", callback_data="Menu Principale"
+                    text="🏠 Menu' Principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -318,7 +323,7 @@ def searchMenuButtons():
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="Menu' Principale", callback_data="Menu Principale"
+                    text="🏠 Menu' Principale 🏠", callback_data="Menu Principale"
                 )
             ]
         ]
