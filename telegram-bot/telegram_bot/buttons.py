@@ -19,6 +19,7 @@ def removeButtons():
 
     return keyboard
 
+
 def backToPrimaryMenu() -> InlineKeyboardMarkup:
     """
     Function that return a Inlinekeybord object containing a button for return to the primaty menu
@@ -229,20 +230,27 @@ def summaryButtons():
 def mainMenuButtons():
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="📡 Treno in Real Time ", callback_data="Menu Treno")],
             [
                 InlineKeyboardButton(
-                    text="🚆 Ricerca Soluzione di Viaggio 🚆", callback_data="Menu Ricerca"
+                    text="📡 Treno in Real Time ", callback_data="Menu Treno"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="⏰ I miei Treni monitorati ⏰", callback_data="Menu programmazione"
+                    text="🚆 Ricerca Soluzione di Viaggio 🚆",
+                    callback_data="Menu Ricerca",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="🔔 Le mie Direttrici monitorate 🔔", callback_data="Menu Direttrice"
+                    text="⏰ I miei Treni monitorati ⏰",
+                    callback_data="Menu programmazione",
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="🔔 Le mie Direttrici monitorate 🔔",
+                    callback_data="Menu Direttrice",
                 )
             ],
             [
