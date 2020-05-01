@@ -89,14 +89,16 @@ def sendMessageKeyboard(chatId, msg, keyboard):
         reply_markup=keyboard,
     )
 
-def check_users_train_loop(): 
+
+def check_users_train_loop():
     while True:
         print("Controllo automatico treni utente programmati")
         scheduled_train_check()
         print("Prossimo controllo treni in partenza tra 2 minuti")
         time.sleep(2 * 60)  # sleep 2 minutes
 
-def check_users_trenord_alert_loop(): 
+
+def check_users_trenord_alert_loop():
     while True:
         print("Controllo automatico direttrici utente monitorate")
         trenord_alert_check()

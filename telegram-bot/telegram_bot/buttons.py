@@ -112,7 +112,7 @@ def RealTimeButtons(trainNumber):
                 InlineKeyboardButton(
                     text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
                 )
-            ]
+            ],
         ]
     )
 

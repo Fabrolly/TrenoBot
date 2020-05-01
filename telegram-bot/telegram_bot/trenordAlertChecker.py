@@ -49,8 +49,8 @@ def updateAlertsDatabase():
         if dateString in page:
             page = page[page.index(dateString) :]
             lastAlert = page[page.index("<p> <p>") + 7 : page.index("</p></p>")]
-        
-        if ( "emergenza sanitaria" not in lastAlert.lower() ):
+
+        if "emergenza sanitaria" not in lastAlert.lower():
             if (
                 "avverse" in lastAlert.lower()
                 or "retifica" in lastAlert.lower()
@@ -72,7 +72,7 @@ def updateAlertsDatabase():
             else:
                 lastAlert = None
         else:
-                lastAlert = None
+            lastAlert = None
 
         if lastAlert is not None:
             print(lastAlert)
@@ -151,6 +151,7 @@ def main():
                 )
                 database.commit()
     database.close()
+
 
 if __name__ == "__main__":
     main()

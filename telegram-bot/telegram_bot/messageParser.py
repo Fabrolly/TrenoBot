@@ -113,7 +113,6 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
             if msg != "":
                 return broadcast(msg)
 
-
     return ("Sintassi comando non valida\nRiprova :interrobang:", ())
 
 
