@@ -70,14 +70,3 @@ f.close()
 database.close()
 
 from .telegram import *
-
-##THIS IS TO RUN 1 TIME ONLY. REMOVE COMMENTS, EXECUTE starter.py AND RE-ADD COMMENTS
-
-# my_cron = CronTab(user='fabrolly')
-# job = my_cron.new(command='python /home/fabrolly/TrenoBot/Application/scheduledChecker.py')
-# job.minute.every(2)
-# my_cron.write()
-
-# job = my_cron.new(command='python /home/fabrolly/TrenoBot/Application/trenordAlertChecker.py')
-# job.minute.every(8)
-# my_cron.write()
