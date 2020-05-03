@@ -5,6 +5,7 @@ import datetime as dt
 import requests
 from .train import *
 from .bot_utility import connect_db
+import os
 
 # import loginInfo
 
@@ -44,7 +45,8 @@ def createTrain(trainNumber):
 
 def addOrUpdateTrainDB(number):
 
-    jsonapi = requests.get("http://backend:5000/api/train/%s" % number)
+    backend = os.environ.get("HOST_BACKEND", "backend")
+    jsonapi = requests.get(f"http://{backend}:5000/api/train/%s" % number)
 
     # Handle errors:
     if jsonapi.status_code == 404:

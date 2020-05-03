@@ -4,6 +4,8 @@ default:
 variables:
   DOCKER_REGISTRY: registry.gitlab.com
   DOCKER_IMAGE_BASE_NAME: registry.gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/
+  MYSQL_DATABASE: TRENOBOT
+  MYSQL_ROOT_PASSWORD: root
 
 stages:
   - pre_test
@@ -48,17 +50,6 @@ test_unit_backend:
     - cd /backend
     - python -m unittest discover backend/tests
 
-#test_integration:
-#  stage: test
-#  image: docker:stable
-#  services:
-#    - docker:dind
-#  script:
-#    - apk add --no-cache docker-compose
-#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $DOCKER_REGISTRY
-#    - docker-compose build backend frontend telegram-bot
-#    - docker-compose run --rm backend ./wait-for.sh database:3306 -- python -m unittest discover backend/tests_integration/
-
 test_unit_frontend:
   stage: test
   image: ${DOCKER_IMAGE_BASE_NAME}trenobot_frontend:test
@@ -72,6 +63,24 @@ test_unit_telegram-bot:
   script:
     - cd /telegram-bot
     - python -m unittest discover telegram_bot/tests
+
+test_integration_backend:
+  stage: test
+  image: docker:stable
+  services:
+    - docker:dind
+    - mysql:5.7
+  script:
+    - apk add --no-cache docker-compose
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $DOCKER_REGISTRY
+    - MYSQLIP=$(getent hosts mysql | awk '{ print $1 ; exit }')
+    # test the backend
+    - docker run --rm --net=host -e DATABASE_HOST=$MYSQLIP -e DATABASE_USER=root -e DATABASE_PASSWORD=root ${DOCKER_IMAGE_BASE_NAME}trenobot_backend:test ./wait-for.sh $MYSQLIP:3306 -- python -m unittest discover backend/tests_integration/
+    # test the telegram-bot
+    - docker run -d --hostname backend --net=host -e DATABASE_HOST=$MYSQLIP -e DATABASE_USER=root -e DATABASE_PASSWORD=root ${DOCKER_IMAGE_BASE_NAME}trenobot_backend:test
+    - sleep 3
+    - docker run --net=host -e TELEGRAM_API_KEY=${TELEGRAM_BOT_API_KEY} -e DATABASE_HOST=$MYSQLIP -e DATABASE_USER=root -e DATABASE_PASSWORD=root -e HOST_BACKEND=127.0.0.1 ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot:test ./wait-for.sh $MYSQLIP:3306 -- python -m unittest discover telegram_bot/tests_integration/
+
 
 # build a development/latest-commit version of the image and push it tagging it as the first 8 chars of the commit sha
 build_dev:

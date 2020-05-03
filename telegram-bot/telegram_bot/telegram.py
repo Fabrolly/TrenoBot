@@ -84,12 +84,13 @@ def sendMessageKeyboard(chatId, msg, keyboard):
     )
 
 
-bot = create_bot()
-bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})
+def run():
+    bot = create_bot()
+    bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})
 
-print("Listening ...")
+    print("Listening ...")
 
-import time
+    import time
 
-while 1:
-    time.sleep(5)
+    while 1:
+        time.sleep(5)

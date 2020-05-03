@@ -14,6 +14,10 @@ from telegram_bot.messageResponder import remove
 # USER_ID = random.randint(10000000, 99999999)
 USER_ID = 95054305
 
+from telegram_bot.bot import create_db
+
+create_db()
+
 
 def create_message(text):
     msg_id = random.randint(1000, 9999)
@@ -54,7 +58,6 @@ def call_mute_mp(text_msg):
     mp_object = mp(
         message, id, msg, False
     )  # Tested with only 'isKeybbord' param set to False
-
     # now restore stdout function
     sys.stdout = sys.__stdout__
     return mp_object
