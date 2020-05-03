@@ -11,5 +11,5 @@ Folder structure:
 * ``templates``: Jinja2 templates for HTML
 * ``tests``: unit tests
 * ``backend_api.py``: a module to interact with the API
-* ``frontend.py``: the entrypoint/main of the project
+* ``stats_website.py``: the entrypoint/main of the project
 """

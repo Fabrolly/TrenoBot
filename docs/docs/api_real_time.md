@@ -1,13 +1,13 @@
-# API Documentation - Retrive Real Time Information - Trenobot
+# Trenitalia Real Time Data
 
 ## Before starting
-I will be brief: there are no public APIs for any Italian railway company. 
+I will be brief: there are no public APIs for any Italian railway company.
 This, in my opinion, is a very bad thing: a public service should expose the API to develop third-party app.
 
 ## Where the TrenoBot data comes from
 
 When I started to develop this project the first question was where to catch the information about italian trains.
-I try with the official site of trenitalia, but it doesn't contain real time information (only allows train searches). 
+I try with the official site of trenitalia, but it doesn't contain real time information (only allows train searches).
 I found a site of trenitalia (www.viaggiatreno.it) that allows to view real-time information about all trains in the Italian territory, including those of other companies like Trenord.
 
 It's exactly what I was looking for!
@@ -48,7 +48,7 @@ If you remember the first image we said that there are two '5040' files. The fir
 
 Let's start by the url of this second 5040 file: http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/andamentoTreno/S01529/5040
 
-As you can see the part that interests us is composed by: '....S01529/5040' 
+As you can see the part that interests us is composed by: '....S01529/5040'
 
 So we can conclude that the syntax of this url is:
 http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/andamentoTreno/STATION_ID/TRAIN_ID
@@ -59,7 +59,7 @@ Well, finally we are there. We have what we want:
 ![alt text](https://i.imgur.com/SxGOLIP.jpg)
 
 I could spend hours writing a poem about how badly this JSON file is:
-* There are some terrible things, such as the fields called "nextTrattaType" and "nextFermataType" a mix between Italian and English. 
+* There are some terrible things, such as the fields called "nextTrattaType" and "nextFermataType" a mix between Italian and English.
 * Many fields (I'm very sure after 2 years of testing) are always NULL and are useless.
 * ....
 
@@ -93,7 +93,7 @@ We can see the binary number, delay and other useful information from these fiel
 I don't think many explanations are needed for this (temporary) code. However it's better to see the real file in the TrenoBot Application folder (here on git).
 
 ```
-#request the Station_ID of the train by the number of the train. 
+#request the Station_ID of the train by the number of the train.
 #For the requets both the Number and Station_ID are necessary for the query. Then i must have the Statation_ID from the number given by user
 def trainId(train_number):
     try:
@@ -109,7 +109,7 @@ def trainId(train_number):
 
 
 
-#return the JSON containing all the real time information of a train, by it's number 
+#return the JSON containing all the real time information of a train, by it's number
 def realTimeInformation(number):
     try:
         idTrain=trainId(number) #I need also the Station_ID for the request
@@ -118,7 +118,7 @@ def realTimeInformation(number):
         parsed_json = json.loads(raw_json)
         return parsed_json, raw_json
     except Exception,e:
-        print e     #TODO: i must handle this situation 
+        print e     #TODO: i must handle this situation
   ```
 
 

@@ -14,16 +14,16 @@ backend
    backend.trenitalia_interface
 
 
-frontend
---------
+stats_website
+-------------
 
 .. autosummary::
-   :toctree: reference_docs_frontend
+   :toctree: reference_docs_stats_website
 
-   frontend.frontend
-   frontend.backend_api
-   frontend.controllers.page_controller
-   frontend.controllers.stats_controller
+   stats_website.stats_website
+   stats_website.backend_api
+   stats_website.controllers.page_controller
+   stats_website.controllers.stats_controller
 
 
 telegram-bot

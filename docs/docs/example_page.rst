@@ -1,4 +1,0 @@
-Example Page
-============
-
-Hello, World
