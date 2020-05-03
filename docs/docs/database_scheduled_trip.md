@@ -1,4 +1,4 @@
-# Database for Scheduled_trip
+# (Old) Database for Scheduled_trip
 
 How the database for scheduled trips works
 
@@ -33,7 +33,7 @@ Every **two minutes** the system selects the trains corresponding to the current
 Scheduling a trip
 <img src="https://i.imgur.com/yuaaGkR.jpg" alt="example" width="310px" align="center"/>
 
-Receipt of alerts 
+Receipt of alerts
 (train without irregularities)
 <img src="https://i.imgur.com/UWfKLm6.jpg" alt="example" width="310px" align="center"/>
 

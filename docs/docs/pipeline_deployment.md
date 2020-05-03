@@ -15,6 +15,7 @@ La pipeline che realizza la CI per il progetto si occupa delle seguenti task:
 * Release:
   * Eseguito solo in caso di commit su `sprintN` o `master`, tagga le immagini con il nome del branch
   * Utile per un eventuale server di staging
+  * Effettua il build e il publish della documentazione tecnica
 
 ## Deployment
 
