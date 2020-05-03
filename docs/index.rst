@@ -1,7 +1,8 @@
 TrenoBot
 ========
 
-A Telegram Bot for
+A Telegram Bot and a Website to get real time and historical updates on Italian train lines.
+
 .. toctree::
     :hidden:
 
@@ -33,3 +34,9 @@ A Telegram Bot for
     :maxdepth: 2
 
     api
+
+
+Existing Docs
+-------------
+
+* `Tesi Laurea Triennale Fabrizio Olivadese <./TesiLaureaTriennaleFabrizioOlivadese.pdf>`_

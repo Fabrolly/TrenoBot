@@ -4,7 +4,7 @@ To write technical documentation [Sphinx](https://www.sphinx-doc.org/en/master/)
 
 The preferred docstring format is the [Google Style Python Docstrings](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
 
-# Publishing the Docs
+## Publishing the Docs
 
 Docs are automatically built by the GitLab pipeline whenever a change is detected to `master` or `sprintN` and published to a GitLab Pages instance.
 
@@ -15,7 +15,7 @@ The current url for accessing the docs is: https://laboratorio-di-progettazione-
 
 After changing the docs it is possible to build them locally and see the end result via the command
 
-```sphinx-build docs/source build/docs```
+```sphinx-build docs/ build/docs```
 
 assuming that the project-root-level `requirements.txt` was installed.
 
