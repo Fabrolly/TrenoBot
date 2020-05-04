@@ -5,6 +5,7 @@ from .usersController import *
 from .trip_search import *
 from .menuMessages import *
 from .adminFunctions import *
+from .statistics_interface import *
 
 # import messageResponder
 # import usersController
@@ -52,7 +53,8 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     if "menu statistiche" in msg:
-        response = statsMenu()
+        ranking_readable = train_ranking_readable() 
+        response = statsMenu(ranking_readable)
         return response
 
     if "lista direttrici" in msg:

@@ -18,11 +18,11 @@ def removeButtons():
     )
 
     return keyboard
+()
 
-
-def backToPrimaryMenu() -> InlineKeyboardMarkup:
+def rankingButtons() -> InlineKeyboardMarkup:
     """
-    Function that return a Inlinekeybord object containing a button for return to the primaty menu
+    Function that return a Inlinekeybord object containing a button for return to the primary menu or to the fronted stats website
     Args:
 
     Returns:
@@ -31,6 +31,32 @@ def backToPrimaryMenu() -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
+                InlineKeyboardButton(
+                    text=" 🏠 Menu principale 🏠", callback_data="Menu Principale"
+                )
+            ],
+        ]
+    )
+
+    return keyboard
+
+
+def rankingButtons() -> InlineKeyboardMarkup:
+    """
+    Function that return a Inlinekeybord object containing a button for return to the primary menu
+    Args:
+
+    Returns:
+        Inlinekeybord Object 
+    """
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🌐 Statistiche dettagliate 🌐", url=f"https://trenobot.it"
+                )
+            ],
+             [
                 InlineKeyboardButton(
                     text=" 🏠 Menu principale 🏠", callback_data="Menu Principale"
                 )
