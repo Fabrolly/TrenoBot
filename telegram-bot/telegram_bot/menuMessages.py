@@ -36,13 +36,13 @@ def statsMenu(ranking_readable):
         String with the statistics menu message
         Inlinekeybord Object for back at the primary menu
     """
-    
+
     mess = "📊 <b>Classifica dei treni migliori e peggiori</b>\n"
-    
-    mess+=ranking_readable
-    mess+="\n⚠️ questi dati possono non essere affidabili, sono solo a scopo indicativo.\nMaggiori indicazioni su 'statistiche dettagliate'"
-    mess+="\n\nPer visualizzare le statistiche complete di un qualsiasi treno digita per esempio '<i> Statistiche 5050 </i>'"
-    
+
+    mess += ranking_readable
+    mess += "\n⚠️ questi dati possono non essere affidabili, sono solo a scopo indicativo.\nMaggiori indicazioni su 'statistiche dettagliate'"
+    mess += "\n\nPer visualizzare le statistiche complete di un qualsiasi treno digita per esempio '<i> Statistiche 5050 </i>'"
+
     keyboard = rankingButtons()
 
     return (mess, keyboard)

@@ -53,7 +53,7 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     if "menu statistiche" in msg:
-        ranking_readable = train_ranking_readable() 
+        ranking_readable = train_ranking_readable()
         response = statsMenu(ranking_readable)
         return response
 

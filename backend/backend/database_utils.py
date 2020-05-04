@@ -40,7 +40,6 @@ def store_train(train: dict):
     # Il campo stazioni lo memorizzo nel DB dei treni controllati a livello di statistiche poiché puo essere utile elenco stazioni
     # Visto che questo campo contiene un sacco di info real time inutili, che non memorizzo del DB quindi li tolgo
 
-    
     for item in train_stations:
         item.pop("actualFermataType", None)
         item.pop("arrivoReale", None)

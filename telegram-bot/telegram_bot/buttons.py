@@ -18,7 +18,10 @@ def removeButtons():
     )
 
     return keyboard
+
+
 ()
+
 
 def rankingButtons() -> InlineKeyboardMarkup:
     """
@@ -56,7 +59,7 @@ def rankingButtons() -> InlineKeyboardMarkup:
                     text="🌐 Statistiche dettagliate 🌐", url=f"https://trenobot.it"
                 )
             ],
-             [
+            [
                 InlineKeyboardButton(
                     text=" 🏠 Menu principale 🏠", callback_data="Menu Principale"
                 )
