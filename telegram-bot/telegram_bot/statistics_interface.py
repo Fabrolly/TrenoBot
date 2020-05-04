@@ -1,13 +1,12 @@
 """
 A module that use API to retrive various types of stats about train in backend
 """
-
 import requests
 import json
 
 
 def train_ranking_readable():
-        """
+    """
     Function that return the train ranking in a readable mode for the user
 
     Returns:
