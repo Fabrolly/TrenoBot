@@ -20,9 +20,6 @@ def removeButtons():
     return keyboard
 
 
-()
-
-
 def rankingButtons() -> InlineKeyboardMarkup:
     """
     Function that return a Inlinekeybord object containing a button for return to the primary menu or to the fronted stats website
