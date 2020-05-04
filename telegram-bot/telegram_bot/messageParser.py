@@ -17,7 +17,7 @@ import os
 # import menuMessages
 # import adminFunctions
 
-ADMIN_IDS=os.environ.get("ADMINS", "").split(",")
+ADMIN_IDS = os.environ.get("ADMINS", "").split(",")
 
 
 def messageParser(msg, chatId, msgComplete, isKeybboard):

@@ -70,4 +70,5 @@ f.close()
 database.close()
 
 from .telegram import main as start_bot
+
 start_bot()
