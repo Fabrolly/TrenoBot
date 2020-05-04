@@ -11,10 +11,13 @@ from .adminFunctions import *
 import re
 import datetime
 import time
+import os
 
 # import trip_search
 # import menuMessages
 # import adminFunctions
+
+ADMIN_IDS=os.environ.get("ADMINS", "").split(",")
 
 
 def messageParser(msg, chatId, msgComplete, isKeybboard):
@@ -104,8 +107,7 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     # ----admin functions
-
-    if chatId == 4260245:
+    if str(chatId) in ADMIN_IDS:
         if "/stats" in msg:
             return systemStats()
         if "/broadcast" in msg:
@@ -113,7 +115,7 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
             if msg != "":
                 return broadcast(msg)
 
-    return ("Sintassi comando non valida\nRiprova :interrobang:", ())
+    return ("Sintassi comando non valida:interrobang:\nRiprova ", None)
 
 
 def realTimeParser(msg, chatId):

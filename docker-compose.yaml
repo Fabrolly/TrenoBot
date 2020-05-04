@@ -41,6 +41,7 @@ services:
             - DATABASE_PASSWORD=root
             - TELEGRAM_API_KEY=${TELEGRAM_API_KEY}
             - TZ=Europe/Rome
+            - ADMINS=4260245
         command: ./wait-for.sh database:3306 -- python -m telegram_bot.bot
         restart: unless-stopped
         tty: true

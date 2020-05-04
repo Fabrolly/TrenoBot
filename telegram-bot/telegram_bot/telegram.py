@@ -106,17 +106,21 @@ def check_users_trenord_alert_loop():
         time.sleep(10 * 60)  # sleep 10 minutes
 
 
-bot = create_bot()
-bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})
+def main():
+    bot = create_bot()
+    bot.message_loop({"chat": on_chat_message, "callback_query": keyboardParser})
 
-x = threading.Thread(target=check_users_train_loop)
-x.start()
+    x = threading.Thread(target=check_users_train_loop)
+    x.start()
 
-y = threading.Thread(target=check_users_trenord_alert_loop)
-y.start()
+    y = threading.Thread(target=check_users_trenord_alert_loop)
+    y.start()
 
-print("Listening ...")
+    print("Listening ...")
 
 
-while 1:
-    time.sleep(5)
+    while 1:
+        time.sleep(5)
+
+if __name__ == "__main__":
+    main()

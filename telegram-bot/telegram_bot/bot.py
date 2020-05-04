@@ -69,4 +69,5 @@ f.close()
 # Disconnecting
 database.close()
 
-from .telegram import *
+from .telegram import main as start_bot
+start_bot()
