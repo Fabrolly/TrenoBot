@@ -80,7 +80,6 @@ def systemStats():
         msg += error
 
     database.close()
-    print(msg)
     return (msg, "")
 
 
@@ -119,7 +118,6 @@ def broadcast(msg):
             disable_web_page_preview=None,
             disable_notification=None,
         )
-        print(row["id"])
         msgAdmin += "Mandato a %s\n" % (row["id"])
 
     return (msgAdmin, "")

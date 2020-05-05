@@ -56,37 +56,43 @@ def updateAlertsDatabase():
             page = page[page.index(dateString) :]
             lastAlert = page[page.index("<p> <p>") + 7 : page.index("</p></p>")]
 
-        if (
-            "avverse" in lastAlert.lower()
-            or "retifica" in lastAlert.lower()
-            or "disagi" in lastAlert.lower()
-            or "<strong>" in lastAlert.lower()
-            or "cancellato" in lastAlert.lower()
-            or "non sar" in lastAlert.lower()
-            or "non partir" in lastAlert.lower()
-            or "sospesa" in lastAlert.lower()
-            or "termina" in lastAlert.lower()
-            or "oggi" in lastAlert.lower()
-        ):
-            lastAlert = lastAlert.replace("<p>", "")
-            lastAlert = lastAlert.replace("<strong>", "")
-            lastAlert = lastAlert.replace("</strong>", "")
-            lastAlert = lastAlert.replace("</p>", "")
-            lastAlert = lastAlert.replace("<br/>", "")
-            lastAlert = lastAlert.replace("&nbsp", "")
+        if "emergenza sanitaria" not in lastAlert.lower():
+            if (
+                "avverse" in lastAlert.lower()
+                or "retifica" in lastAlert.lower()
+                or "disagi" in lastAlert.lower()
+                or "<strong>" in lastAlert.lower()
+                or "cancellato" in lastAlert.lower()
+                or "non sar" in lastAlert.lower()
+                or "non partir" in lastAlert.lower()
+                or "sospesa" in lastAlert.lower()
+                or "termina" in lastAlert.lower()
+            ):
+                lastAlert = lastAlert.replace("<p>", "")
+                lastAlert = lastAlert.replace("<strong>", "")
+                lastAlert = lastAlert.replace("</strong>", "")
+                lastAlert = lastAlert.replace("'", " ")
+                lastAlert = lastAlert.replace("</p>", "")
+                lastAlert = lastAlert.replace("<br/>", "")
+                lastAlert = lastAlert.replace("&nbsp", "")
+            else:
+                lastAlert = None
         else:
             lastAlert = None
 
         if lastAlert is not None:
             print(lastAlert)
             print("\n")
-            cursor.execute(
-                "UPDATE directress_alerts SET last_alert_text='%s', last_update_datetime='%s' WHERE id='%s'"
-                % (lastAlert, nowDB, row["id"])
-            )  # Use REPLACE instead of INSERT for update old records if exists
-            database.commit()
-        else:
-            print("       Nessun alert su questa direttrice\n")
+            try:
+                cursor.execute(
+                    'UPDATE directress_alerts SET last_alert_text="%s", last_update_datetime="%s" WHERE id="%s"'
+                    % (lastAlert, nowDB, row["id"])
+                )  # Use REPLACE instead of INSERT for update old records if exists
+                database.commit()
+            except Exception as e:
+                pass
+            else:
+                print("       Nessun alert su questa direttrice")
 
     database.close()
 

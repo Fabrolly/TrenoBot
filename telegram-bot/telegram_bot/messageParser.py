@@ -8,16 +8,20 @@ from .usersController import *
 from .trip_search import *
 from .menuMessages import *
 from .adminFunctions import *
+from .statistics_interface import *
 
 # import messageResponder
 # import usersController
 import re
 import datetime
 import time
+import os
 
 # import trip_search
 # import menuMessages
 # import adminFunctions
+
+ADMIN_IDS = os.environ.get("ADMINS", "").split(",")
 
 
 def messageParser(msg, chatId, msgComplete, isKeybboard):
@@ -60,6 +64,11 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
 
     if "menu treno" in msg:
         response = realTimeMenu()
+        return response
+
+    if "menu statistiche" in msg:
+        ranking_readable = train_ranking_readable()
+        response = statsMenu(ranking_readable)
         return response
 
     if "lista direttrici" in msg:
@@ -113,7 +122,16 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         response = programInfoFromSearch(chatId, *msg)
         return response
 
-    return ("Sintassi comando non valida\nRiprova :interrobang:", ())
+    # ----admin functions
+    if str(chatId) in ADMIN_IDS:
+        if "/stats" in msg:
+            return systemStats()
+        if "/broadcast" in msg:
+            msg = msg[11:]
+            if msg != "":
+                return broadcast(msg)
+
+    return ("Sintassi comando non valida:interrobang:\nRiprova ", None)
 
 
 def realTimeParser(msg, chatId):

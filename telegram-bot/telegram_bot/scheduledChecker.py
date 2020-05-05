@@ -19,7 +19,11 @@ from .bot_utility import create_bot
 # import loginInfo
 
 
-def run():
+def main():
+    """
+    Run the checks for the train lines
+    """
+    # Connecting to database
     database = connect_db()
     if isinstance(database, str):
         if "Connection Error" in database:
@@ -51,14 +55,21 @@ def run():
 
     for row in dbLines:
         if day in row["days"]:  # IF IS A TRAIN FOR TODAY
-            print("da fare oggi")
             departure_datetime = row["departure_datetime"].replace(
                 day=now.day, month=now.month, year=now.year
             )  # In DB I use DATETIME format that contain day and mouth but I must check only the time difference from NOW for the next instruction, then i replace it with current date
             start_time_difference = (
                 departure_datetime - now
             ).total_seconds() / 60.0  # difference (in minute) by now
-
+            print("Il treno " + str(row["train_number"]))
+            print(
+                " aavvisare l'utente "
+                + str(row["user_id"])
+                + " oggi alle "
+                + str(departure_datetime)
+                + " ovvero tra minuti"
+                + str(start_time_difference)
+            )
             # -----  preventive check before departure
             if (
                 start_time_difference - 15 >= 0 and start_time_difference - 15 <= 2
@@ -223,11 +234,10 @@ def run():
                     middle_time_difference
                 )  # Se non e running questa print non e aggiornata
 
-        print(row["train_number"])
         print("\n")
 
     database.close()
 
 
 if __name__ == "__main__":
-    run()
+    main()
