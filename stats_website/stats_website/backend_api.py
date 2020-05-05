@@ -1,4 +1,10 @@
+"""
+A module to interact with the HTTP API provided by the backend.
+
+The module mocks methods if the environment variable "MOCK_API" is set.
+"""
 import os
+import typing
 
 import requests
 import requests_mock
@@ -62,7 +68,16 @@ if os.environ.get("MOCK_API"):
     r.mount(API_BASE_URL, adapter)
 
 
-def get_train_stats(train_id: str):
+def get_train_stats(train_id: str) -> typing.Dict:
+    """
+    Get the stats of a certain train from the backend
+
+    Args:
+        train_id: id of the train to get the data
+
+    Returns:
+        The train status
+    """
     response = r.get(f"{API_BASE_URL}/train/{train_id}/stats")
     if response.status_code == 404:
         return None
@@ -73,7 +88,13 @@ def get_train_stats(train_id: str):
     return response.json()
 
 
-def get_ranking():
+def get_ranking() -> typing.Dict:
+    """
+    Get the trains ranking from the backend
+
+    Returns:
+        The trains ranking
+    """
     response = r.get(f"{API_BASE_URL}/stats/ranking")
     if response.status_code != 200:
         raise Exception("Something wrong with the backend")
@@ -81,7 +102,13 @@ def get_ranking():
     return response.json()
 
 
-def get_general_stats():
+def get_general_stats() -> typing.Dict:
+    """
+    Get the general stats from the backend
+
+    Returns:
+        The general stats for the trains
+    """
     response = r.get(f"{API_BASE_URL}/stats/general")
     if response.status_code != 200:
         raise Exception("Something wrong with the backend")

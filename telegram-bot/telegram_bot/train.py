@@ -1,3 +1,6 @@
+"""
+Class to model a train
+"""
 import json
 import time
 from datetime import datetime, timedelta
@@ -5,6 +8,10 @@ import datetime as dt
 
 
 class Train:
+    """
+    Class to model a train
+    """
+
     def __init__(
         self,
         id,
@@ -38,6 +45,9 @@ class Train:
         self.last_update = last_update
 
     def display(self):
+        """
+        Return the train as string
+        """
         str = '''Id -> %s
              numero -> %s
              origine -> %s
@@ -68,6 +78,9 @@ class Train:
         print(str)
 
     def realTimeMsg(self):
+        """
+        Generate a status message from the train
+        """
         self.display()
         stations = self.stationsParser()
 
@@ -114,7 +127,9 @@ class Train:
         return msg
 
     def departingMsg(self, origin, destination):
-
+        """
+        Generate a message for when the train is starting
+        """
         stations = self.stationsParser()
 
         if self.delay >= 3 and self.delay < 15:

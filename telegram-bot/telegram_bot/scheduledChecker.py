@@ -1,3 +1,6 @@
+"""
+A module for defining the background checks of the train
+"""
 from .databaseController import *
 from .buttons import *
 import MySQLdb
@@ -115,7 +118,6 @@ def main():
                         print(error)
 
             # ----- pre-departure message
-
             if (
                 start_time_difference - 5 >= 0 and start_time_difference - 5 <= 2
             ):  # If the train leaves in 5 minutes, SEND THE DEPARTINGMSG TO USER

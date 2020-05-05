@@ -1,6 +1,8 @@
 """
-A module that returns various type of keyboards for messages
+This module contains various functions to generate Telegram Inline Keybord
+instances to allow to better interact with the bot
 """
+
 import telepot
 from telepot.namedtuple import *
 
@@ -26,7 +28,7 @@ def rankingButtons() -> InlineKeyboardMarkup:
     Args:
 
     Returns:
-        Inlinekeybord Object 
+        Inlinekeybord Object
     """
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -47,7 +49,7 @@ def rankingButtons() -> InlineKeyboardMarkup:
     Args:
 
     Returns:
-        Inlinekeybord Object 
+        Inlinekeybord Object
     """
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[

@@ -1,3 +1,6 @@
+"""
+The stats website entrypoint, defining routes for the various pages of the webapp.
+"""
 import time
 from flask import Flask
 
@@ -12,5 +15,17 @@ app.add_url_rule(
 )
 
 
+def main(host: str = "0.0.0.0", port: int = 5000):
+    """
+    Runs the server on a certain host and port.
+    The default hosts accepts all incoming connections.
+
+    Args:
+        host: address to listen on
+        port: port to listen on
+    """
+    app.run(debug=True, host=host, port=port)
+
+
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    main()
