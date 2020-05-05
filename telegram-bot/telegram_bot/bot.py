@@ -1,8 +1,10 @@
-# This class initialize the database and the necessary tables
-# For more information about DB see: /Documentation/Infrastructure and technologies.md
-from crontab import CronTab
+"""
+A module that initialize the database and the necessary tables and then starts the actual bot
+For more information about DB see: /Documentation/Infrastructure and technologies.md
+"""
 from .bot_utility import connect_db
-from .telegram import run as run_bot
+from .telegram import main as start_bot
+
 
 # import loginInfo
 def create_db():
@@ -69,17 +71,4 @@ def create_db():
     database.close()
 
 
-def run():
-    run_bot()
-
-
-##THIS IS TO RUN 1 TIME ONLY. REMOVE COMMENTS, EXECUTE starter.py AND RE-ADD COMMENTS
-
-# my_cron = CronTab(user='fabrolly')
-# job = my_cron.new(command='python /home/fabrolly/TrenoBot/Application/scheduledChecker.py')
-# job.minute.every(2)
-# my_cron.write()
-
-# job = my_cron.new(command='python /home/fabrolly/TrenoBot/Application/trenordAlertChecker.py')
-# job.minute.every(8)
-# my_cron.write()
+start_bot()

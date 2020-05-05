@@ -1,6 +1,6 @@
 import MySQLdb
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import datetime as dt
 import requests
 from .train import *

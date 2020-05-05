@@ -308,6 +308,25 @@ class TestMessageParser(unittest.TestCase):
         call_mute_remove_train(train_code)
         self.assertTrue(is_riepilogo_empty())
 
+    # TEST MESSAGE PARSER -  STATISTICHE
+    def test_messageParser_statistiche(self):
+        response = call_mute_mp("menu statistiche")
+        self.assertTrue("Error" not in response)
+        self.assertTrue(isinstance(response, tuple))
+        self.assertTrue("Sintassi comando non valida" not in response[0])
+        text_key_word = [
+            "Classifica dei treni migliori e peggiori",
+            "Treni Migliori:",
+            "Treni Peggiori:",
+            "2) -> ",
+        ]
+        button_key_word = [
+            "Statistiche dettagliate",
+            "Menu' Principale",
+        ]
+        self.assertTrue(text_in_msg(response[0], text_key_word))
+        self.assertTrue(text_in_buttons(response[1], button_key_word))
+
 
 # launch unit test cases if main
 if __name__ == "__main__":
