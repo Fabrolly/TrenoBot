@@ -140,7 +140,7 @@ def main():
 
         if (
             dbLinesDirectress["last_alert_text"] is not None
-            and dbLinesDirectress["last_alert_text"] is not ""
+            and dbLinesDirectress["last_alert_text"] != ""
         ):
             if row["last_alert_text"] != dbLinesDirectress["last_alert_text"]:
                 print(dbLinesDirectress["last_alert_text"])

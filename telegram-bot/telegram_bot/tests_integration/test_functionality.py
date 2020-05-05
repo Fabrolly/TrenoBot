@@ -2,12 +2,12 @@ import random
 import unittest
 from telegram_bot.tests_integration.test_utility_methods import *
 
+from telegram_bot.bot import create_db
+
 
 class TestFunctionality(unittest.TestCase):
     def setUp(self):
-        self.assertTrue(is_riepilogo_empty())
-
-    def tearDown(self):
+        create_db(drop_tables=True)
         self.assertTrue(is_riepilogo_empty())
 
     # TEST FUNCTIONALITY - MONITORA RIMUOVI DIRETTRICE
@@ -222,9 +222,7 @@ class TestFunctionality(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(
-                response[1], ["Visualizza lista", "Torna al menu principale"]
-            )
+            text_in_buttons(response[1], ["Visualizza lista", "Menu principale"])
         )
         call_mute_remove_train(train_code)
 

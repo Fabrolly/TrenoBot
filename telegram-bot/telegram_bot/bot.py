@@ -1,13 +1,12 @@
 """
-A module that initialize the crontab, the database and the necessary tables
+A module that initialize the database and the necessary tables and then starts the actual bot
 For more information about DB see: /Documentation/Infrastructure and technologies.md
 """
-from crontab import CronTab
 from .bot_utility import connect_db
 from .telegram import main as start_bot
 
 
-def main():
+def create_db(drop_tables=False):
     """
     Setup the bot database environment
     """
@@ -19,14 +18,21 @@ def main():
     cursor = database.cursor()
 
     # Print all the databases in the system (for debug purpose only, can be removed)
-    cursor.execute("show databases;")
-    print("\nEXISTING DATABASE:")
-    for databases in cursor:
-        print(databases[0])
+    # cursor.execute("show databases;")
+    # print("\nEXISTING DATABASE:")
+    # for databases in cursor:
+    #    print(databases[0])
 
     # If the TRENOBOT database doses not exist, create and open it (if already exist a warning will be generated)
     cursor.execute("CREATE DATABASE IF NOT EXISTS TRENOBOT;")
     cursor.execute("use TRENOBOT;")
+
+    if drop_tables:
+        cursor.execute("DROP TABLE IF EXISTS trains")
+        cursor.execute("DROP TABLE IF EXISTS users")
+        cursor.execute("DROP TABLE IF EXISTS user_train")
+        cursor.execute("DROP TABLE IF EXISTS directress_alerts")
+        cursor.execute("DROP TABLE IF EXISTS user_directress_alert")
 
     # If tables doses not exist, create it (if already exist a warning will be generated)
     cursor.execute(
@@ -46,9 +52,9 @@ def main():
         "CREATE TABLE IF NOT EXISTS user_directress_alert (user_id INT, directress_id INT, last_alert_text TEXT, last_alert_datetime DATETIME, created_datetime DATETIME, PRIMARY KEY(user_id, directress_id))"
     )
     cursor.execute("show tables;")
-    print("\nTRENOBOT - TABLES:")
-    for table in cursor:
-        print(table[0])
+    # print("\nTRENOBOT - TABLES:")
+    # for table in cursor:
+    #     print(table[0])
 
     cont = 0
     with open("./trenordLinkAlerts.txt") as f:
@@ -73,8 +79,7 @@ def main():
     # Disconnecting
     database.close()
 
-    start_bot()
-
 
 if __name__ == "__main__":
-    main()
+    create_db()
+    start_bot()

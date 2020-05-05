@@ -83,6 +83,7 @@ Per la gestione della repository viene utilizzato un modello di branching basato
 * Una volta portata a termine la storia/quando si vuole creare la merge request (non è necessario farlo all'ultimo momento)
   * Andare sulla pagina [Issues](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/issues) ed assicurarsi che la propria branch/feature abbia una issue dedicata
   * Andare sulla pagina delle [Merge Request](https://gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/-/merge_requests) e creare la merge request
+  * Attendere il completamento della pipeline di CI/CD
   * Attendere la code-review e l'approvazione di almeno un collega
   * Effettuare il merge una volta risolti tutti i problemi segnalati dai colleghi
 

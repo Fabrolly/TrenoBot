@@ -5,6 +5,7 @@ import datetime
 import time
 import requests
 import json
+import os
 
 # import telepot
 from emoji import emojize
@@ -20,8 +21,9 @@ def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id
     Search for a trip
     """
     # Chiedo alle api il trip
+    backend = os.environ.get("HOST_BACKEND", "backend")
     parsed_json = requests.get(
-        "http://backend:5000/api/trip/search?from=%s&to=%s&date=%s-%s-%sT%s:00"
+        f"http://{backend}:5000/api/trip/search?from=%s&to=%s&date=%s-%s-%sT%s:00"
         % (partenza, arrivo, now.year, mese, giorno, ora)
     )
     if parsed_json.status_code == 500 or parsed_json.status_code == 404:
