@@ -32,10 +32,10 @@ Como-Saronno-Milano http://www.trenord.it/IT/servizi/direttrici/D032/como---saro
 Novara-Saronno-Milano http://www.trenord.it/IT/servizi/direttrici/D033/novara---saronno---milano.aspx
 Asso-Seveso-Milano http://www.trenord.it/IT/servizi/direttrici/D035/asso---seveso---milano.aspx
 Brescia-Iseo-Edolo http://www.trenord.it/IT/servizi/direttrici/D028/brescia---iseo---edolo.aspx
-Malpensa-Milano Centrale http://www.trenord.it/IT/servizi/direttrici/D029/malpensa---milano-centrale.aspx
+Malpensa-Milano-Centrale http://www.trenord.it/IT/servizi/direttrici/D029/malpensa---milano-centrale.aspx
 Saronno-Milano-Lodi http://www.trenord.it/IT/servizi/direttrici/D031/saronno---milano---lodi.aspx
 Mariano/Camnago-Seveso-Milano http://www.trenord.it/IT/servizi/direttrici/D036/mariano-camnago---seveso---milano.aspx
 Lecco-Carnate-Milano http://www.trenord.it/it/circolazione-e-linee/direttrici.aspx
 Treviglio-Milano-Varese http://www.trenord.it/IT/servizi/direttrici/D027/treviglio---milano---varese.aspx
 Malpensa-Varese-Mendrisio-Como http://www.trenord.it/IT/servizi/direttrici/D042/malpensa---varese---mendrisio---como.aspx
-Milano_Rogoredo-Milano Bovisa http://www.trenord.it/IT/servizi/direttrici/D037/milano-rogoredo---milano-bovisa.aspx
+Milano-Rogoredo-Milano-Bovisa http://www.trenord.it/IT/servizi/direttrici/D037/milano-rogoredo---milano-bovisa.aspx

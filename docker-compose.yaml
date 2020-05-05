@@ -12,6 +12,7 @@ services:
             - DATABASE_HOST=database
             - DATABASE_USER=root
             - DATABASE_PASSWORD=root
+            - TZ=Europe/Rome
         command: ./wait-for.sh database:3306 -- python -m backend.backend
         restart: unless-stopped
         tty: true
@@ -39,6 +40,8 @@ services:
             - DATABASE_USER=root
             - DATABASE_PASSWORD=root
             - TELEGRAM_API_KEY=${TELEGRAM_API_KEY}
+            - TZ=Europe/Rome
+            - ADMINS=4260245
         command: ./wait-for.sh database:3306 -- python -m telegram_bot.bot
         restart: unless-stopped
         tty: true
@@ -52,5 +55,6 @@ services:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=trenobot
             - MYSQL_PASSWORD=trenobot
+            - TZ=Europe/Rome
         volumes:
             - ./.data/mysql:/var/lib/mysql

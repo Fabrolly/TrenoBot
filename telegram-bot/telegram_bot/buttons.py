@@ -1,3 +1,6 @@
+"""
+A module that returns various type of keyboards for messages
+"""
 import telepot
 from telepot.namedtuple import *
 
@@ -8,7 +11,54 @@ def removeButtons():
             [InlineKeyboardButton(text="Visualizza lista", callback_data="/lista")],
             [
                 InlineKeyboardButton(
-                    text="Torna al menu principale", callback_data="Menu Principale"
+                    text="🏠 Menu principale🏠 ", callback_data="Menu Principale"
+                )
+            ],
+        ]
+    )
+
+    return keyboard
+
+
+def rankingButtons() -> InlineKeyboardMarkup:
+    """
+    Function that return a Inlinekeybord object containing a button for return to the primary menu or to the fronted stats website
+    Args:
+
+    Returns:
+        Inlinekeybord Object 
+    """
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=" 🏠 Menu principale 🏠", callback_data="Menu Principale"
+                )
+            ],
+        ]
+    )
+
+    return keyboard
+
+
+def rankingButtons() -> InlineKeyboardMarkup:
+    """
+    Function that return a Inlinekeybord object containing a button for return to the primary menu
+    Args:
+
+    Returns:
+        Inlinekeybord Object 
+    """
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🌐 Statistiche dettagliate 🌐", url=f"https://trenobot.it"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text=" 🏠 Menu principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -84,6 +134,11 @@ def RealTimeButtons(trainNumber):
                     callback_data="Programma %s" % (trainNumber),
                 )
             ],
+            [
+                InlineKeyboardButton(
+                    text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
+                )
+            ],
         ]
     )
 
@@ -95,7 +150,7 @@ def backMainMenuButtons():
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="Menu' principale", callback_data="Menu Principale"
+                    text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
                 )
             ]
         ]
@@ -110,7 +165,7 @@ def backTripSearch():
             [InlineKeyboardButton(text="Riprova", callback_data="Menu Ricerca")],
             [
                 InlineKeyboardButton(
-                    text="Menu' principale", callback_data="Menu Principale"
+                    text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -173,7 +228,7 @@ def trenordAlertButtons():
             [InlineKeyboardButton(text="Rimuovi avvisi", callback_data="Treno")],
             [
                 InlineKeyboardButton(
-                    text="Menu' Principale", callback_data="Menu Principale"
+                    text="🏠 Menu' Principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -206,32 +261,42 @@ def summaryButtons():
 def mainMenuButtons():
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Treno Real Time", callback_data="Menu Treno")],
             [
                 InlineKeyboardButton(
-                    text="Ricerca un Treno", callback_data="Menu Ricerca"
+                    text="📡 Treno in Real Time ", callback_data="Menu Treno"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Treni Monitorati", callback_data="Menu programmazione"
+                    text="🚆 Ricerca Soluzione di Viaggio 🚆",
+                    callback_data="Menu Ricerca",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Direttrici Monitorate", callback_data="Menu Direttrice"
+                    text="⏰ I miei Treni monitorati ⏰",
+                    callback_data="Menu programmazione",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Riepilogo completo dei miei avvisi",
+                    text="🔔 Le mie Direttrici monitorate 🔔",
+                    callback_data="Menu Direttrice",
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📃 Riepilogo completo monitoraggi 📃",
                     callback_data="Riepilogo",
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📊 Statistiche 📊", callback_data="Menu statistiche"
                 )
             ],
         ]
     )
-    print("\n\n")
-    print(keyboard)
     return keyboard
 
 
@@ -251,7 +316,7 @@ def programMenuButtons():
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Principale", callback_data="Menu Principale"
+                    text="🏠 Menu' Principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -271,7 +336,7 @@ def trainMenuButtons():
             ],
             [
                 InlineKeyboardButton(
-                    text="Menu' Principale", callback_data="Menu Principale"
+                    text="🏠 Menu' Principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
@@ -284,7 +349,7 @@ def searchMenuButtons():
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="Menu' Principale", callback_data="Menu Principale"
+                    text="🏠 Menu' Principale 🏠", callback_data="Menu Principale"
                 )
             ]
         ]

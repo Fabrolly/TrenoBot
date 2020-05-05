@@ -164,7 +164,6 @@ def programInfo(number, chatId, days, departure, arrival):
             return (error, "")
 
         database.close()
-
     return (
         ":white_check_mark: Riceverai aggiornamenti sul\n\n<b>Treno %s</b>\n%s -> %s\n%s:%s -> %s:%s\n\nNei giorni: <i>%s</i>"
         % (
