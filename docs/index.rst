@@ -13,6 +13,7 @@ A Telegram Bot and a Website to get real time and historical updates on Italian 
     :caption: Services Overview
     :maxdepth: 2
 
+    docs/high_level_architecture
     services/backend
     services/stats_website
     services/telegram-bot
@@ -23,7 +24,6 @@ A Telegram Bot and a Website to get real time and historical updates on Italian 
     :maxdepth: 2
 
     docs/writing_docs
-    docs/high_level_architecture
     docs/api_real_time
     docs/api_train_search
     docs/pipeline_deployment
