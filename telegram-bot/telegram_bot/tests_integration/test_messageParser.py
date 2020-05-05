@@ -318,7 +318,6 @@ class TestMessageParser(unittest.TestCase):
             "Classifica dei treni migliori e peggiori",
             "Treni Migliori:",
             "Treni Peggiori:",
-            "2) -> ",
         ]
         button_key_word = [
             "Statistiche dettagliate",

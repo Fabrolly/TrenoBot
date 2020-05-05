@@ -28,7 +28,7 @@ def train_ranking_readable():
     msg = "<i>Treno -> ritardo medio</i>\n\n"
     msg += "<b>Treni Migliori:\n</b>"
 
-    for i in range(0, 4):
+    for i, _ in enumerate(ranking_best):
         msg += f"{str(i+1)}) "
         msg += str(ranking_best[i]["trainID"])
         msg += " -> "
@@ -37,7 +37,7 @@ def train_ranking_readable():
 
     msg += "<b>\nTreni Peggiori:\n</b>"
 
-    for i in range(0, 4):
+    for i, _ in enumerate(ranking_worst):
         msg += f"{str(i+1)}) "
         msg += str(ranking_worst[i]["trainID"])
         msg += " -> "
