@@ -17,7 +17,7 @@ def train_ranking_readable():
 
     if ranking.status_code != 200:
         return "Impossibile visualizzare la classifica, riprova piú tardi!"
-    
+
     ranking = ranking.json()
 
     ranking_best = ranking["best"][:4]
