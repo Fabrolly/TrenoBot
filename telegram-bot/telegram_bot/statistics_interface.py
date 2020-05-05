@@ -13,10 +13,12 @@ def train_ranking_readable():
         String with the train ranking
         Inlinekeybord Object for back at the primary menu
     """
-    ranking = requests.get("http://backend:5000/api/stats/ranking").json()
+    ranking = requests.get("http://backend:5000/api/stats/ranking")
 
     if ranking.status_code != 200:
         return "Impossibile visualizzare la classifica, riprova piú tardi!"
+    
+    ranking = ranking.json()
 
     ranking_best = ranking["best"][:4]
     ranking_worst = ranking["worst"][:4]
