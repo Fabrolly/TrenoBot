@@ -1,6 +1,6 @@
 import unittest
 from splinter import Browser
-from frontend.frontend import app
+from stats_website.stats_website import app
 
 
 class TestFrontend(unittest.TestCase):

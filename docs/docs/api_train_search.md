@@ -1,4 +1,4 @@
-# Train search API
+# Trenitalia Search Data
 
 ## Before Starting
 I will be brief: there are no public APIs for any Italian railway company. This, in my opinion, is a very bad thing: a public service should expose the API to develop third-party app.
@@ -6,7 +6,7 @@ I will be brief: there are no public APIs for any Italian railway company. This,
 ## Where the TrenoBot data comes from
 The introduction on how I got these APIs is the same as the documentation on real-time trains: Google Chrome development Console and many attempts.
 
-# Getting the codes of the departure and arrival station
+## Getting the codes of the departure and arrival station
 First I need to obtain the identification codes of the departure and arrival station.
 
 The url for this request is: http://www.viaggiatreno.it/viaggiatrenonew/resteasy/viaggiatreno/autocompletaStazione/STATION_NAME
@@ -20,7 +20,7 @@ If I use a generic search term, for example 'milano':
 ![](https://i.imgur.com/FaEWwSW.png)
 The answer shows more occurrences
 
-# Request for solutions
+## Request for solutions
 Now I need the time and date of departure in this format: **AAAA-MM-GGTHH:MM:SS**
 (where 'T' separates the date from the time)
 
@@ -36,7 +36,8 @@ Example
 
 The traveling response contains a JSON with all possible solutions with trains, timetables, travel time.
 
-# Collecting information from viaggiatreno response
+## Collecting information from viaggiatreno response
+
 I collect the necessary information to trenobot to respond to the user's request and generate the reply message:
 ```
 for sol in range (0,2): #I am interested in the first two solutions proposed
@@ -48,13 +49,13 @@ for sol in range (0,2): #I am interested in the first two solutions proposed
             departure_time=departure_time[departure_time.index('T')+1:departure_time.index('T')+6]
             arrival_time=parsed_json['soluzioni'][sol]['vehicles'][cont]['orarioArrivo']
             arrival_time=arrival_time[arrival_time.index('T')+1:arrival_time.index('T')+6]
-            
+
             #Here I have one of the train of the solution
         #Here I have ALL the trains of the solutions
 #Here I have two solutions complete
 ```
 
-# Example in Telegram
+## Example in Telegram
 <img src="https://i.imgur.com/JlLScTF.jpg" alt="example" width="310px" align="center"/>
 
 Attention: the images in the documentation are non-final examples and realized during the test phase. The final interface is different and includes buttons for interaction and other things.

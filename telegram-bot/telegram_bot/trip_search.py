@@ -1,3 +1,6 @@
+"""
+A module to perform search on the train
+"""
 import datetime
 import time
 import requests
@@ -13,6 +16,9 @@ bot = create_bot()
 
 
 def trip_search(command, arrivo, partenza, mese, giorno, ora, data, now, chat_id):
+    """
+    Search for a trip
+    """
     # Chiedo alle api il trip
     parsed_json = requests.get(
         "http://backend:5000/api/trip/search?from=%s&to=%s&date=%s-%s-%sT%s:00"

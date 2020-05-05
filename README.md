@@ -1,6 +1,12 @@
 # Trenobot - Laboratorio di Progettazione
 
-A Telegram Bot to monitor italian trains
+A Telegram Bot to monitor italian trains.
+
+## Documentazione tecnica
+
+La documentazione tecnica è scritta e gestita tramite Sphinx ed è disponibile qui: https://laboratorio-di-progettazione-trenobot.gitlab.io/trenobot-laboratorio-di-progettazione/ (necessario il login con GitLab per visualizzare la pagina).
+
+La scelta è derivata dalla volontà di legare il codice il quanto più possibile alla documentazione, in modo da non avere documentazione non aggiornata.
 
 ## Prima dello sviluppo
 
@@ -70,7 +76,7 @@ Per la gestione della repository viene utilizzato un modello di branching basato
 * `git merge sprintN` per unire i cambiamenti già mergiati a quelli che si vuole mergiare ed evitare conflitti in fase di merge
 * Risolvere gli eventuali conflitti
 * Assicurarsi che i test di integrazione funzionino
-  * `docker-compose build backend frontend telegram-bot`
+  * `docker-compose build backend stats_website telegram-bot`
   * `docker-compose run --rm NOME_SERVIZIO ./wait-for.sh database:3306 -- python -m unittest discover NOME_SERVIZIO/tests_integration/`
 
 * `git push origin feature-branch`
@@ -87,18 +93,4 @@ Per la scrittura dei test è necessario utilizzare il framework di testing [`uni
 Si deve dare la priorità ai test di unità e solo in seguito a quelli di integrazione. Ciascuna parte del sistema deve essere testabile da sola, senza la necessità che le altre funzionino.
 
 
-## Pipeline
 
-La pipeline che realizza la CI per il progetto si occupa delle seguenti task:
-
-* Pre-test:
-  * Controlla che il codice sia correttamente formattato
-  * Esegue il build di tutte le immagini docker e le pusha con il tag `test`
-* Test
-  * In ciascuna immagine docker di test esegue i test di unità
-* Build:
-  * Ritagga le immagini con `$COMMIT_SHA` e le pusha
-  * Utile per un eventuale server di development
-* Release:
-  * Eseguito solo in caso di commit su `sprintN` o `master`, tagga le immagini con il nome del branch
-  * Utile per un eventuale server di staging

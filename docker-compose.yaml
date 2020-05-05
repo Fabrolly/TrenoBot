@@ -18,9 +18,9 @@ services:
         tty: true
         stdin_open: true
 
-    frontend:
-        build: ./frontend
-        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_frontend
+    stats_website:
+        build: ./stats_website
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_stats_website
         ports:
             - 8000:5000
         depends_on:

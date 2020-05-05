@@ -1,3 +1,6 @@
+"""
+A module to interact and check the status of train lines
+"""
 import MySQLdb
 import time
 from datetime import datetime
@@ -14,6 +17,9 @@ from .bot_utility import connect_db
 
 
 def updateAlertsDatabase():
+    """
+    Check if there are updates on the train lines
+    """
     # Connecting to database
     database = connect_db()
     if isinstance(database, str):
@@ -92,6 +98,9 @@ def updateAlertsDatabase():
 
 
 def sendMessageKeyboard(chatId, msg, keyboard):
+    """
+    Send updates to a certain chat
+    """
     bot = create_bot()
     bot.sendMessage(
         chatId,

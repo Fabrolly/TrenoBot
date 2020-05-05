@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+This module contains functions to parse messages and act according to their content
+
+"""
 
 from .messageResponder import *
 from .usersController import *
@@ -22,6 +25,17 @@ ADMIN_IDS = os.environ.get("ADMINS", "").split(",")
 
 
 def messageParser(msg, chatId, msgComplete, isKeybboard):
+    """
+    Generate response based on the message content
+    Params:
+        msg: the message text to parse
+        chatId: the chat where the message come from
+        msgComplete: the complete message instance
+        isKeybboard: if the message comes from a inline keyboard reply
+    Returns:
+        the response to send
+
+    """
 
     # print(msg, chatId, msgComplete, isKeybboard)
     if not isKeybboard:
@@ -163,7 +177,10 @@ def programParser(msg, chatId):
 
 
 def trip_search_parser(command, chatId):
+    """
+    Handle the search for a trip
 
+    """
     now = datetime.datetime.now()
 
     if " da " not in command and " a " not in command:

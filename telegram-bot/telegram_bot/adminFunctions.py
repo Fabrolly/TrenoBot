@@ -1,3 +1,6 @@
+"""
+A module that exposes various functions that can only be accessed by admins.
+"""
 import MySQLdb
 from emoji import emojize
 from .bot_utility import create_bot
@@ -5,6 +8,9 @@ from .bot_utility import connect_db
 
 
 def systemStats():
+    """
+    Gather stats from the database
+    """
     msg = "<b>Statistiche</b>\n\n"
     # Connecting to database
     database = connect_db()
@@ -78,6 +84,12 @@ def systemStats():
 
 
 def broadcast(msg):
+    """
+    Send a broadcast message to all the users
+
+    Params:
+        msg: the message to send
+    """
     # Connecting to database
     database = connect_db()
     if isinstance(database, str):

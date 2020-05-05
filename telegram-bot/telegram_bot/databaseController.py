@@ -1,8 +1,12 @@
+"""
+A module to interact with the database
+"""
 import MySQLdb
 import time
 from datetime import datetime, timedelta
 import datetime as dt
 import requests
+import typing
 from .train import *
 from .bot_utility import connect_db
 
@@ -132,9 +136,17 @@ def addOrUpdateTrainDB(number):
     return createdLine
 
 
-# Function for translate timestamp (used in viaggiotreno) in DATETIME format for mariaDB DATETIME filed
-def convert_timestamp(timestamp):
-    if timestamp == None:
+def convert_timestamp(timestamp: typing.Optional[float]) -> typing.Optional[str]:
+    """
+    Format a timestamp to string
+
+    Args:
+        timestamp: the timestamp to format
+
+    Returns:
+        the timestamp formatted as "%Y-%m-%d %H-%M-%S"
+    """
+    if timestamp is None:
         return "-"
     else:
         datetime = dt.datetime.fromtimestamp(timestamp / 1000)
@@ -142,7 +154,16 @@ def convert_timestamp(timestamp):
 
 
 # Function to interpret the train status from the codes
-def train_state(jsonapi):
+def train_state(jsonapi: dict) -> str:
+    """
+    Get the train status from the status code
+
+    Params:
+        jsonapi: train instance
+
+    Returns:
+        a string representing the status of the train
+    """
     if "PG" in jsonapi["tipoTreno"]:
         state = "Regolare"
     else:
@@ -153,7 +174,16 @@ def train_state(jsonapi):
     return state
 
 
-def trainObjFromDb(dbLine):  # create the Train object from the DB
+def trainObjFromDb(dbLine: dict) -> Train:
+    """
+    Initialize a train instance from a database row
+
+    Params:
+        dbLine: a row as a dict coming from the database
+
+    Returns:
+        a train object mapping the database row
+    """
     usedTrain = Train(
         dbLine["id"],
         dbLine["number"],
