@@ -6,7 +6,7 @@ from .bot_utility import connect_db
 from .telegram import main as start_bot
 
 
-def main():
+def create_db():
     """
     Setup the bot database environment
     """
@@ -72,8 +72,7 @@ def main():
     # Disconnecting
     database.close()
 
-    start_bot()
-
 
 if __name__ == "__main__":
-    main()
+    create_db()
+    start_bot()
