@@ -14,10 +14,6 @@ from telegram_bot.messageResponder import remove
 # USER_ID = random.randint(10000000, 99999999)
 USER_ID = 95054305
 
-from telegram_bot.bot import create_db
-
-create_db()
-
 
 def create_message(text):
     msg_id = random.randint(1000, 9999)
@@ -97,7 +93,7 @@ def text_in_buttons(buttons, str_in_button=[], ignore_codes=False):
                         if not i[0].isdigit()
                     )
             else:
-                cond = cond and (button[0].text in str_in_button)
+                cond = cond and any([s in button[0].text for s in str_in_button])
     return cond
 
 
@@ -109,11 +105,12 @@ def is_menu_principale(text, buttons):
     ]
     menu = menu and text_in_msg(text, text_key_word)
     button_key_word = [
-        "Treno Real Time",
-        "Ricerca un Treno",
-        "Menu' Treni Monitorati",
-        "Menu' Direttrici Monitorate",
-        "Riepilogo completo dei miei avvisi",
+        "Treno in Real Time",
+        "Ricerca Soluzione",
+        "Treni monitorati",
+        "Direttrici",
+        "Riepilogo",
+        "Statistiche",
     ]
     menu = menu and text_in_buttons(buttons, button_key_word)
     return menu

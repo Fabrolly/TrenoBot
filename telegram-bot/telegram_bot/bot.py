@@ -6,7 +6,7 @@ from .bot_utility import connect_db
 from .telegram import main as start_bot
 
 
-def create_db():
+def create_db(drop_tables=False):
     """
     Setup the bot database environment
     """
@@ -18,14 +18,21 @@ def create_db():
     cursor = database.cursor()
 
     # Print all the databases in the system (for debug purpose only, can be removed)
-    cursor.execute("show databases;")
-    print("\nEXISTING DATABASE:")
-    for databases in cursor:
-        print(databases[0])
+    # cursor.execute("show databases;")
+    # print("\nEXISTING DATABASE:")
+    # for databases in cursor:
+    #    print(databases[0])
 
     # If the TRENOBOT database doses not exist, create and open it (if already exist a warning will be generated)
     cursor.execute("CREATE DATABASE IF NOT EXISTS TRENOBOT;")
     cursor.execute("use TRENOBOT;")
+
+    if drop_tables:
+        cursor.execute("DROP TABLE IF EXISTS trains")
+        cursor.execute("DROP TABLE IF EXISTS users")
+        cursor.execute("DROP TABLE IF EXISTS user_train")
+        cursor.execute("DROP TABLE IF EXISTS directress_alerts")
+        cursor.execute("DROP TABLE IF EXISTS user_directress_alert")
 
     # If tables doses not exist, create it (if already exist a warning will be generated)
     cursor.execute(
@@ -45,9 +52,9 @@ def create_db():
         "CREATE TABLE IF NOT EXISTS user_directress_alert (user_id INT, directress_id INT, last_alert_text TEXT, last_alert_datetime DATETIME, created_datetime DATETIME, PRIMARY KEY(user_id, directress_id))"
     )
     cursor.execute("show tables;")
-    print("\nTRENOBOT - TABLES:")
-    for table in cursor:
-        print(table[0])
+    # print("\nTRENOBOT - TABLES:")
+    # for table in cursor:
+    #     print(table[0])
 
     cont = 0
     with open("./trenordLinkAlerts.txt") as f:

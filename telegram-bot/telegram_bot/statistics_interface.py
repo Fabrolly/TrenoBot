@@ -16,7 +16,6 @@ def train_ranking_readable():
     """
     backend = os.environ.get("HOST_BACKEND", "backend")
     ranking = requests.get(f"http://{backend}:5000/api/stats/ranking")
-
     if ranking.status_code != 200:
         return "Impossibile visualizzare la classifica, riprova piú tardi!"
 

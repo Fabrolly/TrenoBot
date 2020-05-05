@@ -2,8 +2,12 @@ import unittest
 import validators
 from telegram_bot.tests_integration.test_utility_methods import *
 
+from telegram_bot.bot import create_db
+
 
 class TestMessageParser(unittest.TestCase):
+    def setUp(self):
+        create_db(drop_tables=True)
 
     # TEST MESSAGE PARSER - TRENO
     def test_messageParser_ricerca_treno(self):
@@ -18,7 +22,9 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(response[1], ["Aggiorna", "Aggiungi alla Lista"])
+            text_in_buttons(
+                response[1], ["Aggiorna", "Aggiungi alla Lista", "Menu' principale"]
+            )
         )
         response = call_mute_mp("rimuovi 5050")
         self.assertTrue(is_riepilogo_empty())
@@ -29,7 +35,7 @@ class TestMessageParser(unittest.TestCase):
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertFalse("Sintassi comando non valida" not in response[0])
-        self.assertEqual(response[1], ())
+        self.assertEqual(response[1], None)
 
     # TEST MESSAGE PARSER - TRENO NON ESISTE
     def test_messageParser_ricerca_treno_error(self):
@@ -232,9 +238,7 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(
-                response[1], ["Visualizza lista", "Torna al menu principale"]
-            )
+            text_in_buttons(response[1], ["Visualizza lista", "Menu principale"])
         )
         call_mute_remove_train(train_code)
         self.assertTrue(is_riepilogo_empty())
@@ -273,9 +277,7 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(
-                response[1], ["Visualizza lista", "Torna al menu principale"]
-            )
+            text_in_buttons(response[1], ["Visualizza lista", "Menu principale"])
         )
 
     # TEST MESSAGE PARSER - PK
@@ -301,9 +303,7 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(
-                response[1], ["Visualizza lista", "Torna al menu principale"]
-            )
+            text_in_buttons(response[1], ["Visualizza lista", "Menu principale"])
         )
         call_mute_remove_train(train_code)
         self.assertTrue(is_riepilogo_empty())
@@ -321,7 +321,7 @@ class TestMessageParser(unittest.TestCase):
         ]
         button_key_word = [
             "Statistiche dettagliate",
-            "Menu' Principale",
+            "Menu principale",
         ]
         self.assertTrue(text_in_msg(response[0], text_key_word))
         self.assertTrue(text_in_buttons(response[1], button_key_word))

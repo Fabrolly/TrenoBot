@@ -4,8 +4,6 @@ import unittest
 from telegram_bot.tests_integration.test_utility_methods import *
 from telegram_bot.bot import create_db
 
-create_db()
-
 
 def extract_assert_hour(text, time):
     solutions = text.split("!")
@@ -38,6 +36,8 @@ def extract_assert_day(text, msg_date):
 
 
 class TestTripSearch(unittest.TestCase):
+    def setUp(self):
+        create_db(drop_tables=True)
 
     # TEST FUNCTIONALITY - RICERCA UN TRENO
     def test_ricerca_treno(self):
