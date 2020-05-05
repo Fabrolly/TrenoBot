@@ -41,6 +41,7 @@ telegram-bot
    telegram_bot.messageParser
    telegram_bot.messageResponder
    telegram_bot.scheduledChecker
+   telegram_bot.statistics_interface
    telegram_bot.telegram
    telegram_bot.train
    telegram_bot.trenordAlertChecker
