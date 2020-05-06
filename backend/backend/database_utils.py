@@ -116,7 +116,7 @@ def store_train(train: dict):
         raise exception
 
 
-def get_stats(train_id) -> list:
+def get_stats(train_id, filter_date=datetime.date.min) -> list:
     """
     Get historical stats for a certain train
 
@@ -128,7 +128,7 @@ def get_stats(train_id) -> list:
     """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
-    query = f"SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} ORDER BY backend_journeys.DATE DESC"
+    query = f"SELECT backend_journeys.*, number, origin, destination, departure_datetime, arrival_datetime, duration FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} AND backend_journeys.date>={filter_date} ORDER BY backend_journeys.DATE DESC"
     cursor.execute(query)
     stats = cursor.fetchall()
     return stats

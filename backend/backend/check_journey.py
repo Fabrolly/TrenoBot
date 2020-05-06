@@ -85,6 +85,7 @@ def add_journey_db(trainID: int):
             train_last_detection_station = train["stazioneUltimoRilevamento"]
 
             insert_query = """ INSERT INTO backend_journeys (date, trainID, real_departure_datetime, real_arrival_datetime, delay, state, alert, last_detection_datetime, last_detection_station) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            print(f"\n\n{insert_query}\n\n")
             insert_tuple = (
                 now.strftime("%Y-%m-%d"),
                 trainID,
