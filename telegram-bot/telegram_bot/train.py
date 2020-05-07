@@ -1,10 +1,12 @@
 """
 Class to model a train
 """
+import os
 import json
 import time
 from datetime import datetime, timedelta
 import datetime as dt
+import requests
 
 
 class Train:
@@ -80,6 +82,8 @@ class Train:
     def realTimeMsg(self):
         """
         Generate a status message from the train
+        Returns:
+            String with train status
         """
         self.display()
         stations = self.stationsParser()
@@ -124,6 +128,17 @@ class Train:
                     self.alert,
                 )
             )
+        
+        backend = os.environ.get("HOST_BACKEND", "backend")
+        train_stats = requests.get(f"http://{backend}:5000/api/train/{self.number}/stats")
+        if train_stats.status_code == 200:
+            train_stats = train_stats.json()
+            delay_stats = train_stats["stats"][-30:]
+            avg_delay = [day_stats["delay"] for day_stats in delay_stats]
+            if avg_delay:
+                avg_delay = sum(avg_delay)/len(avg_delay)
+                msg = msg + ':warning: Ritardo medio ultimi 30 giorni: %d minuti' % avg_delay
+        
         return msg
 
     def departingMsg(self, origin, destination):
