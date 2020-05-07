@@ -115,18 +115,16 @@ def get_stats(train_number: int):
     Args:
         train_number: the identifier of the train
     """
-    lastMonth = datetime.date.min
+    last_days = datetime.date.min
     days = request.args.get("days")
     if days is not None:
-        if int(days) == 30:
-            today = datetime.date.today()
-            lastMonth = today.replace(day=1) - datetime.timedelta(days=1)
+        last_days = datetime.date.today() - datetime.timedelta(days=int(days))
 
     if database_utils.is_train_in_database(train_number):
         return jsonify(
             {
                 "created": False,
-                "stats": database_utils.get_stats(train_number, lastMonth),
+                "stats": database_utils.get_stats(train_number, last_days),
             }
         )
     else:

@@ -116,7 +116,7 @@ def store_train(train: dict):
         raise exception
 
 
-def get_stats(train_id, filter_date=datetime.date.min) -> list:
+def get_stats(train_id, filter_date=dt.date.min) -> list:
     """
     Get historical stats for a certain train
 

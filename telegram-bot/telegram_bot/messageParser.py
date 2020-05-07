@@ -321,4 +321,9 @@ def statsParser(msg: str, chatId: int) -> tuple:
     """
     message = msg
     numbers = re.findall("\d+", message)
+    if not numbers:
+        return (
+            "Errore! Inserire il codice del treno per vederne le statistiche! :pensive:\n",
+            "",
+        )
     return viewStatistics(int(numbers[0]))
