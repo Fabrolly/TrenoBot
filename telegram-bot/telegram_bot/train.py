@@ -139,10 +139,7 @@ class Train:
             avg_delay = [day_stats["delay"] for day_stats in delay_stats]
             if avg_delay:
                 avg_delay = sum(avg_delay) / len(avg_delay)
-                msg = (
-                    msg
-                    + ":warning: Ritardo medio ultimi 30 giorni: %d minuti" % avg_delay
-                )
+                msg = msg + ":bar_chart: Ritardo medio 30 giorni: %d min" % avg_delay
 
         return msg
 
