@@ -282,7 +282,6 @@ class TestMessageParser(unittest.TestCase):
 
     # TEST MESSAGE PARSER - PK
     def test_messageParser_pk(self):
-        # pk 9631!12345!13:00!16:10!Milano Centrale!Roma Termini
         train_code = 2573
         response = call_mute_mp(
             "pk " + str(train_code) + "!12345!18:01!18:40!Lecco!Milano Centrale"
@@ -308,7 +307,7 @@ class TestMessageParser(unittest.TestCase):
         call_mute_remove_train(train_code)
         self.assertTrue(is_riepilogo_empty())
 
-    # TEST MESSAGE PARSER -  STATISTICHE
+    # TEST MESSAGE PARSER - MENU STATISTICHE
     def test_messageParser_statistiche(self):
         response = call_mute_mp("menu statistiche")
         self.assertTrue("Error" not in response)
@@ -325,6 +324,54 @@ class TestMessageParser(unittest.TestCase):
         ]
         self.assertTrue(text_in_msg(response[0], text_key_word))
         self.assertTrue(text_in_buttons(response[1], button_key_word))
+
+    # TEST MESSAGE PARSER - STATISTICHE
+    def test_messageParser_statistiche(self):
+        train_code = 5050
+        response = call_mute_mp(f"statistiche {train_code}")
+        self.assertTrue("Error" not in response)
+        self.assertTrue(isinstance(response, tuple))
+        self.assertTrue("Sintassi comando non valida" not in response[0])
+        text_key_word = [
+            f"Statistiche Treno {train_code}",
+            "STATISTICHE ultimi 30 giorni",
+            "STATISTICHE ultimi 120 giorni",
+            "Questi dati possono non essere affidabili, sono solo a scopo indicativo.",
+            "Se vuoi maggiori indicazioni premi 'Statistiche Dettagliate'",
+        ]
+        button_key_word = [
+            "Statistiche dettagliate",
+            "Menu principale",
+        ]
+        self.assertTrue(text_in_msg(response[0], text_key_word))
+        cond1 = text_in_msg(
+            response[0], ["Non sono disponibili statistiche negli ultimi"]
+        )
+        text_key_word = [
+            "Numero corse monitorate",
+            "Data primo monitoraggio",
+            "Data ultimo monitoraggio",
+            "Ritardo medio",
+            "Corse in orario",
+            "Corse in ritardo",
+            "Corse cancellate",
+            "Corse alterate",
+        ]
+        cond2 = text_in_msg(response[0], text_key_word)
+        self.assertTrue(cond1 or cond2)
+        self.assertTrue(text_in_buttons(response[1], button_key_word))
+
+    # TEST MESSAGE PARSER - STATISTICHE ERROR
+    def test_messageParser_statistiche(self):
+        response = call_mute_mp("statistiche")
+        self.assertTrue(isinstance(response, tuple))
+        self.assertTrue(
+            text_in_msg(
+                response[0],
+                "Errore! Inserire il codice del treno per vederne le statistiche!",
+            )
+        )
+        self.assertEqual(response[1], "")
 
 
 # launch unit test cases if main

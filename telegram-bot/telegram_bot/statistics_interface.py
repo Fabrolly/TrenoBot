@@ -49,14 +49,6 @@ def train_ranking_readable():
     return msg
 
 
-"""
-{'created': False, 'stats': [{'alert': '', 'arrival_datetime': '10:48:00', 'date': '2020-05-06', 'delay': -2,
-'departure_datetime': '10:08:00', 'destination': 'LECCO', 'duration': 40, 'last_detection_datetime': '2020-05-06 10:46:30',
-'last_detection_station': 'LECCO', 'number': 'S01529', 'origin': 'BERGAMO', 'real_arrival_datetime': '10:48:00',
-'real_departure_datetime': '10:06:00', 'state': 'ON_TIME', 'trainID': 5038}]}
-"""
-
-
 def view_stat_util(train_code: int, nDays: int) -> str:
     """
     Function which contains the logic of the viewStatistics function
@@ -80,39 +72,25 @@ def view_stat_util(train_code: int, nDays: int) -> str:
         )
     elif parsed_json.status_code != 200:
         raise Exception("Something wrong with the backend!")
-
     parsed_json = parsed_json.json()
     stats = parsed_json.get("stats")
-    created = parsed_json.get("created", False)
-    if created:
-        raise Exception("Something wrong with the backend!")
 
-    return_msg = f"Non sono disponilibi statistiche negli ultimi {nDays}gg :pensive:"
+    return_msg = f"Non sono disponibili statistiche negli ultimi {nDays} giorni :pensive:\nControlla di aver inserito il treno nella tua Lista!"
     daysMonitoring = len(stats)
     if daysMonitoring > 0:
-        firstMonitoring = stats[0]["date"]
-        lastMonitoring = stats[-1]["date"]
-        sum_delay = onTimeDays = lateDays = nCancelled = nAltered = 0
+        lastMonitoring = datetime.datetime.strptime(stats[-1]["date"], "%Y-%m-%d")
+        sum_delay = nCancelled = nAltered = 0
         for stat in stats:
             sum_delay = sum_delay + stat["delay"]
-            if stat["delay"] <= 0:
-                onTimeDays = onTimeDays + 1
-            else:
-                lateDays = lateDays + 1
             if stat["state"] == "CANCELED":
                 nCancelled = nCancelled + 1
             elif stat["state"] == "MODIFIED":
                 nAltered = nAltered + 1
-        averageDelay = sum_delay / daysMonitoring
+        averageDelay = int(sum_delay / daysMonitoring)
 
-        return_msg = f"Numero corse monitorate: {daysMonitoring}"
-        return_msg += f"\nData primo monitoraggio: {datetime.datetime.strptime(firstMonitoring, '%d-%m-%Y')}"
-        return_msg += f"\nData ultimo monitoraggio: {datetime.datetime.strptime(lastMonitoring, '%d-%m-%Y')}"
-        return_msg += f"\nRitardo medio: {averageDelay}"
-        return_msg += f"\nCorse in orario: {onTimeDays}"
-        return_msg += f"\nCorse in ritardo: {lateDays}"
-        return_msg += f"\nCorse cancellate: {nCancelled}"
-        return_msg += f"\nnCorse alterate: {nAltered}"
+        return_msg = f"🕛  Ritardo medio: <b>{averageDelay} min</b>"
+        return_msg += f"\n❌  Corse cancellate: <b>{nCancelled}</b>"
+        return_msg += f"\n❗  Corse alterate: <b>{nAltered}</b>"
 
     return return_msg
 
@@ -130,12 +108,13 @@ def viewStatistics(train_code: int) -> tuple:
     day_dict = {30: "", 120: ""}
     for day in day_dict.keys():
         day_dict[day] = view_stat_util(train_code, day)
+        if isinstance(day_dict[day], tuple):
+            return day_dict[day]
 
-    bot_msg = f"📊 <b>Statistiche treno {train_code}</b>\n\n"
+    bot_msg = f"📊 <b>STATISTICHE Treno {train_code}</b>\n\n"
     bot_msg += "<b>STATISTICHE ultimi 30 giorni</b>\n"
     bot_msg += day_dict[30]
-    bot_msg += "\n\n---------------------------------------------------------\n"
-    bot_msg += "\n<b>STATISTICHE ultimi 120 giorni</b>\n"
+    bot_msg += "\n\n<b>STATISTICHE ultimi 120 giorni</b>\n"
     bot_msg += day_dict[120]
     bot_msg += "\n\n⚠️ Questi dati possono non essere affidabili, sono solo a scopo indicativo.\nSe vuoi maggiori indicazioni premi 'Statistiche Dettagliate'"
 
