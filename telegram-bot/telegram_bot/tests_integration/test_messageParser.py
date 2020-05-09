@@ -333,7 +333,7 @@ class TestMessageParser(unittest.TestCase):
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue("Sintassi comando non valida" not in response[0])
         text_key_word = [
-            f"Statistiche Treno {train_code}",
+            f"STATISTICHE Treno {train_code}",
             "STATISTICHE ultimi 30 giorni",
             "STATISTICHE ultimi 120 giorni",
             "Questi dati possono non essere affidabili, sono solo a scopo indicativo.",
@@ -348,12 +348,7 @@ class TestMessageParser(unittest.TestCase):
             response[0], ["Non sono disponibili statistiche negli ultimi"]
         )
         text_key_word = [
-            "Numero corse monitorate",
-            "Data primo monitoraggio",
-            "Data ultimo monitoraggio",
             "Ritardo medio",
-            "Corse in orario",
-            "Corse in ritardo",
             "Corse cancellate",
             "Corse alterate",
         ]
