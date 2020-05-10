@@ -3,6 +3,7 @@ This module contains various functions to generate Telegram Inline Keybord
 instances to allow to better interact with the bot
 """
 
+import os
 import telepot
 from telepot.namedtuple import *
 
@@ -122,7 +123,16 @@ def listDicButtons(dire):
     return keyboard
 
 
-def RealTimeButtons(trainNumber):
+def RealTimeButtons(trainNumber) -> InlineKeyboardMarkup:
+    """
+    Function that return a InlineKeybord object containing a list of button for add, update o view information of the train and to return to the primary menu
+    Args:
+        trainNumber: the identifier of the train
+
+    Returns:
+        Inlinekeybord Object
+    """
+    backend = os.environ.get("HOST_BACKEND", "backend")
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -134,6 +144,12 @@ def RealTimeButtons(trainNumber):
                 InlineKeyboardButton(
                     text="Aggiungi alla Lista",
                     callback_data="Programma %s" % (trainNumber),
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="Visualizza statistiche complete",
+                    url="http://%s:8000/stats/view?train=%s" % (backend, trainNumber),
                 )
             ],
             [

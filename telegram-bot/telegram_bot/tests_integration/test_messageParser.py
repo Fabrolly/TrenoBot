@@ -23,7 +23,13 @@ class TestMessageParser(unittest.TestCase):
         )
         self.assertTrue(
             text_in_buttons(
-                response[1], ["Aggiorna", "Aggiungi alla Lista", "Menu' principale"]
+                response[1],
+                [
+                    "Aggiorna",
+                    "Aggiungi alla Lista",
+                    "Visualizza statistiche complete",
+                    "Menu' principale",
+                ],
             )
         )
         response = call_mute_mp("rimuovi 5050")
