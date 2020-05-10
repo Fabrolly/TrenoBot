@@ -20,6 +20,25 @@ class TestFrontend(unittest.TestCase):
         browser = Browser("flask", app=app)
         browser.visit("/stats/view?train=with_stats")
         self.assertTrue(browser.is_text_present("Ecco le statistiche"))
+        self.assertTrue(browser.is_text_present("corse monitorate: 6"))
+
+    def test_train_with_stats_filtered_date(self):
+        browser = Browser("flask", app=app)
+        browser.visit("/stats/view?train=with_stats&from=2020-05-11&to=2020-05-14")
+        self.assertTrue(browser.is_text_present("Ecco le statistiche"))
+        self.assertTrue(browser.is_text_present("corse monitorate: 4"))
+
+    def test_train_with_stats_all_filters(self):
+        browser = Browser("flask", app=app)
+        browser.visit(
+            "/stats/view?train=with_stats&from=2020-05-11&to=2020-05-14&only_status=MODIFIED"
+        )
+        self.assertTrue(browser.is_text_present("Ecco le statistiche"))
+        self.assertTrue(browser.is_text_present("corse monitorate: 1"))
+        self.assertTrue(browser.is_text_present("Pulisci filtri"))
+        self.assertTrue(
+            browser.is_element_present_by_css('input[value="MODIFIED"][checked]')
+        )
 
     def test_train_no_stats(self):
         browser = Browser("flask", app=app)

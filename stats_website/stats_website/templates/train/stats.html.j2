@@ -4,45 +4,107 @@
 
 {% block content %}
     <div class="container pt-3">
-        <h1>Treno {{ train_id}}</h1>
+        <h1>Treno {{ train_id }}</h1>
         {% if created %}
             <div class="alert alert-info" role="alert">
                 Il treno che hai cercato non era ancora tracciato dai nosti sistemi. Da oggi in poi verranno raccolte le statistiche.
             </div>
         {% endif %}
-        {% if stats != None %}
-            {% if stats | length == 0%}
-                <p>Nessuna statistica ancora registrata. Riprova più tardi</p>
+        {% if stats_py != None %}
+            {% if stats_py | length == 0%}
+                {% if is_filtered %}
+                    <p>Nessuna statistica corrisponde ai filtri da te inseriti</p>
+                    <a href="?train={{ train_id }}" class="btn btn-primary"> Pulisci filtri</a>
+                {% else %}
+                    <p>Nessuna statistica ancora registrata. Riprova più tardi</p>
+                {% endif %}
             {% else %}
                 <p>Ecco le statistiche per il treno {{ train_id }}</p>
-                <canvas id="statsChart" width="4" height="1"></canvas>
-                <script>
-                    var stats = {{ stats }};
-                </script>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
-                <script src="/static/js/displayStats.js"></script>
+                <div id="chart-legend" class="text-center"></div>
+                <div style="height:25rem">
+                    <canvas id="statsChart" width="4" height="2"></canvas>
+                </div>
+                <form action="" method="GET" class="mb-3">
+                    <input type="hidden" name="train" value="{{ train_id }}">
+                    <div class="row align-items-center">
+                        <div class="col-6 col-sm-5">
+                            <div class="form-group">
+                                <label>Da:</label>
+                                <input class="form-control" value="{{ stats_py[0]['date'] }}" type="date" name="from" required>
+                            </div>
+                        </div>
+                        <div class="col-6 col-sm-5">
+                            <div class="form-group">
+                                <label>A:</label>
+                                <input class="form-control" value="{{ stats_py[-1]['date'] }}" type="date" name="to" required>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-2 text-center mt-sm-3">
+                            <button type="submit" class="btn btn-success">
+                                <i class="mdi mdi-play"></i>
+                                Filtra
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <a class="btn btn-secondary btn-sm" data-toggle="collapse" href="#moreFilters" role="button" aria-expanded="false" aria-controls="moreFilters">
+                                <i class="mdi mdi-filter"></i>
+                                Più filtri
+                            </a>
+                            {% if is_filtered %}
+                                <a href="?train={{ train_id }}" class="btn btn-primary btn-sm"> Pulisci filtri</a>
+                            {% endif %}
+                        </div>
+                        <div class="col-12">
+                            <div class="collapse mt-3" id="moreFilters">
 
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5>Altri filtri</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="checkbox" value="ON_TIME" name="only_status" {% if "ON_TIME" in form.get('only_status', [] )%} checked {% endif %}> Viaggi in orario <br>
+                                        <input type="checkbox" value="DELAYED" name="only_status" {% if "DELAYED" in form.get('only_status', [] )%} checked {% endif %}> Viaggi in ritardo <br>
+                                        <input type="checkbox" value="MODIFIED" name="only_status" {% if "MODIFIED" in form.get('only_status', [] )%} checked {% endif %}> Viaggi modificati <br>
+                                        <input type="checkbox" value="CANCELED" name="only_status" {% if "CANCELED" in form.get('only_status', [] )%} checked {% endif %}> Viaggi cancellati <br>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Con ritardo superiore a: </label>
+                                            <input class="form-control" type="number" name="min_delay" {% if form.get('min_delay') %} value="{{ form['min_delay'] }}" {% endif %}>
+                                            <small class="form-text text-muted">minuti</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="row">
                     <div class="col-12">
                         <h3>Informazioni aggiuntive</h3>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-sm-6">
                         <ul>
-                            <li data-name="daysMonitoring">Numero corse monitorate: </li>
-                            <li data-name="firstMonitoring">Primo monitoraggio: </li>
-                            <li data-name="lastMonitoring">Ultimo monitoraggio: </li>
+                            <li data-name="daysMonitoring">Numero corse monitorate: {{ stats_py | length }}</li>
+                            <li data-name="onTimeDays">Corse in orario: </li>
                         </ul>
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-sm-6">
                         <ul>
                             <li data-name="averageDelay">Ritardo medio: </li>
-                            <li data-name="onTimeDays">Corse in orario: </li>
                             <li data-name="lateDays">Corse in ritardo: </li>
                             <li data-name="nCancelled">Corse cancellate: </li>
                             <li data-name="nAltered">Corse alterate: </li>
                         </ul>
                     </div>
                 </div>
+                <script>
+                    var stats = {{ stats }};
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+                <script src="/static/js/displayStats.js"></script>
                 <script src="/static/js/fillDetails.js"></script>
             {% endif %}
         {% else %}

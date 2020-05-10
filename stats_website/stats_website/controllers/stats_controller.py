@@ -1,6 +1,7 @@
 """
 This controller handles pages about the train(s) stats
 """
+import json
 
 from flask import request, jsonify, render_template, redirect, url_for
 
@@ -19,12 +20,34 @@ def view():
     if train_id is None or train_id.strip() == "":
         return "Bad request", 400
 
-    backend_response = backend_api.get_train_stats(train_id)
+    is_filtered = False
+    from_date = request.args.get("from")
+    to_date = request.args.get("to")
+    if from_date and to_date:
+        is_filtered = True
+
+    backend_response = backend_api.get_train_stats(train_id, from_date, to_date)
+    stats = backend_response.get("stats")
+    if request.args.getlist("only_status"):
+        only_status = request.args.getlist("only_status")
+        stats = list(filter(lambda s: s["state"] in only_status, stats))
+        is_filtered = True
+    if request.args.get("min_delay"):
+        min_delay = int(request.args.get("min_delay"))
+        stats = list(filter(lambda s: s["delay"] >= min_delay, stats))
+        is_filtered = True
+
     if backend_response:
         return render_template(
             "train/stats.html.j2",
             train_id=train_id,
-            stats=backend_response.get("stats"),
+            stats=json.dumps(stats),
+            stats_py=stats,
+            is_filtered=is_filtered,
+            form={
+                "min_delay": request.args.get("min_delay"),
+                "only_status": request.args.getlist("only_status"),
+            },
             created=backend_response.get("created", False),
         )
     else:
