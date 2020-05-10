@@ -63,7 +63,9 @@ def add_journey_db(trainID: int):
         train = train_response.json()
         now = datetime.now()
         now_datetime = timedelta(hours=now.hour, minutes=now.minute, seconds=0)
-        minute_difference = (now_datetime - train_response["compOrarioArrivo"]).total_seconds() / 60.0
+        minute_difference = (
+            now_datetime - train_response["compOrarioArrivo"]
+        ).total_seconds() / 60.0
 
         train_delay = train["ritardo"]
 
@@ -76,10 +78,9 @@ def add_journey_db(trainID: int):
                 state = "CANCELED"
             else:
                 state = "MODIFIED"
-        if (
-            ["CANCELED", "MODIFIED"] in state
-            or train["stazioneUltimoRilevamento"] == train["destinazione"]
-        ):
+        if ["CANCELED", "MODIFIED"] in state or train[
+            "stazioneUltimoRilevamento"
+        ] == train["destinazione"]:
             # se é regolare ma non é ancora arrivato non aggiorno il viaggio (é in grande ritardo)
             train_departure_time = train["compOrarioPartenzaZeroEffettivo"]
             train_arrival_time = train["compOrarioArrivoZeroEffettivo"]
@@ -113,7 +114,7 @@ def add_journey_db(trainID: int):
             return e
         return True
 
-        
+
 def journey_delay_timeout(trainID: int):
     """
     Update the stored status of a certain train as DELAY_TIMEOUT in the database after 250minutes of delay
@@ -132,7 +133,7 @@ def journey_delay_timeout(trainID: int):
         state = "DELAY_TIMEOUT"
         train = train_response.json()
         now = datetime.now()
-  
+
         # se é regolare ma non é ancora arrivato non aggiorno il viaggio (é in grande ritardo)
         train_departure_time = train["compOrarioPartenzaZeroEffettivo"]
         train_arrival_time = train["compOrarioArrivoZeroEffettivo"]
@@ -154,7 +155,7 @@ def journey_delay_timeout(trainID: int):
             train_last_detection_time,
             train_last_detection_station,
         )
-    
+
         print(
             "Il treno %s dovrebbe essere arrivato ma non é a destinazione! Journey aggiunta come DELAY_TIMEOUT"
             % (trainID)
@@ -166,7 +167,6 @@ def journey_delay_timeout(trainID: int):
         except Exception as e:
             return e
         return True
-
 
 
 def check_arrival():
@@ -195,11 +195,17 @@ def check_arrival():
             cursor.execute(query)
             last_update = cursor.fetchone()
 
-            if last_update is None or last_update["DATE"] != now.date(): # Devo aggiornare o l'ho giá aggiornato oggi? Controllo il valore di last_update
-                if minute_difference > 250: 
-                    res = journey_delay_timeout(row["trainID"]) #se é da oltre 250minuti che non arriva lo segno come DELAY_TIMEOUT
+            if (
+                last_update is None or last_update["DATE"] != now.date()
+            ):  # Devo aggiornare o l'ho giá aggiornato oggi? Controllo il valore di last_update
+                if minute_difference > 250:
+                    res = journey_delay_timeout(
+                        row["trainID"]
+                    )  # se é da oltre 250minuti che non arriva lo segno come DELAY_TIMEOUT
                 else:
-                    res = add_journey_db(row["trainID"])  # lo aggiorno, sempre che sia arrivato o se é stato cancellato
+                    res = add_journey_db(
+                        row["trainID"]
+                    )  # lo aggiorno, sempre che sia arrivato o se é stato cancellato
 
                 if not res:
                     # qualcosa é andato storto nell'aggiornamento!
