@@ -19,7 +19,7 @@ function fillDetails() {
     document.querySelector("[data-name='lastMonitoring']").innerHTML += lastMonitoring
 
     var reliabilityIndex;
-    if (stats.length > 7) {
+    if (stats.length < 7) {
         reliabilityIndex = "Non disponibile";
     } else {
         reliabilityIndex = reliabilityindex(stats.map(s => s.delay), stats[0].duration);
