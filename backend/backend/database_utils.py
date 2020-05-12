@@ -140,7 +140,7 @@ def get_best_trains():
     """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
-    query = f"SELECT backend_trains.trainID, backend_trains.duration, AVG(delay) as delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID GROUP BY backend_trains.trainID ORDER BY AVG(delay) ASC LIMIT 10"
+    query = f"SELECT backend_trains.trainID, backend_trains.duration, backend_trains.stations, AVG(delay) as delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID GROUP BY backend_trains.trainID ORDER BY AVG(delay) ASC LIMIT 10"
     cursor.execute(query)
     best_trains = cursor.fetchall()
     return best_trains
@@ -152,7 +152,7 @@ def get_worst_trains():
     """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
-    query = f"SELECT backend_trains.trainID, backend_trains.duration, AVG(delay) as delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID GROUP BY backend_trains.trainID ORDER BY AVG(delay) DESC LIMIT 10"
+    query = f"SELECT backend_trains.trainID, backend_trains.duration, backend_trains.stations, AVG(delay) as delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID GROUP BY backend_trains.trainID ORDER BY AVG(delay) DESC LIMIT 10"
     cursor.execute(query)
     worst_trains = cursor.fetchall()
     return worst_trains
