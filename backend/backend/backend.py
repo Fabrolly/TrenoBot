@@ -147,7 +147,17 @@ def get_stats_ranking():
         a JSON with the data
     """
     best_trains = database_utils.get_best_trains()
+    best_trains = [
+        dict(train, **{"reliabilityIndex": train["delay"] / train["duration"] * -100})
+        for train in best_trains
+    ]
+    best_trains = sorted(best_trains, key=lambda d: d["reliabilityIndex"], reverse=True)
     worst_trains = database_utils.get_worst_trains()
+    worst_trains = [
+        dict(train, **{"reliabilityIndex": train["delay"] / train["duration"] * -100})
+        for train in worst_trains
+    ]
+    worst_trains = sorted(worst_trains, key=lambda d: d["reliabilityIndex"])
     return jsonify({"best": best_trains, "worst": worst_trains})
 
 

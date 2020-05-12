@@ -2,6 +2,10 @@ function average (arr) {
     return arr.reduce((p, c) => p + c, 0) / arr.length;
 }
 
+function reliabilityindex (arr, duration) {
+    return arr.reduce((p, c) => p + c, 0) / arr.length / duration * -100;
+}
+
 function fillDetails() {
     if (!stats) return;
 
@@ -13,6 +17,14 @@ function fillDetails() {
 
     var lastMonitoring = stats[stats.length-1].date;
     document.querySelector("[data-name='lastMonitoring']").innerHTML += lastMonitoring
+
+    var reliabilityIndex;
+    if (stats.length > 7) {
+        reliabilityIndex = "Non disponibile";
+    } else {
+        reliabilityIndex = reliabilityindex(stats.map(s => s.delay), stats[0].duration);
+    }
+    document.querySelector("[data-name='reliabilityIndex']").innerHTML += reliabilityIndex
 
     var averageDelay = average(stats.map(s => s.delay));
     document.querySelector("[data-name='averageDelay']").innerHTML += (averageDelay + " minuti")
