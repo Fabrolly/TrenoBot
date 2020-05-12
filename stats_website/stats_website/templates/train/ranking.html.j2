@@ -13,7 +13,7 @@
             {% for train in worst_trains %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a href="{{ url_for('stats.view', train=train['trainID'])}}">Treno {{ train['trainID'] }}</a>
-                    <span class="badge badge-danger badge-pill">Indice affidabilità: {{ train['reliabilityIndex']| int }}</span>
+                    <span style="font-weight:normal" class="badge badge-pill">Ritardo medio:  <span style="color: red;font-weight:bold">{{ train['delay']| int }}</span> / Affidabilità: <span style="color: red;font-weight:bold">{{ train['reliabilityIndex']| int }}</span></span>
                 </li>
             {% endfor %}
         </ul>
@@ -24,7 +24,7 @@
             {% for train in best_trains %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a href="{{ url_for('stats.view', train=train['trainID'])}}">Treno {{ train['trainID'] }}</a>
-                    <span class="badge badge-success badge-pill">Indice affidabilità: {{ train['reliabilityIndex']| int }}</span>
+                    <span style="font-weight:normal" class="badge badge-pill">Ritardo medio: <span style="color: green;font-weight:bold">{{ train['delay']| int }}</span> / Affidabilità: <span style="color: green;font-weight:bold">{{ train['reliabilityIndex']| int }}</span></span>
                 </li>
             {% endfor %}
         </ul>

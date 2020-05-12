@@ -46,14 +46,14 @@ if os.environ.get("MOCK_API"):
         status_code=200,
         json={
             "best": [
-                {"id": 1, "reliabilityIndex": 23},
-                {"id": 2, "reliabilityIndex": 9},
-                {"id": 3, "reliabilityIndex": 8},
+                {"id": 1, "delay": -2, "reliabilityIndex": 5},
+                {"id": 3, "delay": -6, "reliabilityIndex": 4},
+                {"id": 2, "delay": 0, "reliabilityIndex": 0},
             ],
             "worst": [
-                {"id": 6, "reliabilityIndex": -25},
-                {"id": 5, "reliabilityIndex": -12},
-                {"id": 4, "reliabilityIndex": -4},
+                {"id": 6, "delay": 30, "reliabilityIndex": -16},
+                {"id": 5, "delay": 75, "reliabilityIndex": -62.5},
+                {"id": 4, "delay": 45, "reliabilityIndex": -75},
             ],
         },
     )
