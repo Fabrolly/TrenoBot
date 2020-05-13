@@ -50,7 +50,7 @@ def createTrain(trainNumber):
 def addOrUpdateTrainDB(number):
 
     backend = os.environ.get("HOST_BACKEND", "backend")
-    jsonapi = requests.get(f"http://{backend}:5000/api/train/%s" % number)
+    jsonapi = requests.get(f"http://{backend}:5000/api/train/{number}")
 
     # Handle errors:
     if jsonapi.status_code == 404:

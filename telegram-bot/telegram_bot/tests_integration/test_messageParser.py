@@ -3,6 +3,7 @@ import validators
 from telegram_bot.tests_integration.test_utility_methods import *
 
 from telegram_bot.bot import create_db
+from telegram_bot.messageResponder import getTrainList
 
 
 class TestMessageParser(unittest.TestCase):
@@ -340,36 +341,40 @@ class TestMessageParser(unittest.TestCase):
         self.assertTrue("Sintassi comando non valida" not in response[0])
         text_key_word = [
             f"STATISTICHE Treno {train_code}",
-            "STATISTICHE ultimi 30 giorni",
-            "STATISTICHE ultimi 120 giorni",
-            "Questi dati possono non essere affidabili, sono solo a scopo indicativo.",
-            "Se vuoi maggiori indicazioni premi 'Statistiche Dettagliate'",
+            "<b>Il Treno %s sarà monitorato!</b>" % (train_code),
+            "Potrai vederne le statistiche a partire dalla prossima corsa",
         ]
         button_key_word = [
-            "Statistiche dettagliate",
+            "Visualizza lista",
             "Menu principale",
         ]
         self.assertTrue(text_in_msg(response[0], text_key_word))
-        cond1 = text_in_msg(
-            response[0], ["Non sono disponibili statistiche negli ultimi"]
-        )
+        self.assertTrue(text_in_buttons(response[1], button_key_word))
+
+        response = call_mute_mp(f"statistiche {train_code}")
+        self.assertTrue("Error" not in response)
+        self.assertTrue(isinstance(response, tuple))
+        self.assertTrue("Sintassi comando non valida" not in response[0])
         text_key_word = [
-            "Ritardo medio",
-            "Corse cancellate",
-            "Corse alterate",
+            f"STATISTICHE Treno {train_code}",
+            "<b>Il Treno %s è già monitorato</b>" % (train_code),
+            "potrai vederne le statistiche a partire dalla prossima corsa!",
         ]
-        cond2 = text_in_msg(response[0], text_key_word)
-        self.assertTrue(cond1 or cond2)
+        button_key_word = [
+            "Visualizza lista",
+            "Menu principale",
+        ]
+        self.assertTrue(text_in_msg(response[0], text_key_word))
         self.assertTrue(text_in_buttons(response[1], button_key_word))
 
     # TEST MESSAGE PARSER - STATISTICHE ERROR
-    def test_messageParser_statistiche(self):
+    def test_messageParser_statistiche_error(self):
         response = call_mute_mp("statistiche")
         self.assertTrue(isinstance(response, tuple))
         self.assertTrue(
             text_in_msg(
                 response[0],
-                "Errore! Inserire il codice del treno per vederne le statistiche!",
+                ["Errore! Inserire il codice del treno per vederne le statistiche!"],
             )
         )
         self.assertEqual(response[1], "")

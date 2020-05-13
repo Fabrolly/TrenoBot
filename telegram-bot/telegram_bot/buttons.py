@@ -132,7 +132,7 @@ def RealTimeButtons(trainNumber) -> InlineKeyboardMarkup:
     Returns:
         Inlinekeybord Object
     """
-    backend = os.environ.get("HOST_BACKEND", "backend")
+    # Ïbackend = os.environ.get("HOST_BACKEND", "backend")
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -149,7 +149,8 @@ def RealTimeButtons(trainNumber) -> InlineKeyboardMarkup:
             [
                 InlineKeyboardButton(
                     text="Visualizza statistiche complete",
-                    url="http://%s:8000/stats/view?train=%s" % (backend, trainNumber),
+                    # url="http://%s:8000/stats/view?train=%s" % (backend, trainNumber),
+                    url=f"https://trenobot.it",
                 )
             ],
             [

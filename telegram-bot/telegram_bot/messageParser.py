@@ -117,7 +117,6 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     if "statistiche" in msg:
-        print("Statistiche")
         response = statsParser(msg, chatId)
         return response
 
@@ -142,7 +141,12 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
 def realTimeParser(msg, chatId):
     message = msg
     numbers = re.findall("\d+", message)
-    return realTimeInfo(numbers[0])
+    if not numbers:
+        return (
+            "Errore! Inserire il codice del treno! :pensive:\n",
+            "",
+        )
+    return realTimeInfo(int(numbers[0]))
 
 
 def programParser(msg, chatId):
@@ -326,4 +330,4 @@ def statsParser(msg: str, chatId: int) -> tuple:
             "Errore! Inserire il codice del treno per vederne le statistiche! :pensive:\n",
             "",
         )
-    return viewStatistics(int(numbers[0]))
+    return viewStatistics(int(numbers[0]), chatId)
