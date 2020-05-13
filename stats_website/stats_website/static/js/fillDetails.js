@@ -2,8 +2,8 @@ function average (arr) {
     return arr.reduce((p, c) => p + c, 0) / arr.length;
 }
 
-function reliabilityindex (arr, duration, numberstation) {
-    return arr.reduce((p, c) => p + c, 0) / arr.length / duration / numberstation * -1000;
+function reliabilityindex (arr, duration, n_stations) {
+    return arr.reduce((p, c) => p + c, 0) / arr.length / duration / n_stations * -1000;
 }
 
 function fillDetails() {
@@ -22,7 +22,7 @@ function fillDetails() {
     if (stats.length < 7) {
         reliabilityIndex = "Non disponibile";
     } else {
-        reliabilityIndex = reliabilityindex(stats.map(s => s.delay), stats[0].duration, numberstation);
+        reliabilityIndex = reliabilityindex(stats.map(s => s.delay), stats[0].duration, n_stations);
     }
     document.querySelector("[data-name='reliabilityIndex']").innerHTML += reliabilityIndex
 

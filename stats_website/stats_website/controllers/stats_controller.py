@@ -7,8 +7,6 @@ from flask import request, jsonify, render_template, redirect, url_for
 from .. import backend_api
 import requests
 
-r = requests.session()
-
 
 def view():
     """
@@ -24,18 +22,15 @@ def view():
 
     backend_response = backend_api.get_train_stats(train_id)
 
-    response = r.get(f"http://backend:5000/api/train/{train_id}")
-    if response.status_code != 200:
-        number_station = None
-    else:
-        number_station = len(response.json()["fermate"])
+    train_information = backend_api.get_train_information(train_id)
+    n_stations = len(train_information.get("fermate")) if train_information else 1
 
     if backend_response:
         return render_template(
             "train/stats.html.j2",
             train_id=train_id,
             stats=backend_response.get("stats"),
-            numberstation=number_station,
+            n_stations=n_stations,
             created=backend_response.get("created", False),
         )
     else:

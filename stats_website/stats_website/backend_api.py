@@ -21,10 +21,16 @@ if os.environ.get("MOCK_API"):
         json={"created": True, "stats": []},
     )
     adapter.register_uri(
+        "GET", f"{API_BASE_URL}/train/just_created", status_code=404, json={},
+    )
+    adapter.register_uri(
         "GET",
         f"{API_BASE_URL}/train/no_stats/stats",
         status_code=200,
         json={"stats": []},
+    )
+    adapter.register_uri(
+        "GET", f"{API_BASE_URL}/train/no_stats", status_code=404, json={},
     )
     adapter.register_uri(
         "GET",
@@ -36,6 +42,18 @@ if os.environ.get("MOCK_API"):
                 {"day": 2, "delay": 1},
                 {"day": 3, "delay": 4},
                 {"day": 4, "delay": 3},
+            ]
+        },
+    )
+    adapter.register_uri(
+        "GET",
+        f"{API_BASE_URL}/train/with_stats",
+        status_code=200,
+        json={
+            "fermate": [
+                {"id": "S01420", "progressivo": 1, "stazione": "COLICO"},
+                {"id": "S01406", "progressivo": 2, "stazione": "PIONA"},
+                {"id": "S01407", "progressivo": 3, "stazione": "DORIO"},
             ]
         },
     )
@@ -79,6 +97,26 @@ def get_train_stats(train_id: str) -> typing.Dict:
         The train status
     """
     response = r.get(f"{API_BASE_URL}/train/{train_id}/stats")
+    if response.status_code == 404:
+        return None
+
+    if response.status_code != 200:
+        raise Exception("Something wrong with the backend")
+
+    return response.json()
+
+
+def get_train_information(train_id: str) -> typing.Dict:
+    """
+    Get the information of a certain train from the backend
+
+    Args:
+        train_id: id of the train to get the data
+
+    Returns:
+        The train information
+    """
+    response = r.get(f"{API_BASE_URL}/train/{train_id}")
     if response.status_code == 404:
         return None
 

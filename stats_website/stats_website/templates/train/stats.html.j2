@@ -7,7 +7,7 @@
         <h1>Treno {{ train_id}}</h1>
         {% if created %}
             <div class="alert alert-info" role="alert">
-                Il treno che hai cercato non era ancora tracciato dai nosti sistemi. Da oggi in poi verranno raccolte le statistiche.
+                Il treno che hai cercato non era ancora tracciato dai nostri sistemi. Da oggi in poi verranno raccolte le statistiche.
             </div>
         {% endif %}
         {% if stats != None %}
@@ -18,7 +18,7 @@
                 <canvas id="statsChart" width="4" height="1"></canvas>
                 <script>
                     var stats = {{ stats }};
-                    var numberstation = {{ numberstation }};
+                    var n_stations = {{ n_stations }};
                 </script>
                 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
                 <script src="/static/js/displayStats.js"></script>
