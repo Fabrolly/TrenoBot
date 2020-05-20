@@ -149,4 +149,5 @@ deploy:
     - master
     - /^sprint\d+$/
   script:
+    - docker-compose up -d --build
     - echo "Deploying..."
