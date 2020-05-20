@@ -147,6 +147,7 @@ deploy:
   stage: deploy
   only:
     - master
+    - autodeploy-domain-name
     - /^sprint\d+$/
   script:
     - docker-compose up -d --build
