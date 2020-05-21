@@ -3,6 +3,7 @@ A module with various helper functions to extract data from the database
 """
 import sys
 import os
+from typing import Optional
 import requests
 import datetime as dt
 from datetime import datetime
@@ -116,19 +117,24 @@ def store_train(train: dict):
         raise exception
 
 
-def get_stats(train_id) -> list:
+def get_stats(train_id, from_date: Optional[str], to_date: Optional[str]) -> list:
     """
     Get historical stats for a certain train
 
     Args:
         train_id: identifier of the train
+        from_date: iso format date
+        to_date: iso format date
 
     Returns:
         the historical stats for the train
     """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
-    query = f"SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} ORDER BY backend_journeys.DATE DESC"
+    additional_query = ""
+    if from_date and to_date:
+        additional_query = f"AND date >= '{from_date}' AND date <= '{to_date}'"
+    query = f"SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} {additional_query} ORDER BY backend_journeys.DATE ASC"
     cursor.execute(query)
     stats = cursor.fetchall()
     return stats
@@ -164,7 +170,7 @@ def get_general_stats():
     """
     database = db_connection()
     cursor = database.cursor(dictionary=True)
-    query = f"SELECT AVG(delay) as avg_delay FROM backend_journeys JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID"
+    query = f"SELECT AVG(delay) as avg_delay FROM backend_journeys"
     cursor.execute(query)
     stats = cursor.fetchall()[0]
     return stats

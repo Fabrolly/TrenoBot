@@ -11,6 +11,7 @@ import threading
 import pathlib
 import time
 import json
+from typing import Optional
 
 
 from .database_initialization import database_initialization
@@ -117,8 +118,22 @@ def get_stats(train_number: int):
         train_number: the identifier of the train
     """
     if database_utils.is_train_in_database(train_number):
+        from_date: Optional[str] = request.args.get("from")
+        to_date: Optional[str] = request.args.get("to")
+        if not (
+            from_date
+            and len(from_date.split("-")) == 3
+            and to_date
+            and len(to_date.split("-")) == 3
+        ):
+            from_date = None
+            to_date = None
+
         return jsonify(
-            {"created": False, "stats": database_utils.get_stats(train_number)}
+            {
+                "created": False,
+                "stats": database_utils.get_stats(train_number, from_date, to_date),
+            }
         )
     else:
         # register the train
@@ -222,7 +237,8 @@ if __name__ == "__main__":
     SERVER = os.environ.get("DATABASE_HOST")
     USER = os.environ.get("DATABASE_USER")
     PASSWORD = os.environ.get("DATABASE_PASSWORD")
-    database_initialization(SERVER, USER, PASSWORD)
+    SEED = len(os.environ.get("DATABASE_SEED", "")) > 0
+    database_initialization(SERVER, USER, PASSWORD, SEED)
 
     x = threading.Thread(target=check_arrival_loop)
     x.start()
