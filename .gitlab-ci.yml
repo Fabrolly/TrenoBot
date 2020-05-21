@@ -150,7 +150,7 @@ deploy:
     - apt-get update
     - apt-get install openssh-client git-core -y
     - eval $(ssh-agent -s)
-    - echo "SSH_BUILD_SERVER" | tr -d '\r' | ssh-add - > /dev/null
+    - echo ${SSH_BUILD_SERVER} | tr -d '\r' | ssh-add - > /dev/null
   only:
     - master
     - autodeploy-domain-name
@@ -158,5 +158,5 @@ deploy:
   script:
     - sudo git pull /home/trenobot-laboratorio-di-progettazione
     - docker ps -a -q
-    - TELEGRAM_API_KEY="$TELEGRAM_BOT_API_KEY" docker-compose up -d --build
+    - TELEGRAM_API_KEY=${TELEGRAM_BOT_API_KEY} docker-compose up -d --build
     - echo "Deploying..."
