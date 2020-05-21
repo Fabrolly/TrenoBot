@@ -158,6 +158,6 @@ deploy:
     - autodeploy-domain-name
     - /^sprint\d+$/
   script:
-    - ssh -o StrictHostKeyChecking=no fabrolly2@http://trenobot.duckdns.org "sudo git pull /home/trenobot-laboratorio-di-progettazione; docker ps -a -q; TELEGRAM_API_KEY=${TELEGRAM_BOT_API_KEY} docker-compose up -d --build"
+    - ssh -o StrictHostKeyChecking=no fabrolly2@trenobot.duckdns.org "sudo git pull /home/trenobot-laboratorio-di-progettazione; docker ps -a -q; TELEGRAM_API_KEY=${TELEGRAM_BOT_API_KEY} docker-compose up -d --build"
     - echo "Deploying..."
 
