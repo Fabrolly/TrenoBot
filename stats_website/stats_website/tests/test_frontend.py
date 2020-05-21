@@ -20,7 +20,7 @@ class TestFrontend(unittest.TestCase):
         browser = Browser("flask", app=app)
         browser.visit("/stats/view?train=with_stats")
         self.assertTrue(browser.is_text_present("Ecco le statistiche"))
-        self.assertTrue(browser.is_text_present("corse monitorate: 6"))
+        self.assertTrue(browser.is_text_present("corse monitorate: 7"))
 
     def test_train_with_stats_filtered_date(self):
         browser = Browser("flask", app=app)
