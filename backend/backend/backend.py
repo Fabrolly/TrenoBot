@@ -10,6 +10,7 @@ import os
 import threading
 import pathlib
 import time
+import json
 
 
 from .database_initialization import database_initialization
@@ -148,11 +149,7 @@ def get_stats_ranking():
     """
     best_trains = database_utils.get_best_trains()
     for train in best_trains:
-        train["stations"] = train["stations"].replace('"', "'").replace("null", "None")
-        train["stations"] = (
-            train["stations"].replace("false", "False").replace("true", "True")
-        )
-        train["stations"] = eval(train["stations"])
+        train["stations"] = json.loads(train["stations"])
     best_trains = [
         {
             "trainID": train["trainID"],
@@ -167,11 +164,7 @@ def get_stats_ranking():
     best_trains = sorted(best_trains, key=lambda d: d["reliabilityIndex"], reverse=True)
     worst_trains = database_utils.get_worst_trains()
     for train in worst_trains:
-        train["stations"] = train["stations"].replace('"', "'").replace("null", "None")
-        train["stations"] = (
-            train["stations"].replace("false", "False").replace("true", "True")
-        )
-        train["stations"] = eval(train["stations"])
+        train["stations"] = json.loads(train["stations"])
     worst_trains = [
         {
             "trainID": train["trainID"],
