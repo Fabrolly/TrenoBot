@@ -159,6 +159,6 @@ deploy:
     - autodeploy-domain-name
     - /^sprint\d+$/
   script:
-    - ssh -o StrictHostKeyChecking=no fabrolly2@trenobot.duckdns.org BUILD_STEPS
+    - ssh -o StrictHostKeyChecking=no fabrolly2@trenobot.duckdns.org $BUILD_STEPS
     - echo "Deploying..."
 
