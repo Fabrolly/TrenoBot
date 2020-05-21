@@ -145,13 +145,12 @@ release_image:
 
 deploy:
   stage: deploy
-  image: alpine
+  image: ubuntu:latest
   before_script:
-    - apk add openssh-client
+    - apt-get update
+    - apt-get install openssh-client git-core -y
     - eval $(ssh-agent -s)
-    - echo "SSH_BUILD_SERVER" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
+    - echo "SSH_BUILD_SERVER" | tr -d '\r' | ssh-add - > /dev/null
   only:
     - master
     - autodeploy-domain-name
