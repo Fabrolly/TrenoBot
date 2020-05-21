@@ -22,7 +22,7 @@ services:
         build: ./stats_website
         image: ${DOCKER_IMAGE_BASE_NAME}trenobot_stats_website
         ports:
-            - 8000:5000
+            - 80:5000
         depends_on:
             - backend
         restart: unless-stopped

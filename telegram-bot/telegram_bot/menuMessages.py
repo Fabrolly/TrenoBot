@@ -6,7 +6,7 @@ from .buttons import *
 
 
 def mainMenu():
-    mess = ":house: <b>Menu' Principale</b>\n\nScegli l'operazione che desideri effettuare. Update di prova per auto build!"
+    mess = ":house: <b>Menu' Principale</b>\n\nScegli l'operazione che desideri effettuare."
     keyboard = mainMenuButtons()
 
     return (mess, keyboard)

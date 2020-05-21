@@ -56,7 +56,7 @@ def rankingButtons() -> InlineKeyboardMarkup:
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="🌐 Statistiche dettagliate 🌐", url=f"https://trenobot.it"
+                    text="🌐 Statistiche dettagliate 🌐", url=f"http://trenobot.duckdns.org/"
                 )
             ],
             [
