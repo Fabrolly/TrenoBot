@@ -90,6 +90,7 @@ def compare():
     to_date = request.args.get("to")
 
     stats = {}
+    n_stations = {}
     for train_id in trains:
         if len(train_id) == 0:
             return "Bad request, bad train ID", 400
@@ -97,12 +98,18 @@ def compare():
         if not backend_response:
             return f"Train {train_id} not found", 404
 
+        train_information = backend_api.get_train_information(train_id)
+        n_stations[train_id] = (
+            len(train_information.get("fermate")) if train_information else 1
+        )
+
         stats[train_id] = backend_response.get("stats")
 
     return render_template(
         "train/compare.html.j2",
         trains=trains,
         stats=stats,
+        n_stations=n_stations,
         from_date=from_date,
         to_date=to_date,
     )

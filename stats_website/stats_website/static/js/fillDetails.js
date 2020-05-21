@@ -3,11 +3,12 @@ function average (arr) {
 }
 
 function reliabilityindex (arr, duration, n_stations) {
-    return arr.reduce((p, c) => p + c, 0) / arr.length / duration / n_stations * -1000;
+    return (arr.reduce((p, c) => p + c, 0) / arr.length / duration / n_stations * -1000).toFixed(2);
 }
 
-function fillDetails(prefix, replace_stats) {
+function fillDetails(prefix, replace_stats, replace_n_stations) {
     if (replace_stats) stats = replace_stats;
+    if (replace_n_stations) n_stations = replace_n_stations;
     if (!prefix) prefix = "";
 
     var daysMonitoring = stats.length;

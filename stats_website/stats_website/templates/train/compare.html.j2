@@ -51,6 +51,13 @@
     </div>
 
     <div class="row text-center mb-3">
+        <div class="col-12 font-weight-bold">Indice affidabilità</div>
+        {% for train in trains %}
+            <div class="col"><span data-name="{{train}}reliabilityIndex"></span></div>
+        {% endfor %}
+    </div>
+
+    <div class="row text-center mb-3">
         <div class="col-12 font-weight-bold">Ritardo Medio</div>
         {% for train in trains %}
             <div class="col"><span data-name="{{train}}averageDelay"></span></div>
@@ -81,7 +88,7 @@
     <script src="/static/js/fillDetails.js"></script>
     <script>
         {% for train in trains %}
-            fillDetails('{{ train }}', {{ stats[train]|tojson|safe }})
+            fillDetails('{{ train }}', {{ stats[train]|tojson|safe }}, {{ n_stations[train ]}})
         {% endfor %}
     </script>
 </div>
