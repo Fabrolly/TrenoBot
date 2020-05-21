@@ -6,7 +6,7 @@ variables:
   DOCKER_IMAGE_BASE_NAME: registry.gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/
   MYSQL_DATABASE: TRENOBOT
   MYSQL_ROOT_PASSWORD: root
-  BUILD_STEPS: cd /home/trenobot-laboratorio-di-progettazione; sudo git pull; sudo docker-compose build; sudo docker container stop $(sudo docker container ls -aq); sudo TELEGRAM_API_KEY=${TELEGRAM_BOT_API_KEY} docker-compose up -d
+  BUILD_STEPS: cd /home/trenobot-laboratorio-di-progettazione; sudo git pull; sudo docker container stop $(sudo docker container ls -aq); sudo TELEGRAM_API_KEY=${TELEGRAM_BOT_API_KEY} docker-compose up -d --build
 
 stages:
   - pre_test
