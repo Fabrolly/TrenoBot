@@ -10,6 +10,7 @@ import os
 import threading
 import pathlib
 import time
+import json
 from typing import Optional
 
 
@@ -162,7 +163,35 @@ def get_stats_ranking():
         a JSON with the data
     """
     best_trains = database_utils.get_best_trains()
+    for train in best_trains:
+        train["stations"] = json.loads(train["stations"])
+    best_trains = [
+        {
+            "trainID": train["trainID"],
+            "delay": train["delay"],
+            "reliabilityIndex": train["delay"]
+            / train["duration"]
+            / len(train["stations"])
+            * -1000,
+        }
+        for train in best_trains
+    ]
+    best_trains = sorted(best_trains, key=lambda d: d["reliabilityIndex"], reverse=True)
     worst_trains = database_utils.get_worst_trains()
+    for train in worst_trains:
+        train["stations"] = json.loads(train["stations"])
+    worst_trains = [
+        {
+            "trainID": train["trainID"],
+            "delay": train["delay"],
+            "reliabilityIndex": train["delay"]
+            / train["duration"]
+            / len(train["stations"])
+            * -1000,
+        }
+        for train in worst_trains
+    ]
+    worst_trains = sorted(worst_trains, key=lambda d: d["reliabilityIndex"])
     return jsonify({"best": best_trains, "worst": worst_trains})
 
 

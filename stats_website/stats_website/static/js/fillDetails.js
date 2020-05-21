@@ -2,11 +2,13 @@ function average (arr) {
     return arr.reduce((p, c) => p + c, 0) / arr.length;
 }
 
+function reliabilityindex (arr, duration, n_stations) {
+    return arr.reduce((p, c) => p + c, 0) / arr.length / duration / n_stations * -1000;
+}
+
 function fillDetails(prefix, replace_stats) {
     if (replace_stats) stats = replace_stats;
     if (!prefix) prefix = "";
-
-    if (!stats) return;
 
     var daysMonitoring = stats.length;
     if (document.querySelector("[data-name='" + prefix + "daysMonitoring']"))
@@ -24,6 +26,15 @@ function fillDetails(prefix, replace_stats) {
         var averageDelay = average(stats.map(s => s.delay));
         if (document.querySelector("[data-name='" + prefix + "averageDelay']"))
             document.querySelector("[data-name='" + prefix + "averageDelay']").innerHTML += (averageDelay.toFixed(1) + " minuti")
+
+        var reliabilityIndex;
+        if (stats.length < 7) {
+            reliabilityIndex = "Non disponibile";
+        } else {
+            reliabilityIndex = reliabilityindex(stats.map(s => s.delay), stats[0].duration, n_stations);
+        }
+        if (document.querySelector("[data-name='" + prefix + "reliabilityIndex']"))
+            document.querySelector("[data-name='" + prefix + "reliabilityIndex']").innerHTML += reliabilityIndex
 
         var onTimeDays = stats.filter(s => s.delay <= 0).length;
         if (document.querySelector("[data-name='" + prefix + "onTimeDays']"))
