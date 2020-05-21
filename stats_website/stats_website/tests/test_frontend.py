@@ -63,3 +63,9 @@ class TestFrontend(unittest.TestCase):
         browser.visit("/")
         self.assertTrue(browser.is_text_present("ritardo medio"))
         self.assertTrue(browser.is_text_present("30 giorni"))
+
+    def test_train_compare(self):
+        browser = Browser("flask", app=app)
+        browser.visit("/stats/compare?trains=with_stats&trains=with_stats_2")
+        self.assertTrue(browser.is_text_present("Treno with_stats"))
+        self.assertTrue(browser.is_text_present("Treno with_stats_2"))

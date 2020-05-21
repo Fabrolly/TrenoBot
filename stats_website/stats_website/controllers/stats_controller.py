@@ -6,6 +6,7 @@ import json
 from flask import request, jsonify, render_template, redirect, url_for
 
 from .. import backend_api
+from typing import List
 
 
 def view():
@@ -65,4 +66,39 @@ def ranking():
         "train/ranking.html.j2",
         best_trains=ranking_response["best"],
         worst_trains=ranking_response["worst"],
+    )
+
+
+def compare():
+    """
+    .. :quickref: Page; Get ranking of the trains
+
+    Compare two trains and get detailed stats for each
+    """
+    trains: List[str] = request.args.getlist("trains")
+    if len(trains) != 2:
+        return "Bad request, need 2 trains", 400
+
+    if len(trains) != len(set(trains)):
+        return "Bad request, use different trains", 400
+
+    from_date = request.args.get("from")
+    to_date = request.args.get("to")
+
+    stats = {}
+    for train_id in trains:
+        if len(train_id) == 0:
+            return "Bad request, bad train ID", 400
+        backend_response = backend_api.get_train_stats(train_id, from_date, to_date)
+        if not backend_response:
+            return f"Train {train_id} not found", 404
+
+        stats[train_id] = backend_response.get("stats")
+
+    return render_template(
+        "train/compare.html.j2",
+        trains=trains,
+        stats=stats,
+        from_date=from_date,
+        to_date=to_date,
     )

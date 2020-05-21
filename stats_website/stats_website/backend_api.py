@@ -40,7 +40,20 @@ if os.environ.get("MOCK_API"):
                 {"date": "2020-05-15", "delay": 3, "state": "DELAYED"},
             ],
         },
-    )
+    ),
+    adapter.register_uri(
+        "GET",
+        f"{API_BASE_URL}/train/with_stats_2/stats",
+        status_code=200,
+        json={
+            "stats": [
+                {"date": "2020-05-10", "delay": -1, "state": "ON_TIME"},
+                {"date": "2020-05-11", "delay": 1, "state": "DELAYED"},
+                {"date": "2020-05-13", "delay": 30, "state": "CANCELED"},
+                {"date": "2020-05-15", "delay": 3, "state": "DELAYED"},
+            ],
+        },
+    ),
     adapter.register_uri(
         "GET",
         f"{API_BASE_URL}/train/with_stats/stats?from=2020-05-11&to=2020-05-14",

@@ -13,6 +13,9 @@ app.add_url_rule("/stats/view", "stats.view", stats_controller.view, methods=["G
 app.add_url_rule(
     "/stats/ranking", "stats.ranking", stats_controller.ranking, methods=["GET"]
 )
+app.add_url_rule(
+    "/stats/compare", "stats.compare", stats_controller.compare, methods=["GET"]
+)
 
 
 def main(host: str = "0.0.0.0", port: int = 5000):

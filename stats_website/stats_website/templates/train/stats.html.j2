@@ -106,6 +106,29 @@
                 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
                 <script src="/static/js/displayStats.js"></script>
                 <script src="/static/js/fillDetails.js"></script>
+                <script>fillDetails();</script>
+                <form action="{{ url_for('stats.compare') }}" method="GET">
+                    <input type="hidden" name="trains" value="{{ train_id }}">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h3>Compara treno</h3>
+                        </div>
+                        <div class="col-12">
+                            <p>Compara questo treno con un altro</p>
+                        </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input type="text" name="trains" class="form-control" placeholder="Numero Treno" required>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="mdi mdi-play"></i>
+                                    Compara
+                                </button>
+                            </div>
+                    </div>
+                </form>
             {% endif %}
         {% else %}
             <p>Il treno che hai cercato non esiste. Assicurati di aver inserito un numero corretto.</p>
