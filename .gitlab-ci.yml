@@ -160,5 +160,5 @@ deploy:
     - /^sprint\d+$/
   script:
     - echo "Deploying..."
-    - ssh -o StrictHostKeyChecking=no fabrolly2@trenobot.duckdns.org $BUILD_STEPS
+    - ssh -o StrictHostKeyChecking=no gitlabdeploy@trenobot.duckdns.org $BUILD_STEPS
 
