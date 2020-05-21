@@ -6,6 +6,7 @@ import json
 from flask import request, jsonify, render_template, redirect, url_for
 
 from .. import backend_api
+import requests
 
 
 def view():
@@ -37,6 +38,9 @@ def view():
         stats = list(filter(lambda s: s["delay"] >= min_delay, stats))
         is_filtered = True
 
+    train_information = backend_api.get_train_information(train_id)
+    n_stations = len(train_information.get("fermate")) if train_information else 1
+
     if backend_response:
         return render_template(
             "train/stats.html.j2",
@@ -44,6 +48,7 @@ def view():
             stats=json.dumps(stats),
             stats_py=stats,
             is_filtered=is_filtered,
+            n_stations=n_stations,
             form={
                 "min_delay": request.args.get("min_delay"),
                 "only_status": request.args.getlist("only_status"),
