@@ -6,6 +6,7 @@ variables:
   DOCKER_IMAGE_BASE_NAME: registry.gitlab.com/laboratorio-di-progettazione-trenobot/trenobot-laboratorio-di-progettazione/
   MYSQL_DATABASE: TRENOBOT
   MYSQL_ROOT_PASSWORD: root
+  BUILD_STEPS: cd /home/trenobot-laboratorio-di-progettazione; sudo git pull; sudo docker container stop $(sudo docker container ls -aq); sudo TELEGRAM_API_KEY=${TELEGRAM_BOT_API_KEY} docker-compose up -d --build
 
 stages:
   - pre_test
@@ -143,10 +144,21 @@ release_image:
     - docker tag ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot:${CI_COMMIT_SHA:0:8} ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot:${CI_COMMIT_REF_NAME}
     - docker push ${DOCKER_IMAGE_BASE_NAME}trenobot_telegram-bot:${CI_COMMIT_REF_NAME}
 
+
 deploy:
   stage: deploy
+  image: alpine
+  before_script:
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "${SSH_BUILD_SERVER}" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
   only:
     - master
+    - autodeploy-domain-name
     - /^sprint\d+$/
   script:
     - echo "Deploying..."
+    - ssh -o StrictHostKeyChecking=no fabrolly2@trenobot.duckdns.org $BUILD_STEPS
+

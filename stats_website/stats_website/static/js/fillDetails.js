@@ -2,17 +2,29 @@ function average (arr) {
     return arr.reduce((p, c) => p + c, 0) / arr.length;
 }
 
+function reliabilityindex (arr, duration, n_stations) {
+    return arr.reduce((p, c) => p + c, 0) / arr.length / duration / n_stations * -1000;
+}
+
 function fillDetails() {
     if (!stats) return;
 
-    var daysMonitoring = stats.length;
-    document.querySelector("[data-name='daysMonitoring']").innerHTML += daysMonitoring
+    // var daysMonitoring = stats.length;
+    // document.querySelector("[data-name='daysMonitoring']").innerHTML += daysMonitoring
 
-    var firstMonitoring = stats[0].date;
-    document.querySelector("[data-name='firstMonitoring']").innerHTML += firstMonitoring
+    // var firstMonitoring = stats[0].date;
+    // document.querySelector("[data-name='firstMonitoring']").innerHTML += firstMonitoring
 
-    var lastMonitoring = stats[stats.length-1].date;
-    document.querySelector("[data-name='lastMonitoring']").innerHTML += lastMonitoring
+    // var lastMonitoring = stats[stats.length-1].date;
+    // document.querySelector("[data-name='lastMonitoring']").innerHTML += lastMonitoring
+
+    var reliabilityIndex;
+    if (stats.length < 7) {
+        reliabilityIndex = "Non disponibile";
+    } else {
+        reliabilityIndex = reliabilityindex(stats.map(s => s.delay), stats[0].duration, n_stations);
+    }
+    document.querySelector("[data-name='reliabilityIndex']").innerHTML += reliabilityIndex
 
     var averageDelay = average(stats.map(s => s.delay));
     document.querySelector("[data-name='averageDelay']").innerHTML += (averageDelay + " minuti")

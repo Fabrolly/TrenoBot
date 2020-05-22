@@ -12,6 +12,7 @@ services:
             - DATABASE_HOST=database
             - DATABASE_USER=root
             - DATABASE_PASSWORD=root
+            - DATABASE_SEED=${DATABASE_SEED}
             - TZ=Europe/Rome
         command: ./wait-for.sh database:3306 -- python -m backend.backend
         restart: unless-stopped
@@ -22,7 +23,7 @@ services:
         build: ./stats_website
         image: ${DOCKER_IMAGE_BASE_NAME}trenobot_stats_website
         ports:
-            - 8000:5000
+            - 80:5000
         depends_on:
             - backend
         restart: unless-stopped

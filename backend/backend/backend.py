@@ -10,6 +10,8 @@ import os
 import threading
 import pathlib
 import time
+import json
+from typing import Optional
 
 
 from .database_initialization import database_initialization
@@ -115,16 +117,33 @@ def get_stats(train_number: int):
     Args:
         train_number: the identifier of the train
     """
-    last_days = datetime.date.min
     days = request.args.get("days")
     if days is not None:
         last_days = datetime.date.today() - datetime.timedelta(days=int(days))
+        fromDate = last_days.strftime("%Y-%m-%d")
+        toDate = datetime.date.max.strftime("%Y-%m-%d")
+        print(fromDate, " - ", toDate)
 
     if database_utils.is_train_in_database(train_number):
+        from_date: Optional[str] = request.args.get("from")
+        to_date: Optional[str] = request.args.get("to")
+        if not (
+            from_date
+            and len(from_date.split("-")) == 3
+            and to_date
+            and len(to_date.split("-")) == 3
+            and days is None
+        ):
+            fromDate = None
+            toDate = None
+        elif days is None:
+            fromDate = from_date
+            toDate = to_date
+
         return jsonify(
             {
                 "created": False,
-                "stats": database_utils.get_stats(train_number, last_days),
+                "stats": database_utils.get_stats(train_number, fromDate, toDate),
             }
         )
     else:
@@ -155,7 +174,35 @@ def get_stats_ranking():
         a JSON with the data
     """
     best_trains = database_utils.get_best_trains()
+    for train in best_trains:
+        train["stations"] = json.loads(train["stations"])
+    best_trains = [
+        {
+            "trainID": train["trainID"],
+            "delay": train["delay"],
+            "reliabilityIndex": train["delay"]
+            / train["duration"]
+            / len(train["stations"])
+            * -1000,
+        }
+        for train in best_trains
+    ]
+    best_trains = sorted(best_trains, key=lambda d: d["reliabilityIndex"], reverse=True)
     worst_trains = database_utils.get_worst_trains()
+    for train in worst_trains:
+        train["stations"] = json.loads(train["stations"])
+    worst_trains = [
+        {
+            "trainID": train["trainID"],
+            "delay": train["delay"],
+            "reliabilityIndex": train["delay"]
+            / train["duration"]
+            / len(train["stations"])
+            * -1000,
+        }
+        for train in worst_trains
+    ]
+    worst_trains = sorted(worst_trains, key=lambda d: d["reliabilityIndex"])
     return jsonify({"best": best_trains, "worst": worst_trains})
 
 
@@ -201,7 +248,8 @@ if __name__ == "__main__":
     SERVER = os.environ.get("DATABASE_HOST")
     USER = os.environ.get("DATABASE_USER")
     PASSWORD = os.environ.get("DATABASE_PASSWORD")
-    database_initialization(SERVER, USER, PASSWORD)
+    SEED = len(os.environ.get("DATABASE_SEED", "")) > 0
+    database_initialization(SERVER, USER, PASSWORD, SEED)
 
     x = threading.Thread(target=check_arrival_loop)
     x.start()

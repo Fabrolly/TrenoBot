@@ -21,10 +21,16 @@ if os.environ.get("MOCK_API"):
         json={"created": True, "stats": []},
     )
     adapter.register_uri(
+        "GET", f"{API_BASE_URL}/train/just_created", status_code=404, json={},
+    )
+    adapter.register_uri(
         "GET",
         f"{API_BASE_URL}/train/no_stats/stats",
         status_code=200,
         json={"stats": []},
+    )
+    adapter.register_uri(
+        "GET", f"{API_BASE_URL}/train/no_stats", status_code=404, json={},
     )
     adapter.register_uri(
         "GET",
@@ -32,10 +38,37 @@ if os.environ.get("MOCK_API"):
         status_code=200,
         json={
             "stats": [
-                {"day": 1, "delay": -1},
-                {"day": 2, "delay": 1},
-                {"day": 3, "delay": 4},
-                {"day": 4, "delay": 3},
+                {"date": "2020-05-10", "delay": -1, "state": "ON_TIME"},
+                {"date": "2020-05-11", "delay": 1, "state": "DELAYED"},
+                {"date": "2020-05-12", "delay": 4, "state": "DELAYED"},
+                {"date": "2020-05-13", "delay": 30, "state": "CANCELED"},
+                {"date": "2020-05-14", "delay": 3, "state": "MODIFIED"},
+                {"date": "2020-05-15", "delay": 3, "state": "DELAYED"},
+            ],
+        },
+    )
+    adapter.register_uri(
+        "GET",
+        f"{API_BASE_URL}/train/with_stats/stats?from=2020-05-11&to=2020-05-14",
+        status_code=200,
+        json={
+            "stats": [
+                {"date": "2020-05-11", "delay": 1, "state": "DELAYED"},
+                {"date": "2020-05-12", "delay": 4, "state": "DELAYED"},
+                {"date": "2020-05-13", "delay": 30, "state": "CANCELED"},
+                {"date": "2020-05-14", "delay": 3, "state": "MODIFIED"},
+            ],
+        },
+    )
+    adapter.register_uri(
+        "GET",
+        f"{API_BASE_URL}/train/with_stats",
+        status_code=200,
+        json={
+            "fermate": [
+                {"id": "S01420", "progressivo": 1, "stazione": "COLICO"},
+                {"id": "S01406", "progressivo": 2, "stazione": "PIONA"},
+                {"id": "S01407", "progressivo": 3, "stazione": "DORIO"},
             ]
         },
     )
@@ -46,14 +79,14 @@ if os.environ.get("MOCK_API"):
         status_code=200,
         json={
             "best": [
-                {"id": 1, "delay": 0},
-                {"id": 2, "delay": 1},
-                {"id": 3, "delay": 3},
+                {"id": 1, "delay": -2, "reliabilityIndex": 5},
+                {"id": 3, "delay": -6, "reliabilityIndex": 4},
+                {"id": 2, "delay": 0, "reliabilityIndex": 0},
             ],
             "worst": [
-                {"id": 6, "delay": 120},
-                {"id": 5, "delay": 67},
-                {"id": 4, "delay": 34},
+                {"id": 6, "delay": 30, "reliabilityIndex": -16},
+                {"id": 5, "delay": 75, "reliabilityIndex": -62.5},
+                {"id": 4, "delay": 45, "reliabilityIndex": -75},
             ],
         },
     )
@@ -68,17 +101,46 @@ if os.environ.get("MOCK_API"):
     r.mount(API_BASE_URL, adapter)
 
 
-def get_train_stats(train_id: str) -> typing.Dict:
+def get_train_stats(
+    train_id: str, from_date: typing.Optional[str], to_date: typing.Optional[str]
+) -> typing.Optional[typing.Dict]:
     """
     Get the stats of a certain train from the backend
 
     Args:
         train_id: id of the train to get the data
+        from_date: ISO format date to select the starting point
+        to_date: ISO format date to select the ending point
 
     Returns:
         The train status
     """
-    response = r.get(f"{API_BASE_URL}/train/{train_id}/stats")
+    params = {}
+    if from_date and to_date:
+        params["from"] = from_date
+        params["to"] = to_date
+
+    response = r.get(f"{API_BASE_URL}/train/{train_id}/stats", params=params)
+    if response.status_code == 404:
+        return None
+
+    if response.status_code != 200:
+        raise Exception("Something wrong with the backend")
+
+    return response.json()
+
+
+def get_train_information(train_id: str) -> typing.Dict:
+    """
+    Get the information of a certain train from the backend
+
+    Args:
+        train_id: id of the train to get the data
+
+    Returns:
+        The train information
+    """
+    response = r.get(f"{API_BASE_URL}/train/{train_id}")
     if response.status_code == 404:
         return None
 
