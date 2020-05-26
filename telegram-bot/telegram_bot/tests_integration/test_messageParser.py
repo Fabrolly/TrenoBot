@@ -25,10 +25,10 @@ class TestMessageParser(unittest.TestCase):
             text_in_buttons(
                 response[1],
                 [
-                    "Aggiorna",
-                    "Aggiungi alla Lista",
-                    "Visualizza statistiche complete",
-                    "Menu' principale",
+                    "🔄 Aggiorna 🔄",
+                    "🔔 Aggiungi alla Lista 🔔",
+                    "📊 Statistiche complete 📊",
+                    "🏠 Menu' principale 🏠",
                 ],
             )
         )

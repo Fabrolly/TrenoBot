@@ -148,14 +148,14 @@ def RealTimeButtons(trainNumber) -> InlineKeyboardMarkup:
             ],
             [
                 InlineKeyboardButton(
-                    text="📊 Statistiche complete 📊 ",
+                    text="📊 Statistiche complete 📊",
                     url="http://trenobot.duckdns.org/stats/view?train=%s"
                     % (trainNumber),
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
+                    text="🏠 Menu' principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
