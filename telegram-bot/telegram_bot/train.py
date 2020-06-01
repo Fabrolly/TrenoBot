@@ -140,7 +140,14 @@ class Train:
             if avg_delay:
                 avg_delay = sum(avg_delay) / len(avg_delay)
                 msg = msg + ":bar_chart: Ritardo medio 30 giorni: %d min" % avg_delay
-                msg = msg + "\n⏰ Indice affidalibitá treno: %.1f " % ((avg_delay/delay_stats[0]["duration"]/delay_stats[0]["JSON_LENGTH(stations)"])*1000)
+                msg = msg + "\n⏰ Indice affidalibitá treno: %.1f " % (
+                    (
+                        avg_delay
+                        / delay_stats[0]["duration"]
+                        / delay_stats[0]["JSON_LENGTH(stations)"]
+                    )
+                    * 1000
+                )
 
         return msg
 

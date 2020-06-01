@@ -44,6 +44,3 @@ def train_ranking_readable():
         msg += " min\n"
 
     return msg
-
-
-
