@@ -94,11 +94,13 @@ if os.environ.get("MOCK_API"):
         f"{API_BASE_URL}/train/with_stats",
         status_code=200,
         json={
+            "origine": "Inizio",
+            "destinazione": "Fine",
             "fermate": [
                 {"id": "S01420", "progressivo": 1, "stazione": "COLICO"},
                 {"id": "S01406", "progressivo": 2, "stazione": "PIONA"},
                 {"id": "S01407", "progressivo": 3, "stazione": "DORIO"},
-            ]
+            ],
         },
     )
     adapter.register_uri(
@@ -106,10 +108,12 @@ if os.environ.get("MOCK_API"):
         f"{API_BASE_URL}/train/with_stats_2",
         status_code=200,
         json={
+            "origine": "Inizio",
+            "destinazione": "Fine",
             "fermate": [
                 {"id": "S01420", "progressivo": 1, "stazione": "COLICO"},
                 {"id": "S01407", "progressivo": 3, "stazione": "DORIO"},
-            ]
+            ],
         },
     )
 
