@@ -20,7 +20,7 @@ class TestFrontend(unittest.TestCase):
         browser = Browser("flask", app=app)
         browser.visit("/stats/view?train=with_stats")
         self.assertTrue(browser.is_text_present("Ecco le statistiche"))
-        self.assertTrue(browser.is_text_present("corse monitorate: 6"))
+        self.assertTrue(browser.is_text_present("corse monitorate: 7"))
 
     def test_train_with_stats_filtered_date(self):
         browser = Browser("flask", app=app)
@@ -64,3 +64,9 @@ class TestFrontend(unittest.TestCase):
         browser.visit("/")
         self.assertTrue(browser.is_text_present("ritardo medio"))
         self.assertTrue(browser.is_text_present("30 giorni"))
+
+    def test_train_compare(self):
+        browser = Browser("flask", app=app)
+        browser.visit("/stats/compare?trains=with_stats&trains=with_stats_2")
+        self.assertTrue(browser.is_text_present("Treno with_stats"))
+        self.assertTrue(browser.is_text_present("Treno with_stats_2"))

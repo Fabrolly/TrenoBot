@@ -1,0 +1,96 @@
+{% extends "base.html.j2" %}
+
+{% block title %}Comparazione treni{% endblock %}
+
+{% block content %}
+<div class="container pt-3">
+    <form action="" method="GET">
+        {% for train_id in trains_id %}
+            <input type="hidden" name="trains" value="{{ train_id }}">
+        {% endfor %}
+        <div class="row align-items-center">
+            <div class="col-12 col-sm-5">
+                <div class="form-group">
+                    <label>Da:</label>
+                    <input class="form-control" type="date" name="from" value="{{ from_date }}" required>
+                </div>
+            </div>
+            <div class="col-12 col-sm-5">
+                <div class="form-group">
+                    <label>A:</label>
+                    <input class="form-control" type="date" name="to" value="{{ to_date }}" required>
+                </div>
+            </div>
+            <div class="col-12 col-sm-2 text-center mt-sm-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="mdi mdi-play"></i>
+                    Filtra
+                </button>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <div class="row text-center my-3">
+    {% for train_id in trains_id %}
+        <div class="col">
+            <div class="row">
+                <h3 class="col-12">Treno {{ train_id }}</h3>
+                <h5 class="col-12 text-muted">{{ trains[train_id]["origine"] }} - {{ trains[train_id]["destinazione"] }}</h5>
+                <div class="col-12">
+                    <a href="{{ url_for('stats.view', train=train_id ) }}" target="_blank">Vedi dettagli</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    <hr>
+    <div class="row text-center mb-3">
+        <div class="col-12 font-weight-bold">Numero Corse</div>
+        {% for train_id in trains_id %}
+            <div class="col"><span data-name="{{train_id}}daysMonitoring"></span></div>
+        {% endfor %}
+    </div>
+    <hr>
+    <div class="row text-center mb-3">
+        <div class="col-12 font-weight-bold">Indice affidabilità</div>
+        {% for train_id in trains_id %}
+            <div class="col"><span data-name="{{train_id}}reliabilityIndex"></span></div>
+        {% endfor %}
+    </div>
+    <hr>
+    <div class="row text-center mb-3">
+        <div class="col-12 font-weight-bold">Ritardo Medio</div>
+        {% for train_id in trains_id %}
+            <div class="col"><span data-name="{{train_id}}averageDelay"></span></div>
+        {% endfor %}
+    </div>
+    <hr>
+    <div class="row text-center mb-3">
+        <div class="col-12 font-weight-bold">Corse in ritardo</div>
+        {% for train_id in trains_id %}
+            <div class="col"><span data-name="{{train_id}}lateDays"></span></div>
+        {% endfor %}
+    </div>
+    <hr>
+    <div class="row text-center mb-3">
+        <div class="col-12 font-weight-bold">Corse cancellate</div>
+        {% for train_id in trains_id %}
+            <div class="col"><span data-name="{{train_id}}nCancelled"></span></div>
+        {% endfor %}
+    </div>
+    <hr>
+    <div class="row text-center mb-3">
+        <div class="col-12 font-weight-bold">Corse alterate</div>
+        {% for train_id in trains_id %}
+            <div class="col"><span data-name="{{train_id}}nAltered"></span></div>
+        {% endfor %}
+    </div>
+    <hr>
+    <script src="/static/js/fillDetails.js"></script>
+    <script>
+        {% for train_id in trains_id %}
+            fillDetails('{{ train_id }}', {{ stats[train_id]|tojson|safe }}, {{ n_stations[train_id]}})
+        {% endfor %}
+    </script>
+</div>
+{% endblock %}
