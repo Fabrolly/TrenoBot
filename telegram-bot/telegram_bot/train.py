@@ -146,7 +146,7 @@ class Train:
                         / delay_stats[0]["duration"]
                         / delay_stats[0]["JSON_LENGTH(stations)"]
                     )
-                    * 1000
+                    * -1000
                 )
 
         return msg
