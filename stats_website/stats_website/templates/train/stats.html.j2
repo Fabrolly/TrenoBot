@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="col-6">
                                         <input type="checkbox" value="ON_TIME" name="only_status" {% if "ON_TIME" in form.get('only_status', [] )%} checked {% endif %}> Viaggi in orario <br>
-                                        <input type="checkbox" value="DELAYED" name="only_status" {% if "DELAYED" in form.get('only_status', [] )%} checked {% endif %}> Viaggi in ritardo <br>
+                                        <input type="checkbox" value="DELAY" name="only_status" {% if "DELAY" in form.get('only_status', [] )%} checked {% endif %}> Viaggi in ritardo <br>
                                         <input type="checkbox" value="MODIFIED" name="only_status" {% if "MODIFIED" in form.get('only_status', [] )%} checked {% endif %}> Viaggi modificati <br>
                                         <input type="checkbox" value="CANCELED" name="only_status" {% if "CANCELED" in form.get('only_status', [] )%} checked {% endif %}> Viaggi cancellati <br>
                                     </div>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="col-12 col-sm-6">
                         <ul>
-                            <li data-name="daysMonitoring">Numero corse monitorate: {{ stats_py | length }}</li>
+                            <li data-name="daysMonitoring">Numero corse monitorate: </li>
                             <li data-name="onTimeDays">Corse in orario: </li>
                         </ul>
                     </div>

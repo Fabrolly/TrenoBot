@@ -62,10 +62,10 @@ def add_journey_db(trainID: int):
     else:
         train = train_response.json()
         now = datetime.now()
-        now_datetime = timedelta(hours=now.hour, minutes=now.minute, seconds=0)
-        minute_difference = (
-            now_datetime - train_response["compOrarioArrivo"]
-        ).total_seconds() / 60.0
+        # now_datetime = timedelta(hours=now.hour, minutes=now.minute, seconds=0)
+        # minute_difference = (
+        #     now_datetime - train["compOrarioArrivo"]
+        # ).total_seconds() / 60.0
 
         train_delay = train["ritardo"]
 
@@ -78,9 +78,10 @@ def add_journey_db(trainID: int):
                 state = "CANCELED"
             else:
                 state = "MODIFIED"
-        if ["CANCELED", "MODIFIED"] in state or train[
-            "stazioneUltimoRilevamento"
-        ] == train["destinazione"]:
+        if (
+            state in ["CANCELED", "MODIFIED"]
+            or train["stazioneUltimoRilevamento"] == train["destinazione"]
+        ):
             # se é regolare ma non é ancora arrivato non aggiorno il viaggio (é in grande ritardo)
             train_departure_time = train["compOrarioPartenzaZeroEffettivo"]
             train_arrival_time = train["compOrarioArrivoZeroEffettivo"]
