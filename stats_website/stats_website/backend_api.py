@@ -38,25 +38,54 @@ if os.environ.get("MOCK_API"):
         status_code=200,
         json={
             "stats": [
-                {"date": "2020-05-10", "delay": -1, "state": "ON_TIME"},
-                {"date": "2020-05-11", "delay": 1, "state": "DELAYED"},
-                {"date": "2020-05-12", "delay": 4, "state": "DELAYED"},
-                {"date": "2020-05-13", "delay": 30, "state": "CANCELED"},
-                {"date": "2020-05-14", "delay": 3, "state": "MODIFIED"},
-                {"date": "2020-05-15", "delay": 3, "state": "DELAYED"},
+                {"date": "2020-05-10", "delay": -1, "state": "ON_TIME", "duration": 30},
+                {"date": "2020-05-11", "delay": 1, "state": "DELAY", "duration": 30},
+                {"date": "2020-05-12", "delay": 4, "state": "DELAY", "duration": 30},
+                {
+                    "date": "2020-05-13",
+                    "delay": 30,
+                    "state": "CANCELED",
+                    "duration": 30,
+                },
+                {"date": "2020-05-14", "delay": 3, "state": "MODIFIED", "duration": 30},
+                {"date": "2020-05-15", "delay": 3, "state": "DELAY", "duration": 30},
+                {"date": "2020-05-16", "delay": 3, "state": "DELAY", "duration": 30},
             ],
         },
-    )
+    ),
+    adapter.register_uri(
+        "GET",
+        f"{API_BASE_URL}/train/with_stats_2/stats",
+        status_code=200,
+        json={
+            "stats": [
+                {"date": "2020-05-10", "delay": -1, "state": "ON_TIME", "duration": 30},
+                {"date": "2020-05-11", "delay": 1, "state": "DELAY", "duration": 30},
+                {
+                    "date": "2020-05-13",
+                    "delay": 30,
+                    "state": "CANCELED",
+                    "duration": 30,
+                },
+                {"date": "2020-05-15", "delay": 3, "state": "DELAY", "duration": 30},
+            ],
+        },
+    ),
     adapter.register_uri(
         "GET",
         f"{API_BASE_URL}/train/with_stats/stats?from=2020-05-11&to=2020-05-14",
         status_code=200,
         json={
             "stats": [
-                {"date": "2020-05-11", "delay": 1, "state": "DELAYED"},
-                {"date": "2020-05-12", "delay": 4, "state": "DELAYED"},
-                {"date": "2020-05-13", "delay": 30, "state": "CANCELED"},
-                {"date": "2020-05-14", "delay": 3, "state": "MODIFIED"},
+                {"date": "2020-05-11", "delay": 1, "state": "DELAY", "duration": 30},
+                {"date": "2020-05-12", "delay": 4, "state": "DELAY", "duration": 30},
+                {
+                    "date": "2020-05-13",
+                    "delay": 30,
+                    "state": "CANCELED",
+                    "duration": 30,
+                },
+                {"date": "2020-05-14", "delay": 3, "state": "MODIFIED", "duration": 30},
             ],
         },
     )
@@ -65,11 +94,26 @@ if os.environ.get("MOCK_API"):
         f"{API_BASE_URL}/train/with_stats",
         status_code=200,
         json={
+            "origine": "Inizio",
+            "destinazione": "Fine",
             "fermate": [
                 {"id": "S01420", "progressivo": 1, "stazione": "COLICO"},
                 {"id": "S01406", "progressivo": 2, "stazione": "PIONA"},
                 {"id": "S01407", "progressivo": 3, "stazione": "DORIO"},
-            ]
+            ],
+        },
+    )
+    adapter.register_uri(
+        "GET",
+        f"{API_BASE_URL}/train/with_stats_2",
+        status_code=200,
+        json={
+            "origine": "Inizio",
+            "destinazione": "Fine",
+            "fermate": [
+                {"id": "S01420", "progressivo": 1, "stazione": "COLICO"},
+                {"id": "S01407", "progressivo": 3, "stazione": "DORIO"},
+            ],
         },
     )
 

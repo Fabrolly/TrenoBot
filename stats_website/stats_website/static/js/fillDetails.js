@@ -3,44 +3,54 @@ function average (arr) {
 }
 
 function reliabilityindex (arr, duration, n_stations) {
-    return arr.reduce((p, c) => p + c, 0) / arr.length / duration / n_stations * -1000;
+    return (arr.reduce((p, c) => p + c, 0) / arr.length / duration / n_stations * -1000).toFixed(2);
 }
 
-function fillDetails() {
-    if (!stats) return;
+function fillDetails(prefix, replace_stats, replace_n_stations) {
+    if (replace_stats) stats = replace_stats;
+    if (replace_n_stations) n_stations = replace_n_stations;
+    if (!prefix) prefix = "";
 
-    // var daysMonitoring = stats.length;
-    // document.querySelector("[data-name='daysMonitoring']").innerHTML += daysMonitoring
+    var daysMonitoring = stats.length;
+    if (document.querySelector("[data-name='" + prefix + "daysMonitoring']"))
+        document.querySelector("[data-name='" + prefix + "daysMonitoring']").innerHTML += daysMonitoring
 
-    // var firstMonitoring = stats[0].date;
-    // document.querySelector("[data-name='firstMonitoring']").innerHTML += firstMonitoring
+    if (stats.length > 0) {
+        var firstMonitoring = stats[0].date;
+        if (document.querySelector("[data-name='" + prefix + "firstMonitoring']"))
+            document.querySelector("[data-name='" + prefix + "firstMonitoring']").innerHTML += firstMonitoring
 
-    // var lastMonitoring = stats[stats.length-1].date;
-    // document.querySelector("[data-name='lastMonitoring']").innerHTML += lastMonitoring
+        var lastMonitoring = stats[stats.length-1].date;
+        if (document.querySelector("[data-name='" + prefix + "lastMonitoring']"))
+            document.querySelector("[data-name='" + prefix + "lastMonitoring']").innerHTML += lastMonitoring
 
-    var reliabilityIndex;
-    if (stats.length < 7) {
-        reliabilityIndex = "Non disponibile";
-    } else {
-        reliabilityIndex = reliabilityindex(stats.map(s => s.delay), stats[0].duration, n_stations);
+        var averageDelay = average(stats.map(s => s.delay));
+        if (document.querySelector("[data-name='" + prefix + "averageDelay']"))
+            document.querySelector("[data-name='" + prefix + "averageDelay']").innerHTML += (averageDelay.toFixed(1) + " minuti")
+
+        var reliabilityIndex;
+        if (stats.length < 7) {
+            reliabilityIndex = "Non disponibile";
+        } else {
+            reliabilityIndex = reliabilityindex(stats.map(s => s.delay), stats[0].duration, n_stations);
+        }
+        if (document.querySelector("[data-name='" + prefix + "reliabilityIndex']"))
+            document.querySelector("[data-name='" + prefix + "reliabilityIndex']").innerHTML += reliabilityIndex
+
+        var onTimeDays = stats.filter(s => s.delay <= 0).length;
+        if (document.querySelector("[data-name='" + prefix + "onTimeDays']"))
+            document.querySelector("[data-name='" + prefix + "onTimeDays']").innerHTML += onTimeDays
+
+        var lateDays = stats.filter(s => s.delay > 0).length;
+        if (document.querySelector("[data-name='" + prefix + "lateDays']"))
+            document.querySelector("[data-name='" + prefix + "lateDays']").innerHTML += lateDays
+
+        var nCancelled = stats.filter((s) => s.state == "CANCELED").length;
+        if (document.querySelector("[data-name='" + prefix + "nCancelled']"))
+            document.querySelector("[data-name='" + prefix + "nCancelled']").innerHTML += nCancelled
+
+        var nAltered = stats.filter((s) => s.state == "MODIFIED").length;
+        if (document.querySelector("[data-name='" + prefix + "nAltered']"))
+            document.querySelector("[data-name='" + prefix + "nAltered']").innerHTML += nAltered;
     }
-    document.querySelector("[data-name='reliabilityIndex']").innerHTML += reliabilityIndex
-
-    var averageDelay = average(stats.map(s => s.delay));
-    document.querySelector("[data-name='averageDelay']").innerHTML += (averageDelay + " minuti")
-
-    var onTimeDays = stats.filter(s => s.delay <= 0).length;
-    document.querySelector("[data-name='onTimeDays']").innerHTML += onTimeDays
-
-    var lateDays = stats.filter(s => s.delay > 0).length;
-    document.querySelector("[data-name='lateDays']").innerHTML += lateDays
-
-    var nCancelled = stats.filter((s) => s.state == "CANCELED").length;
-    document.querySelector("[data-name='nCancelled']").innerHTML += nCancelled
-
-    var nAltered = stats.filter((s) => s.state == "MODIFIED").length;
-    document.querySelector("[data-name='nAltered']").innerHTML += nAltered;
 }
-
-
-fillDetails();

@@ -134,7 +134,7 @@ def get_stats(train_id, from_date: Optional[str], to_date: Optional[str]) -> lis
     additional_query = ""
     if from_date and to_date:
         additional_query = f"AND date >= '{from_date}' AND date <= '{to_date}'"
-    query = f"SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} {additional_query} ORDER BY backend_journeys.DATE ASC"
+    query = f"SELECT backend_journeys.*, number, origin, destination,departure_datetime, arrival_datetime, duration, JSON_LENGTH(stations) FROM backend_journeys LEFT OUTER JOIN backend_trains ON backend_journeys.trainID=backend_trains.trainID WHERE backend_journeys.trainID={train_id} {additional_query} ORDER BY backend_journeys.DATE ASC"
     cursor.execute(query)
     stats = cursor.fetchall()
     return stats

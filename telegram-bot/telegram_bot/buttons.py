@@ -57,7 +57,7 @@ def rankingButtons() -> InlineKeyboardMarkup:
             [
                 InlineKeyboardButton(
                     text="🌐 Statistiche dettagliate 🌐",
-                    url=f"http://trenobot.duckdns.org/",
+                    url="http://trenobot.duckdns.org",
                 )
             ],
             [
@@ -137,23 +137,25 @@ def RealTimeButtons(trainNumber) -> InlineKeyboardMarkup:
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="Aggiorna", callback_data="Treno %s" % (trainNumber)
+                    text="🔄 Aggiorna 🔄", callback_data="Treno %s" % (trainNumber)
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Aggiungi alla Lista",
+                    text="🔔 Aggiungi alla Lista 🔔",
                     callback_data="Programma %s" % (trainNumber),
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="Visualizza statistiche complete", url=f"https://trenobot.it",
+                    text="📊 Statistiche complete 📊",
+                    url="http://trenobot.duckdns.org/stats/view?train=%s"
+                    % (trainNumber),
                 )
             ],
             [
                 InlineKeyboardButton(
-                    text="🏠 Menu' principale🏠 ", callback_data="Menu Principale"
+                    text="🏠 Menu' principale 🏠", callback_data="Menu Principale"
                 )
             ],
         ]
