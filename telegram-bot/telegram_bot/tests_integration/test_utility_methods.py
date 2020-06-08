@@ -7,12 +7,7 @@ from telepot.namedtuple import *
 from telegram_bot.messageParser import messageParser as mp
 from telegram_bot.messageResponder import remove
 
-# from .messageParser import messageParser as mp
-# from messageResponder import remove
-
-
-# USER_ID = random.randint(10000000, 99999999)
-USER_ID = 95054305
+USER_ID = random.randint(10000000, 99999999)
 
 
 def create_message(text):
@@ -24,16 +19,16 @@ def create_message(text):
         "from": {
             "id": USER_ID,
             "is_bot": False,
-            "first_name": "Simone",
-            "last_name": "Vitali",
-            "username": "SimoVita",
+            "first_name": "",
+            "last_name": "",
+            "username": "",
             "language_code": "it",
         },
         "chat": {
             "id": USER_ID,
-            "first_name": "Simone",
-            "last_name": "Vitali",
-            "username": "SimoVita",
+            "first_name": "",
+            "last_name": "",
+            "username": "",
             "type": "private",
         },
         "date": 1585416801,

@@ -131,11 +131,13 @@ class Train:
 
         backend = os.environ.get("HOST_BACKEND", "backend")
         train_stats = requests.get(
-            f"http://{backend}:5000/api/train/{self.number}/stats"
+            # f"http://{backend}:5000/api/train/{self.number}/stats"
+            f"http://{backend}:5000/api/train/{self.number}/stats?days=30"
         )
         if train_stats.status_code == 200:
             train_stats = train_stats.json()
-            delay_stats = train_stats["stats"][-30:]
+            # delay_stats = train_stats["stats"][-30:]
+            delay_stats = train_stats["stats"]
             avg_delay = [day_stats["delay"] for day_stats in delay_stats]
             if avg_delay:
                 avg_delay = sum(avg_delay) / len(avg_delay)

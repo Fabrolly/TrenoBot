@@ -117,17 +117,24 @@ def get_stats(train_number: int):
     Args:
         train_number: the identifier of the train
     """
+    days = request.args.get("days")
+    if days is not None:
+        last_days = datetime.date.today() - datetime.timedelta(days=int(days))
+        from_date = last_days.strftime("%Y-%m-%d")
+        to_date = datetime.date.max.strftime("%Y-%m-%d")
+
     if database_utils.is_train_in_database(train_number):
-        from_date: Optional[str] = request.args.get("from")
-        to_date: Optional[str] = request.args.get("to")
-        if not (
-            from_date
-            and len(from_date.split("-")) == 3
-            and to_date
-            and len(to_date.split("-")) == 3
-        ):
-            from_date = None
-            to_date = None
+        if days is None:
+            from_date: Optional[str] = request.args.get("from")
+            to_date: Optional[str] = request.args.get("to")
+            if not (
+                from_date
+                and len(from_date.split("-")) == 3
+                and to_date
+                and len(to_date.split("-")) == 3
+            ):
+                from_date = None
+                to_date = None
 
         return jsonify(
             {

@@ -116,6 +116,10 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         response = removeParser(msg, chatId)
         return response
 
+    if "statistiche" in msg:
+        response = statsParser(msg, chatId)
+        return response
+
     if "pk" in msg:
         msg = msg[msg.index("pk") + 3 :]
         msg = msg.split("!")
@@ -137,7 +141,12 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
 def realTimeParser(msg, chatId):
     message = msg
     numbers = re.findall("\d+", message)
-    return realTimeInfo(numbers[0])
+    if not numbers:
+        return (
+            "Errore! Inserire il codice del treno! :pensive:\n",
+            "",
+        )
+    return realTimeInfo(int(numbers[0]))
 
 
 def programParser(msg, chatId):
@@ -300,3 +309,25 @@ def direParser(msg, chatId):
     if int(numbers[0]) not in num_direttrici:
         return ("Error: direttrice <b>non valida!</b> :pensive:", "")
     return addDire(int(numbers[0]), chatId)
+
+
+def statsParser(msg: str, chatId: int) -> tuple:
+    """
+    Function to extract from the input message the train code and to call the viewStatistic function.
+
+    Args:
+        msg: input message.
+        chatId: id of the user who is writing to the bot.
+
+    Returns:
+       A message containing some interesting train statistic..
+
+    """
+    message = msg
+    numbers = re.findall("\d+", message)
+    if not numbers:
+        return (
+            "Errore! Inserire il codice del treno per vederne le statistiche! :pensive:\n",
+            "",
+        )
+    return viewStatistics(int(numbers[0]), chatId)
