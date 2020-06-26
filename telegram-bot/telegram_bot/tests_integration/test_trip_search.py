@@ -65,7 +65,7 @@ class TestTripSearch(unittest.TestCase):
     # TEST FUNCTIONALITY - RICERCA UN TRENO ERROR
     def test_ricerca_treno_error_stazione(self):
         test_search_msg = [
-            "Ricerca da Cosenza a Oggiono",
+            "Ricerca da Cosenza a Oggiono il 31-12",
             "Ricerca da Milano a Roma il 31-12",
         ]
         for msg in test_search_msg:
