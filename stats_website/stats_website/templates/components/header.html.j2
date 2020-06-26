@@ -1,0 +1,35 @@
+<header>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/static/logo.jpg" style="height:2.5rem" alt="TrenoBot" class="mr-1">
+                TrenoBot
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#ricerca">
+                            <i class="mdi mdi-magnify"></i>
+                            Ricerca
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('stats.ranking') }}">
+                            <i class="mdi mdi-trophy"></i>
+                            Classifica
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a target="_blank" class="nav-link" href="https://t.me/TrainOllyBot">
+                            <i class="mdi mdi-telegram"></i>
+                            Bot Telegram
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -12,16 +12,18 @@ services:
             - DATABASE_HOST=database
             - DATABASE_USER=root
             - DATABASE_PASSWORD=root
+            - DATABASE_SEED=${DATABASE_SEED}
+            - TZ=Europe/Rome
         command: ./wait-for.sh database:3306 -- python -m backend.backend
         restart: unless-stopped
         tty: true
         stdin_open: true
 
-    frontend:
-        build: ./frontend
-        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_frontend
+    stats_website:
+        build: ./stats_website
+        image: ${DOCKER_IMAGE_BASE_NAME}trenobot_stats_website
         ports:
-            - 8000:5000
+            - 80:5000
         depends_on:
             - backend
         restart: unless-stopped
@@ -39,6 +41,8 @@ services:
             - DATABASE_USER=root
             - DATABASE_PASSWORD=root
             - TELEGRAM_API_KEY=${TELEGRAM_API_KEY}
+            - TZ=Europe/Rome
+            - ADMINS=4260245
         command: ./wait-for.sh database:3306 -- python -m telegram_bot.bot
         restart: unless-stopped
         tty: true
@@ -52,5 +56,6 @@ services:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_USER=trenobot
             - MYSQL_PASSWORD=trenobot
+            - TZ=Europe/Rome
         volumes:
             - ./.data/mysql:/var/lib/mysql

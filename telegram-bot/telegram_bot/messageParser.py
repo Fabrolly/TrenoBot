@@ -1,23 +1,41 @@
-# -*- coding: utf-8 -*-
+"""
+This module contains functions to parse messages and act according to their content
+
+"""
 
 from .messageResponder import *
 from .usersController import *
 from .trip_search import *
 from .menuMessages import *
 from .adminFunctions import *
+from .statistics_interface import *
 
 # import messageResponder
 # import usersController
 import re
 import datetime
 import time
+import os
 
 # import trip_search
 # import menuMessages
 # import adminFunctions
 
+ADMIN_IDS = os.environ.get("ADMINS", "").split(",")
+
 
 def messageParser(msg, chatId, msgComplete, isKeybboard):
+    """
+    Generate response based on the message content
+    Params:
+        msg: the message text to parse
+        chatId: the chat where the message come from
+        msgComplete: the complete message instance
+        isKeybboard: if the message comes from a inline keyboard reply
+    Returns:
+        the response to send
+
+    """
 
     # print(msg, chatId, msgComplete, isKeybboard)
     if not isKeybboard:
@@ -46,6 +64,11 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
 
     if "menu treno" in msg:
         response = realTimeMenu()
+        return response
+
+    if "menu statistiche" in msg:
+        ranking_readable = train_ranking_readable()
+        response = statsMenu(ranking_readable)
         return response
 
     if "lista direttrici" in msg:
@@ -93,6 +116,10 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         response = removeParser(msg, chatId)
         return response
 
+    if "statistiche" in msg:
+        response = statsParser(msg, chatId)
+        return response
+
     if "pk" in msg:
         msg = msg[msg.index("pk") + 3 :]
         msg = msg.split("!")
@@ -100,23 +127,26 @@ def messageParser(msg, chatId, msgComplete, isKeybboard):
         return response
 
     # ----admin functions
-    """
-    if chatId == int(loginInfo.adminTelegramId()):
+    if str(chatId) in ADMIN_IDS:
         if "/stats" in msg:
-            return adminFunctions.systemStats()
+            return systemStats()
         if "/broadcast" in msg:
             msg = msg[11:]
             if msg != "":
-                return adminFunctions.broadcast(msg)
-    """
+                return broadcast(msg)
 
-    return ("Sintassi comando non valida\nRiprova :interrobang:", ())
+    return ("Sintassi comando non valida:interrobang:\nRiprova ", None)
 
 
 def realTimeParser(msg, chatId):
     message = msg
     numbers = re.findall("\d+", message)
-    return realTimeInfo(numbers[0])
+    if not numbers:
+        return (
+            "Errore! Inserire il codice del treno! :pensive:\n",
+            "",
+        )
+    return realTimeInfo(int(numbers[0]))
 
 
 def programParser(msg, chatId):
@@ -156,7 +186,10 @@ def programParser(msg, chatId):
 
 
 def trip_search_parser(command, chatId):
+    """
+    Handle the search for a trip
 
+    """
     now = datetime.datetime.now()
 
     if " da " not in command and " a " not in command:
@@ -276,3 +309,25 @@ def direParser(msg, chatId):
     if int(numbers[0]) not in num_direttrici:
         return ("Error: direttrice <b>non valida!</b> :pensive:", "")
     return addDire(int(numbers[0]), chatId)
+
+
+def statsParser(msg: str, chatId: int) -> tuple:
+    """
+    Function to extract from the input message the train code and to call the viewStatistic function.
+
+    Args:
+        msg: input message.
+        chatId: id of the user who is writing to the bot.
+
+    Returns:
+       A message containing some interesting train statistic..
+
+    """
+    message = msg
+    numbers = re.findall("\d+", message)
+    if not numbers:
+        return (
+            "Errore! Inserire il codice del treno per vederne le statistiche! :pensive:\n",
+            "",
+        )
+    return viewStatistics(int(numbers[0]), chatId)

@@ -1,3 +1,6 @@
+"""
+A module to manage users
+"""
 import MySQLdb
 import time
 from .bot_utility import connect_db
@@ -6,7 +9,9 @@ from .bot_utility import connect_db
 
 
 def addUserIfNotExist(msg):
-
+    """
+    Add an user to the database
+    """
     # Connecting to database
     database = connect_db()
     if isinstance(database, str):

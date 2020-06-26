@@ -2,8 +2,13 @@ import unittest
 import validators
 from telegram_bot.tests_integration.test_utility_methods import *
 
+from telegram_bot.bot import create_db
+from telegram_bot.messageResponder import getTrainList
+
 
 class TestMessageParser(unittest.TestCase):
+    def setUp(self):
+        create_db(drop_tables=True)
 
     # TEST MESSAGE PARSER - TRENO
     def test_messageParser_ricerca_treno(self):
@@ -18,7 +23,15 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(response[1], ["Aggiorna", "Aggiungi alla Lista"])
+            text_in_buttons(
+                response[1],
+                [
+                    "🔄 Aggiorna 🔄",
+                    "🔔 Aggiungi alla Lista 🔔",
+                    "📊 Statistiche complete 📊",
+                    "🏠 Menu' principale 🏠",
+                ],
+            )
         )
         response = call_mute_mp("rimuovi 5050")
         self.assertTrue(is_riepilogo_empty())
@@ -29,7 +42,7 @@ class TestMessageParser(unittest.TestCase):
         self.assertTrue("Error" not in response)
         self.assertTrue(isinstance(response, tuple))
         self.assertFalse("Sintassi comando non valida" not in response[0])
-        self.assertEqual(response[1], ())
+        self.assertEqual(response[1], None)
 
     # TEST MESSAGE PARSER - TRENO NON ESISTE
     def test_messageParser_ricerca_treno_error(self):
@@ -232,9 +245,7 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(
-                response[1], ["Visualizza lista", "Torna al menu principale"]
-            )
+            text_in_buttons(response[1], ["Visualizza lista", "Menu principale"])
         )
         call_mute_remove_train(train_code)
         self.assertTrue(is_riepilogo_empty())
@@ -273,14 +284,11 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(
-                response[1], ["Visualizza lista", "Torna al menu principale"]
-            )
+            text_in_buttons(response[1], ["Visualizza lista", "Menu principale"])
         )
 
     # TEST MESSAGE PARSER - PK
     def test_messageParser_pk(self):
-        # pk 9631!12345!13:00!16:10!Milano Centrale!Roma Termini
         train_code = 2573
         response = call_mute_mp(
             "pk " + str(train_code) + "!12345!18:01!18:40!Lecco!Milano Centrale"
@@ -301,12 +309,75 @@ class TestMessageParser(unittest.TestCase):
             )
         )
         self.assertTrue(
-            text_in_buttons(
-                response[1], ["Visualizza lista", "Torna al menu principale"]
-            )
+            text_in_buttons(response[1], ["Visualizza lista", "Menu principale"])
         )
         call_mute_remove_train(train_code)
         self.assertTrue(is_riepilogo_empty())
+
+    # TEST MESSAGE PARSER - MENU STATISTICHE
+    def test_messageParser_statistiche(self):
+        response = call_mute_mp("menu statistiche")
+        self.assertTrue("Error" not in response)
+        self.assertTrue(isinstance(response, tuple))
+        self.assertTrue("Sintassi comando non valida" not in response[0])
+        text_key_word = [
+            "Classifica dei treni migliori e peggiori",
+            "Treni Migliori:",
+            "Treni Peggiori:",
+        ]
+        button_key_word = [
+            "Statistiche dettagliate",
+            "Menu principale",
+        ]
+        self.assertTrue(text_in_msg(response[0], text_key_word))
+        self.assertTrue(text_in_buttons(response[1], button_key_word))
+
+    # TEST MESSAGE PARSER - STATISTICHE
+    def test_messageParser_statistiche(self):
+        train_code = 5050
+        response = call_mute_mp(f"statistiche {train_code}")
+        self.assertTrue("Error" not in response)
+        self.assertTrue(isinstance(response, tuple))
+        self.assertTrue("Sintassi comando non valida" not in response[0])
+        text_key_word = [
+            f"STATISTICHE Treno {train_code}",
+            "<b>Il Treno %s sarà monitorato!</b>" % (train_code),
+            "Potrai vederne le statistiche a partire dalla prossima corsa",
+        ]
+        button_key_word = [
+            "Visualizza lista",
+            "Menu principale",
+        ]
+        self.assertTrue(text_in_msg(response[0], text_key_word))
+        self.assertTrue(text_in_buttons(response[1], button_key_word))
+
+        response = call_mute_mp(f"statistiche {train_code}")
+        self.assertTrue("Error" not in response)
+        self.assertTrue(isinstance(response, tuple))
+        self.assertTrue("Sintassi comando non valida" not in response[0])
+        text_key_word = [
+            f"STATISTICHE Treno {train_code}",
+            "<b>Il Treno %s è già monitorato</b>" % (train_code),
+            "potrai vederne le statistiche a partire dalla prossima corsa!",
+        ]
+        button_key_word = [
+            "Visualizza lista",
+            "Menu principale",
+        ]
+        self.assertTrue(text_in_msg(response[0], text_key_word))
+        self.assertTrue(text_in_buttons(response[1], button_key_word))
+
+    # TEST MESSAGE PARSER - STATISTICHE ERROR
+    def test_messageParser_statistiche_error(self):
+        response = call_mute_mp("statistiche")
+        self.assertTrue(isinstance(response, tuple))
+        self.assertTrue(
+            text_in_msg(
+                response[0],
+                ["Errore! Inserire il codice del treno per vederne le statistiche!"],
+            )
+        )
+        self.assertEqual(response[1], "")
 
 
 # launch unit test cases if main

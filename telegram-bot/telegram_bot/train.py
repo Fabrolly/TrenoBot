@@ -1,10 +1,19 @@
+"""
+Class to model a train
+"""
+import os
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import datetime as dt
+import requests
 
 
 class Train:
+    """
+    Class to model a train
+    """
+
     def __init__(
         self,
         id,
@@ -38,6 +47,9 @@ class Train:
         self.last_update = last_update
 
     def display(self):
+        """
+        Return the train as string
+        """
         str = '''Id -> %s
              numero -> %s
              origine -> %s
@@ -68,6 +80,11 @@ class Train:
         print(str)
 
     def realTimeMsg(self):
+        """
+        Generate a status message from the train
+        Returns:
+            String with train status
+        """
         self.display()
         stations = self.stationsParser()
 
@@ -111,10 +128,35 @@ class Train:
                     self.alert,
                 )
             )
+
+        backend = os.environ.get("HOST_BACKEND", "backend")
+        train_stats = requests.get(
+            # f"http://{backend}:5000/api/train/{self.number}/stats"
+            f"http://{backend}:5000/api/train/{self.number}/stats?days=30"
+        )
+        if train_stats.status_code == 200:
+            train_stats = train_stats.json()
+            # delay_stats = train_stats["stats"][-30:]
+            delay_stats = train_stats["stats"]
+            avg_delay = [day_stats["delay"] for day_stats in delay_stats]
+            if avg_delay:
+                avg_delay = sum(avg_delay) / len(avg_delay)
+                msg = msg + ":bar_chart: Ritardo medio 30 giorni: %d min" % avg_delay
+                msg = msg + "\n⏰ Indice affidalibitá treno: %.1f " % (
+                    (
+                        avg_delay
+                        / delay_stats[0]["duration"]
+                        / delay_stats[0]["JSON_LENGTH(stations)"]
+                    )
+                    * -1000
+                )
+
         return msg
 
     def departingMsg(self, origin, destination):
-
+        """
+        Generate a message for when the train is starting
+        """
         stations = self.stationsParser()
 
         if self.delay >= 3 and self.delay < 15:

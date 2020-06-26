@@ -1,3 +1,6 @@
+"""
+A module to generate responses to the messages
+"""
 from .databaseController import *
 from .trip_search import *
 from .buttons import *
@@ -164,7 +167,6 @@ def programInfo(number, chatId, days, departure, arrival):
             return (error, "")
 
         database.close()
-
     return (
         ":white_check_mark: Riceverai aggiornamenti sul\n\n<b>Treno %s</b>\n%s -> %s\n%s:%s -> %s:%s\n\nNei giorni: <i>%s</i>"
         % (
@@ -181,7 +183,7 @@ def programInfo(number, chatId, days, departure, arrival):
     )  # TODO: sistemare questa conferma
 
 
-def showList(user_id):
+def getTrainList(user_id):
 
     # Connecting to database
     database = connect_db()
@@ -202,11 +204,16 @@ def showList(user_id):
         return error
 
     database.close()
-    if row > 0:
+    return row, dbLine
+
+
+def showList(user_id):
+    query_res, trains = getTrainList(user_id)
+    if query_res > 0:
         response = [":arrow_double_down: Ecco la tua lista :arrow_double_down:"]
         listButton = [""]
         c = 0
-        for item in dbLine:
+        for item in trains:
             c = c + 1
             response.append(
                 "<b>%d)</b> :bullettrain_front: <b>Treno %s</b>      :clock3: %s:%s :arrow_right: %s:%s\n\n%s :arrow_right: %s\n<b>Giorni:</b> <i>%s</i>"

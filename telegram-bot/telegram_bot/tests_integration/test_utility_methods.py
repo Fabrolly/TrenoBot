@@ -7,12 +7,7 @@ from telepot.namedtuple import *
 from telegram_bot.messageParser import messageParser as mp
 from telegram_bot.messageResponder import remove
 
-# from .messageParser import messageParser as mp
-# from messageResponder import remove
-
-
-# USER_ID = random.randint(10000000, 99999999)
-USER_ID = 95054305
+USER_ID = random.randint(10000000, 99999999)
 
 
 def create_message(text):
@@ -24,16 +19,16 @@ def create_message(text):
         "from": {
             "id": USER_ID,
             "is_bot": False,
-            "first_name": "Simone",
-            "last_name": "Vitali",
-            "username": "SimoVita",
+            "first_name": "",
+            "last_name": "",
+            "username": "",
             "language_code": "it",
         },
         "chat": {
             "id": USER_ID,
-            "first_name": "Simone",
-            "last_name": "Vitali",
-            "username": "SimoVita",
+            "first_name": "",
+            "last_name": "",
+            "username": "",
             "type": "private",
         },
         "date": 1585416801,
@@ -54,7 +49,6 @@ def call_mute_mp(text_msg):
     mp_object = mp(
         message, id, msg, False
     )  # Tested with only 'isKeybbord' param set to False
-
     # now restore stdout function
     sys.stdout = sys.__stdout__
     return mp_object
@@ -94,7 +88,7 @@ def text_in_buttons(buttons, str_in_button=[], ignore_codes=False):
                         if not i[0].isdigit()
                     )
             else:
-                cond = cond and (button[0].text in str_in_button)
+                cond = cond and any([s in button[0].text for s in str_in_button])
     return cond
 
 
@@ -106,11 +100,12 @@ def is_menu_principale(text, buttons):
     ]
     menu = menu and text_in_msg(text, text_key_word)
     button_key_word = [
-        "Treno Real Time",
-        "Ricerca un Treno",
-        "Menu' Treni Monitorati",
-        "Menu' Direttrici Monitorate",
-        "Riepilogo completo dei miei avvisi",
+        "Treno in Real Time",
+        "Ricerca Soluzione",
+        "Treni monitorati",
+        "Direttrici",
+        "Riepilogo",
+        "Statistiche",
     ]
     menu = menu and text_in_buttons(buttons, button_key_word)
     return menu

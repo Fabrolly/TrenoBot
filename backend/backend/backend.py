@@ -1,3 +1,6 @@
+"""
+The entrypoint/main for the backend service, defining routes and the background thread to check trains.
+"""
 from flask import Flask, request, jsonify, abort
 import flask
 
@@ -7,20 +10,31 @@ import os
 import threading
 import pathlib
 import time
+import json
+from typing import Optional
 
 
 from .database_initialization import database_initialization
 from . import database_utils
-from .check_journey import check_arrival
+from . import check_journey
 from . import trenitalia_interface
 
 app = Flask(__name__)
 
 
 @app.route("/api/train/<int:train_number>", methods=["GET"])
-def get_train_status(train_number):
+def get_train_status(train_number: int):
     """
-    Return the JSON containing all the real time information of a train, by it's number
+    .. :quickref: Train; Get all the real time information for a train
+
+
+    Get all the real time information for a train
+
+    Returns:
+        a JSON with the data
+
+    Args:
+        train_number: the identifier of the train
     """
 
     # find station ID for the full request
@@ -37,7 +51,12 @@ def get_train_status(train_number):
 @app.route("/api/trip/search")
 def trip_search():
     """
-    Search for a trip given from to and date
+    .. :quickref: Trip; Search for a trip
+
+    Given a "from", "to", and "date" as query parameters, search for trips solutions
+
+    Returns:
+        a JSON with the data
     """
     # prendo in input gli argomenti della ricerca e verifico che ci siano tutti e che siano corretti
     partenza = request.args.get("from")
@@ -85,13 +104,43 @@ def trip_search():
 
 
 @app.route("/api/train/<int:train_number>/stats", methods=["GET"])
-def get_stats(train_number):
+def get_stats(train_number: int):
+
     """
+    .. :quickref: Stats; Get historical stats for a train
+
     Get historical stats for a train
+
+    Returns:
+        a JSON with the data
+
+    Args:
+        train_number: the identifier of the train
     """
+    days = request.args.get("days")
+    if days is not None:
+        last_days = datetime.date.today() - datetime.timedelta(days=int(days))
+        from_date = last_days.strftime("%Y-%m-%d")
+        to_date = datetime.date.max.strftime("%Y-%m-%d")
+
     if database_utils.is_train_in_database(train_number):
+        if days is None:
+            from_date: Optional[str] = request.args.get("from")
+            to_date: Optional[str] = request.args.get("to")
+            if not (
+                from_date
+                and len(from_date.split("-")) == 3
+                and to_date
+                and len(to_date.split("-")) == 3
+            ):
+                from_date = None
+                to_date = None
+
         return jsonify(
-            {"created": False, "stats": database_utils.get_stats(train_number)}
+            {
+                "created": False,
+                "stats": database_utils.get_stats(train_number, from_date, to_date),
+            }
         )
     else:
         # register the train
@@ -111,38 +160,95 @@ def get_stats(train_number):
 
 @app.route("/api/stats/ranking", methods=["GET"])
 def get_stats_ranking():
+    """
+    .. :quickref: Ranking; Get ranking for all the trains
+
+
+    Get ranking for all the trains
+
+    Returns:
+        a JSON with the data
+    """
     best_trains = database_utils.get_best_trains()
+    for train in best_trains:
+        train["stations"] = json.loads(train["stations"])
+    best_trains = [
+        {
+            "trainID": train["trainID"],
+            "delay": train["delay"],
+            "reliabilityIndex": train["delay"]
+            / train["duration"]
+            / len(train["stations"])
+            * -1000,
+        }
+        for train in best_trains
+    ]
+    best_trains = sorted(best_trains, key=lambda d: d["reliabilityIndex"], reverse=True)
     worst_trains = database_utils.get_worst_trains()
+    for train in worst_trains:
+        train["stations"] = json.loads(train["stations"])
+    worst_trains = [
+        {
+            "trainID": train["trainID"],
+            "delay": train["delay"],
+            "reliabilityIndex": train["delay"]
+            / train["duration"]
+            / len(train["stations"])
+            * -1000,
+        }
+        for train in worst_trains
+    ]
+    worst_trains = sorted(worst_trains, key=lambda d: d["reliabilityIndex"])
     return jsonify({"best": best_trains, "worst": worst_trains})
 
 
 @app.route("/api/stats/general", methods=["GET"])
 def get_general_stats():
+    """
+    .. :quickref: GeneralStats; Get general aggregated stats
+
+    Get general aggregated stats
+
+    Returns:
+        a JSON with the data
+    """
     stats = database_utils.get_general_stats()
     return jsonify(stats)
 
 
 def check_arrival_loop():
+    """
+    Run the periodic checks for trains
+    """
     while True:
-        check_arrival()
+        check_journey.check_arrival()
         print("Controllo automatico treni in arrivo eseguito. Prossimo tra 10 minuti.")
         time.sleep(10 * 60)  # sleep 10 minutes
 
 
 class JSONEncoderWithDefault(flask.json.JSONEncoder):
+    """
+    Override some of the the standard Flask JSON Encoder behaviors
+    """
+
     def default(self, o):
+        """
+        When serialization to JSON is not available, return everything as a string.
+
+        This is useful to handle objects such as datetimes.
+        """
         return str(o)
 
-
-app.json_encoder = JSONEncoderWithDefault
 
 if __name__ == "__main__":
     SERVER = os.environ.get("DATABASE_HOST")
     USER = os.environ.get("DATABASE_USER")
     PASSWORD = os.environ.get("DATABASE_PASSWORD")
-    database_initialization(SERVER, USER, PASSWORD)
+    SEED = len(os.environ.get("DATABASE_SEED", "")) > 0
+    database_initialization(SERVER, USER, PASSWORD, SEED)
 
     x = threading.Thread(target=check_arrival_loop)
     x.start()
 
+    app.json_encoder = JSONEncoderWithDefault
     app.run(debug=True, host="0.0.0.0")
